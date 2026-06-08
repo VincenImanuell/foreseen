@@ -64,6 +64,12 @@ contract RPSCoreTest is Test {
         new RPSCore(address(0), address(0));
     }
 
+    function test_Constructor_RevertOnCodelessStats() public {
+        // A non-zero stats address with no code would brick settlements; reject it.
+        vm.expectRevert(RPSCore.NotAContract.selector);
+        new RPSCore(treasury, alice);
+    }
+
     // --- createMatch ---
 
     function test_CreateMatch_StoresState() public {

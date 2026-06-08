@@ -93,6 +93,7 @@ contract RPSCore {
     event Withdrawn(address indexed account, uint256 amount);
 
     error ZeroAddress();
+    error NotAContract();
     error InvalidBet();
     error WrongState();
     error CannotJoinOwnMatch();
@@ -117,8 +118,12 @@ contract RPSCore {
 
     /// @param treasury_ Destination for protocol fees (required).
     /// @param stats_ Stats engine to feed on settlement, or the zero address to disable.
+    /// @dev   A non-zero `stats_` must be a deployed contract, so the settlement-time
+    ///        try/catch can never be bypassed by an `extcodesize` revert on a codeless
+    ///        target (which would otherwise strand escrowed funds).
     constructor(address treasury_, address stats_) {
         if (treasury_ == address(0)) revert ZeroAddress();
+        if (stats_ != address(0) && stats_.code.length == 0) revert NotAContract();
         treasury = treasury_;
         stats = IRPSStats(stats_);
     }
@@ -288,11 +293,13 @@ contract RPSCore {
         return 2;
     }
 
-    /// @dev Feeds the stats engine, mapping the core Move (1..3) to the stats
-    ///      encoding (0..2). A stats failure can never block settlement.
+    /// @dev Feeds the stats engine, mapping the core Move (1..3) to the stats encoding
+    ///      (0..2). A stats failure can never block settlement: `stats` is verified to be
+    ///      a contract at construction, so the call dispatches and any revert is caught.
+    ///      `Move.None` is skipped defensively (callers only ever pass a revealed move).
     function _recordStats(address player, Move move, uint8 result) internal {
         IRPSStats s = stats;
-        if (address(s) == address(0)) return;
+        if (address(s) == address(0) || move == Move.None) return;
         try s.recordMatch(player, uint8(move) - 1, result) { } catch { }
     }
 }
