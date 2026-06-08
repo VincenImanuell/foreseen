@@ -5,10 +5,13 @@ pragma solidity 0.8.28;
 /// @notice Tamper-proof, on-chain psychology stats for Foreseen players: overall
 ///         move distribution, win/loss/draw totals, and contextual move patterns
 ///         (what a player tends to throw right after a win, a loss, or a draw).
-/// @dev    Fed by an authorized `recorder` (the match engine) via {recordMatch}.
-///         Contextual buckets implement the "win-stay / lose-shift" signal, which
-///         is the most predictive read in Rock Paper Scissors. Time-range buckets
-///         and commit-timestamp tells are planned for a later iteration.
+/// @dev    Fed by an authorized `recorder` via {recordMatch}. Stats are tamper-proof
+///         to the extent the recorder is the trustless match engine (RPSCore), which
+///         calls {recordMatch} atomically on settlement; once wired, {lockRecorder}
+///         can permanently freeze the recorder so it can never be repointed.
+///         Contextual buckets implement the "win-stay / lose-shift" signal, the most
+///         predictive read in Rock Paper Scissors. Time-range buckets and
+///         commit-timestamp tells are planned for a later iteration.
 contract RPSStats {
     enum Move {
         Rock,
@@ -38,15 +41,19 @@ contract RPSStats {
     address public immutable owner;
     /// @notice The only address allowed to record matches (the match engine).
     address public recorder;
+    /// @notice Once true, the recorder is frozen permanently and cannot be changed.
+    bool public recorderLocked;
 
     mapping(address => Stats) internal _stats;
 
     event MatchRecorded(address indexed player, Move move, Result result);
     event RecorderUpdated(address indexed recorder);
+    event RecorderFrozen(address indexed recorder);
 
     error NotOwner();
     error NotRecorder();
     error ZeroAddress();
+    error RecorderLocked();
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -64,9 +71,18 @@ contract RPSStats {
 
     /// @notice Authorize the match engine that may record results.
     function setRecorder(address recorder_) external onlyOwner {
+        if (recorderLocked) revert RecorderLocked();
         if (recorder_ == address(0)) revert ZeroAddress();
         recorder = recorder_;
         emit RecorderUpdated(recorder_);
+    }
+
+    /// @notice Permanently freeze the current recorder so stats can only ever be fed
+    ///         by the wired match engine. Irreversible.
+    function lockRecorder() external onlyOwner {
+        if (recorder == address(0)) revert ZeroAddress();
+        recorderLocked = true;
+        emit RecorderFrozen(recorder);
     }
 
     /// @notice Record one player's move and outcome for a settled match.

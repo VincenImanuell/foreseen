@@ -122,4 +122,25 @@ contract RPSStatsTest is Test {
         assertEq(stats.getStats(bob).losses, 1);
         assertEq(stats.getStats(bob).wins, 0);
     }
+
+    // --- recorder lock ---
+
+    function test_LockRecorder_FreezesRecorder() public {
+        stats.lockRecorder();
+        assertTrue(stats.recorderLocked());
+        vm.expectRevert(RPSStats.RecorderLocked.selector);
+        stats.setRecorder(alice);
+    }
+
+    function test_LockRecorder_RevertNonOwner() public {
+        vm.prank(alice);
+        vm.expectRevert(RPSStats.NotOwner.selector);
+        stats.lockRecorder();
+    }
+
+    function test_LockRecorder_RevertWhenRecorderUnset() public {
+        RPSStats fresh = new RPSStats();
+        vm.expectRevert(RPSStats.ZeroAddress.selector);
+        fresh.lockRecorder();
+    }
 }
