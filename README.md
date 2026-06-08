@@ -30,7 +30,7 @@ Mind games require trustless truth. If a server could fake stats, the entire psy
 | Layer | Tooling |
 |---|---|
 | Smart contracts | Foundry (Solidity 0.8.28) |
-| Network | Celo **Alfajores testnet** |
+| Network | Celo **Sepolia testnet** |
 | SDK | TypeScript + viem |
 | Frontend | Next.js + wagmi + viem + MiniPay |
 
@@ -52,7 +52,7 @@ forge build
 forge test
 ```
 
-Copy `.env.example` to `.env` and fill in your testnet values before deploying to Alfajores.
+Copy `.env.example` to `.env` and fill in your testnet values before deploying to Celo Sepolia.
 
 ## Status
 
