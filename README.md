@@ -54,9 +54,19 @@ forge test
 
 Copy `.env.example` to `.env` and fill in your testnet values before deploying to Celo Sepolia.
 
+## Deployments
+
+### Celo Sepolia (testnet · chain ID `11142220`)
+
+| Contract | Address |
+|---|---|
+| `RPSCore` | [`0x5d56F5d6a63e94b4F622F80AB840d4eE474edd38`](https://celo-sepolia.blockscout.com/address/0x5d56F5d6a63e94b4F622F80AB840d4eE474edd38) |
+
+Source verified on Blockscout. Full record in [`deployments/celo-sepolia.json`](deployments/celo-sepolia.json).
+
 ## Status
 
-🚧 Early development — smart contracts in progress. See the design doc in `Foreseen_Brainstorm.md`.
+🚧 Early development — `RPSCore` (commit-reveal match engine) is live on Celo Sepolia; remaining v1 contracts in progress. See the design doc in `Foreseen_Brainstorm.md`.
 
 ---
 
