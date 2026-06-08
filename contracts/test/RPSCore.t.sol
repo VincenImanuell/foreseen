@@ -20,7 +20,7 @@ contract RPSCoreTest is Test {
     bytes32 internal constant SALT_B = keccak256("salt-b");
 
     function setUp() public {
-        rps = new RPSCore(treasury);
+        rps = new RPSCore(treasury, address(0));
         vm.deal(alice, 100 ether);
         vm.deal(bob, 100 ether);
         vm.deal(carol, 100 ether);
@@ -61,7 +61,7 @@ contract RPSCoreTest is Test {
 
     function test_Constructor_RevertOnZeroTreasury() public {
         vm.expectRevert(RPSCore.ZeroAddress.selector);
-        new RPSCore(address(0));
+        new RPSCore(address(0), address(0));
     }
 
     // --- createMatch ---
@@ -192,7 +192,7 @@ contract RPSCoreTest is Test {
         uint128 bet = 1 ether;
         for (uint8 ai = 1; ai <= 3; ai++) {
             for (uint8 bi = 1; bi <= 3; bi++) {
-                RPSCore fresh = new RPSCore(treasury);
+                RPSCore fresh = new RPSCore(treasury, address(0));
                 vm.deal(alice, 10 ether);
                 vm.deal(bob, 10 ether);
 
