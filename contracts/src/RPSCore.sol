@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+/// @notice Minimal hook the match engine uses to feed tamper-proof, on-chain stats.
+/// @dev    `move` is encoded 0=Rock, 1=Paper, 2=Scissors; `result` is 0=Win, 1=Loss, 2=Draw.
+interface IRPSStats {
+    function recordMatch(address player, uint8 move, uint8 result) external;
+}
+
 /// @title RPSCore
 /// @notice Commit-reveal Rock Paper Scissors match engine with escrowed bets,
 ///         reveal timeouts and a protocol fee.
@@ -8,6 +14,8 @@ pragma solidity 0.8.28;
 ///         neither can react to the other's choice. Payouts use a pull-payment
 ///         pattern (`pendingWithdrawals` + `withdraw`) so settlement can never be
 ///         blocked by a recipient that rejects funds, and reentrancy is avoided.
+///         On settlement the engine optionally feeds a stats contract, so player
+///         stats are derived only from real, on-chain settled matches.
 contract RPSCore {
     enum Move {
         None,
@@ -52,6 +60,15 @@ contract RPSCore {
 
     /// @notice Destination for protocol fees.
     address public immutable treasury;
+
+    /// @notice Optional stats engine fed atomically on settlement; the zero address
+    ///         disables stats recording.
+    IRPSStats public immutable stats;
+
+    // Result encoding forwarded to the stats engine.
+    uint8 private constant RESULT_WIN = 0;
+    uint8 private constant RESULT_LOSS = 1;
+    uint8 private constant RESULT_DRAW = 2;
 
     uint256 public nextMatchId;
     mapping(uint256 => Match) public matches;
@@ -98,9 +115,12 @@ contract RPSCore {
         _lock = 1;
     }
 
-    constructor(address treasury_) {
+    /// @param treasury_ Destination for protocol fees (required).
+    /// @param stats_ Stats engine to feed on settlement, or the zero address to disable.
+    constructor(address treasury_, address stats_) {
         if (treasury_ == address(0)) revert ZeroAddress();
         treasury = treasury_;
+        stats = IRPSStats(stats_);
     }
 
     /// @notice Open a new match, committing your move blind. The bet is `msg.value`.
@@ -168,6 +188,8 @@ contract RPSCore {
 
     /// @notice After the reveal deadline, finalize a match where a player failed to
     ///         reveal. The revealed player wins; if neither revealed, both are refunded.
+    /// @dev    Permissionless on purpose: anyone (the winner or a keeper) can finalize,
+    ///         so a non-revealing loser can only delay payout by the timeout, never deny it.
     function claimTimeout(uint256 matchId) external {
         Match storage m = matches[matchId];
         if (m.state != MatchState.Revealing) revert WrongState();
@@ -184,6 +206,7 @@ contract RPSCore {
             pendingWithdrawals[m.playerA] += payout;
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerA, payout, fee, m.revealA, m.revealB);
+            _recordStats(m.playerA, m.revealA, RESULT_WIN);
         } else if (bRevealed && !aRevealed) {
             m.state = MatchState.Settled;
             uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
@@ -191,6 +214,7 @@ contract RPSCore {
             pendingWithdrawals[m.playerB] += payout;
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerB, payout, fee, m.revealA, m.revealB);
+            _recordStats(m.playerB, m.revealB, RESULT_WIN);
         } else {
             // Neither revealed: refund both, no fee.
             m.state = MatchState.Cancelled;
@@ -238,6 +262,8 @@ contract RPSCore {
             pendingWithdrawals[m.playerA] += m.bet;
             pendingWithdrawals[m.playerB] += m.bet;
             emit Settled(matchId, address(0), 0, 0, m.revealA, m.revealB);
+            _recordStats(m.playerA, m.revealA, RESULT_DRAW);
+            _recordStats(m.playerB, m.revealB, RESULT_DRAW);
         } else {
             address winner = r == 1 ? m.playerA : m.playerB;
             uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
@@ -245,6 +271,8 @@ contract RPSCore {
             pendingWithdrawals[winner] += payout;
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, winner, payout, fee, m.revealA, m.revealB);
+            _recordStats(m.playerA, m.revealA, r == 1 ? RESULT_WIN : RESULT_LOSS);
+            _recordStats(m.playerB, m.revealB, r == 2 ? RESULT_WIN : RESULT_LOSS);
         }
     }
 
@@ -258,5 +286,13 @@ contract RPSCore {
             return 1;
         }
         return 2;
+    }
+
+    /// @dev Feeds the stats engine, mapping the core Move (1..3) to the stats
+    ///      encoding (0..2). A stats failure can never block settlement.
+    function _recordStats(address player, Move move, uint8 result) internal {
+        IRPSStats s = stats;
+        if (address(s) == address(0)) return;
+        try s.recordMatch(player, uint8(move) - 1, result) { } catch { }
     }
 }
