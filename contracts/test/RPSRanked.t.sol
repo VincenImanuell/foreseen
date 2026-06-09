@@ -11,7 +11,7 @@ contract RPSRankedTest is Test {
     address internal bob = makeAddr("bob");
 
     function setUp() public {
-        ranked = new RPSRanked(); // owner = this test
+        ranked = new RPSRanked(address(0)); // owner = this test
         ranked.setRecorder(recorder);
     }
 

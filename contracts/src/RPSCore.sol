@@ -7,6 +7,11 @@ interface IRPSStats {
     function recordMatch(address player, uint8 move, uint8 result) external;
 }
 
+/// @notice Minimal hook for ranked progression; `result` is 0=Win, 1=Loss, 2=Draw.
+interface IRPSRanked {
+    function recordRanked(address player, uint8 result) external;
+}
+
 /// @title RPSCore
 /// @notice Commit-reveal Rock Paper Scissors match engine with escrowed bets,
 ///         reveal timeouts and a protocol fee.
@@ -65,6 +70,10 @@ contract RPSCore {
     ///         disables stats recording.
     IRPSStats public immutable stats;
 
+    /// @notice Optional ranked-progression engine fed on settlement of RANKED matches;
+    ///         the zero address disables it.
+    IRPSRanked public immutable ranked;
+
     // Result encoding forwarded to the stats engine.
     uint8 private constant RESULT_WIN = 0;
     uint8 private constant RESULT_LOSS = 1;
@@ -118,14 +127,17 @@ contract RPSCore {
 
     /// @param treasury_ Destination for protocol fees (required).
     /// @param stats_ Stats engine to feed on settlement, or the zero address to disable.
-    /// @dev   A non-zero `stats_` must be a deployed contract, so the settlement-time
-    ///        try/catch can never be bypassed by an `extcodesize` revert on a codeless
-    ///        target (which would otherwise strand escrowed funds).
-    constructor(address treasury_, address stats_) {
+    /// @param ranked_ Ranked engine to feed on ranked settlement, or zero to disable.
+    /// @dev   A non-zero `stats_`/`ranked_` must be a deployed contract, so the
+    ///        settlement-time try/catch can never be bypassed by an `extcodesize` revert
+    ///        on a codeless target (which would otherwise strand escrowed funds).
+    constructor(address treasury_, address stats_, address ranked_) {
         if (treasury_ == address(0)) revert ZeroAddress();
         if (stats_ != address(0) && stats_.code.length == 0) revert NotAContract();
+        if (ranked_ != address(0) && ranked_.code.length == 0) revert NotAContract();
         treasury = treasury_;
         stats = IRPSStats(stats_);
+        ranked = IRPSRanked(ranked_);
     }
 
     /// @notice Open a new match, committing your move blind. The bet is `msg.value`.
@@ -212,6 +224,10 @@ contract RPSCore {
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerA, payout, fee, m.revealA, m.revealB);
             _recordStats(m.playerA, m.revealA, RESULT_WIN);
+            if (m.mode == Mode.Ranked) {
+                _recordRanked(m.playerA, RESULT_WIN);
+                _recordRanked(m.playerB, RESULT_LOSS); // forfeit by no-reveal
+            }
         } else if (bRevealed && !aRevealed) {
             m.state = MatchState.Settled;
             uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
@@ -220,6 +236,10 @@ contract RPSCore {
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerB, payout, fee, m.revealA, m.revealB);
             _recordStats(m.playerB, m.revealB, RESULT_WIN);
+            if (m.mode == Mode.Ranked) {
+                _recordRanked(m.playerB, RESULT_WIN);
+                _recordRanked(m.playerA, RESULT_LOSS); // forfeit by no-reveal
+            }
         } else {
             // Neither revealed: refund both, no fee.
             m.state = MatchState.Cancelled;
@@ -269,6 +289,10 @@ contract RPSCore {
             emit Settled(matchId, address(0), 0, 0, m.revealA, m.revealB);
             _recordStats(m.playerA, m.revealA, RESULT_DRAW);
             _recordStats(m.playerB, m.revealB, RESULT_DRAW);
+            if (m.mode == Mode.Ranked) {
+                _recordRanked(m.playerA, RESULT_DRAW);
+                _recordRanked(m.playerB, RESULT_DRAW);
+            }
         } else {
             address winner = r == 1 ? m.playerA : m.playerB;
             uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
@@ -278,6 +302,10 @@ contract RPSCore {
             emit Settled(matchId, winner, payout, fee, m.revealA, m.revealB);
             _recordStats(m.playerA, m.revealA, r == 1 ? RESULT_WIN : RESULT_LOSS);
             _recordStats(m.playerB, m.revealB, r == 2 ? RESULT_WIN : RESULT_LOSS);
+            if (m.mode == Mode.Ranked) {
+                _recordRanked(m.playerA, r == 1 ? RESULT_WIN : RESULT_LOSS);
+                _recordRanked(m.playerB, r == 2 ? RESULT_WIN : RESULT_LOSS);
+            }
         }
     }
 
@@ -301,5 +329,13 @@ contract RPSCore {
         IRPSStats s = stats;
         if (address(s) == address(0) || move == Move.None) return;
         try s.recordMatch(player, uint8(move) - 1, result) { } catch { }
+    }
+
+    /// @dev Feeds the ranked engine for ranked matches. Like stats, a failure can never
+    ///      block settlement (`ranked` is verified to be a contract at construction).
+    function _recordRanked(address player, uint8 result) internal {
+        IRPSRanked rk = ranked;
+        if (address(rk) == address(0)) return;
+        try rk.recordRanked(player, result) { } catch { }
     }
 }

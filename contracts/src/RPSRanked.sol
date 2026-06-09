@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+/// @notice Minimal hook to mint/upgrade a player's soulbound rank badge.
+/// @dev `tier` is 0=Bronze .. 4=Legend.
+interface IRPSSoulbound {
+    function setBadge(address player, uint8 tier) external;
+}
+
 /// @title RPSRanked
 /// @notice On-chain ranked progression for Foreseen: win streaks, rank tiers
 ///         (Bronze -> Silver -> Gold -> Platinum -> Legend), a streak payout
@@ -34,6 +40,7 @@ contract RPSRanked {
         uint64 draws;
         uint32[5] rankReached; // times promoted into each Rank tier (Bronze seeded to 1)
         Rank currentRank;
+        Rank peakRank; // highest rank ever reached; drives the soulbound badge
         bool active; // has any ranked history
     }
 
@@ -51,6 +58,10 @@ contract RPSRanked {
     /// @notice Once true, the recorder is frozen permanently and cannot be changed.
     bool public recorderLocked;
 
+    /// @notice Optional soulbound badge minted/upgraded as a player reaches a new peak
+    ///         rank; the zero address disables badge minting.
+    IRPSSoulbound public immutable badge;
+
     mapping(address => Progress) internal _progress;
 
     event RankedRecorded(address indexed player, Result result, uint64 streak);
@@ -62,6 +73,7 @@ contract RPSRanked {
     error NotRecorder();
     error ZeroAddress();
     error RecorderLocked();
+    error NotAContract();
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -73,8 +85,13 @@ contract RPSRanked {
         _;
     }
 
-    constructor() {
+    /// @param badge_ Soulbound badge to mint/upgrade on new peaks, or zero to disable.
+    /// @dev   A non-zero `badge_` must be a deployed contract so the badge call can never
+    ///        block a ranked recording via an `extcodesize` revert.
+    constructor(address badge_) {
+        if (badge_ != address(0) && badge_.code.length == 0) revert NotAContract();
         owner = msg.sender;
+        badge = IRPSSoulbound(badge_);
     }
 
     /// @notice Authorize the match engine that may record ranked results.
@@ -99,6 +116,7 @@ contract RPSRanked {
         if (!p.active) {
             p.active = true;
             p.rankReached[uint8(Rank.Bronze)] = 1;
+            _updateBadge(player, uint8(Rank.Bronze)); // mint the initial badge
         }
 
         Rank oldRank = p.currentRank;
@@ -120,6 +138,13 @@ contract RPSRanked {
                 p.rankReached[uint8(newRank)]++;
             }
             emit RankChanged(player, oldRank, newRank, p.streak);
+        }
+
+        // The badge tracks the PEAK rank (monotonic) — it proves achievement and is
+        // never downgraded when a streak is lost.
+        if (uint8(newRank) > uint8(p.peakRank)) {
+            p.peakRank = newRank;
+            _updateBadge(player, uint8(newRank));
         }
 
         emit RankedRecorded(player, result, p.streak);
@@ -157,5 +182,12 @@ contract RPSRanked {
         if (streak >= GOLD_STREAK) return Rank.Gold;
         if (streak >= SILVER_STREAK) return Rank.Silver;
         return Rank.Bronze;
+    }
+
+    /// @dev Mint/upgrade the soulbound badge without ever letting it block a recording.
+    function _updateBadge(address player, uint8 tier) internal {
+        IRPSSoulbound b = badge;
+        if (address(b) == address(0)) return;
+        try b.setBadge(player, tier) { } catch { }
     }
 }
