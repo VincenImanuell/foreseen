@@ -60,9 +60,10 @@ Copy `.env.example` to `.env` and fill in your testnet values before deploying t
 
 | Contract | Address |
 |---|---|
-| `RPSCore` | [`0x5d56F5d6a63e94b4F622F80AB840d4eE474edd38`](https://celo-sepolia.blockscout.com/address/0x5d56F5d6a63e94b4F622F80AB840d4eE474edd38) |
+| `RPSCore` | [`0x208f098639059dF8E19a4F6836908b3cc56CdFf9`](https://celo-sepolia.blockscout.com/address/0x208f098639059dF8E19a4F6836908b3cc56CdFf9) |
+| `RPSStats` | [`0x6F57AC8C61A2ed3C84446Ca6e5a1Ab68f10Dd7C7`](https://celo-sepolia.blockscout.com/address/0x6F57AC8C61A2ed3C84446Ca6e5a1Ab68f10Dd7C7) |
 
-Source verified on Blockscout. Full record in [`deployments/celo-sepolia.json`](deployments/celo-sepolia.json).
+Both verified on Blockscout. `RPSCore` feeds `RPSStats` on settlement and the stats recorder is permanently locked to `RPSCore`, so player stats are tamper-proof. Full record in [`deployments/celo-sepolia.json`](deployments/celo-sepolia.json).
 
 ## Status
 
