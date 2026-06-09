@@ -28,6 +28,15 @@ export default function Home() {
             committed blind with a hash and revealed on-chain — no peeking, no
             front-running. Every settled match is provable and feeds your stats.
           </p>
+          <p className="mt-4 flex max-w-2xl items-start gap-2 rounded-lg border border-oracle-cyan/20 bg-oracle-cyan/5 px-3 py-2 text-sm text-slate-300">
+            <span aria-hidden>⚖️</span>
+            <span>
+              <strong className="text-oracle-cyan">A game of skill, not gambling.</strong>{" "}
+              There is no RNG and no house — you win by out-reading your opponent.
+              Stakes are peer-to-peer and the contract is a neutral referee. Play
+              responsibly; stake only what you can afford.
+            </span>
+          </p>
         </section>
 
         {mounted && isConnected && (
@@ -47,7 +56,7 @@ export default function Home() {
       </div>
 
       <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
-        Foreseen · Celo mainnet · commit-reveal RPS · real CELO stakes
+        Foreseen · Celo mainnet · skill-based mind-sport, not gambling · real CELO stakes
       </footer>
     </main>
   );
