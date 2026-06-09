@@ -7,7 +7,7 @@ import { toRpsMatch, type RpsMatch } from "@/lib/rps";
 
 export type MatchEntry = { id: bigint; match: RpsMatch };
 
-/** How many of the most recent matches to load (keeps a long-lived testnet
+/** How many of the most recent matches to load (keeps a long-lived
  *  contract from ballooning the multicall). */
 const WINDOW = 50;
 
