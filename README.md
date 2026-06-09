@@ -87,13 +87,13 @@ Copy `.env.example` to `.env` and fill in your testnet values before deploying t
 
 | Contract | Address |
 |---|---|
-| `RPSCore` | [`0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80`](https://celoscan.io/address/0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80) |
-| `RPSStats` | [`0x50dF5d5924dA98Ab8e84329d47048c54094c16D8`](https://celoscan.io/address/0x50dF5d5924dA98Ab8e84329d47048c54094c16D8) |
-| `RPSRanked` | [`0x7a5B97Ad9aa3E98Ca2f8e63312Fc70e52ed869D5`](https://celoscan.io/address/0x7a5B97Ad9aa3E98Ca2f8e63312Fc70e52ed869D5) |
-| `RPSSoulbound` | [`0x1cCE5ecE0E7F8fb5C6523293E87d70C11Fb5A45A`](https://celoscan.io/address/0x1cCE5ecE0E7F8fb5C6523293E87d70C11Fb5A45A) |
-| `RPSTreasury` | [`0x81A445ec7fC8d41956b2a8811b57597b3e1Fc985`](https://celoscan.io/address/0x81A445ec7fC8d41956b2a8811b57597b3e1Fc985) |
+| `RPSCore` | [`0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e`](https://celoscan.io/address/0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e) |
+| `RPSStats` | [`0x0f5F94A4f5C72CAc4D6E69a6DD89341c7b1a475A`](https://celoscan.io/address/0x0f5F94A4f5C72CAc4D6E69a6DD89341c7b1a475A) |
+| `RPSRanked` | [`0x8230D28C9a8Fbda2490F830c6cBc1cE3056096cb`](https://celoscan.io/address/0x8230D28C9a8Fbda2490F830c6cBc1cE3056096cb) |
+| `RPSSoulbound` | [`0x0bF75Da1E76df7c7619d1Beb738DD34b96EDd8b6`](https://celoscan.io/address/0x0bF75Da1E76df7c7619d1Beb738DD34b96EDd8b6) |
+| `RPSTreasury` | [`0xFF81B19dE799e828f3b76bC3240896Fa73d22540`](https://celoscan.io/address/0xFF81B19dE799e828f3b76bC3240896Fa73d22540) |
 
-The full 5-contract system, wired and writer-locked to `RPSCore`. Full record in [`deployments/celo-mainnet.json`](deployments/celo-mainnet.json).
+The full 5-contract system (v2, matchmaking-first), wired and writer-locked to `RPSCore`. Players matchmake, scout, then commit — see the flow in [`contracts/src/RPSCore.sol`](contracts/src/RPSCore.sol). Full record in [`deployments/celo-mainnet.json`](deployments/celo-mainnet.json).
 
 ### Celo Sepolia (testnet · chain ID `11142220`)
 

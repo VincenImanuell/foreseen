@@ -36,15 +36,31 @@ contract RPSCoreTest is Test {
         return keccak256(abi.encodePacked(player, move, salt));
     }
 
-    function _createAndJoin(RPSCore.Move a, RPSCore.Move b) internal returns (uint256 id) {
+    /// @dev create (alice) + join (bob): leaves the match in the Scouting window.
+    function _matchmake(RPSCore.Mode mode) internal returns (uint256 id) {
         vm.prank(alice);
-        id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual, _commit(alice, a, SALT_A));
+        id = rps.createMatch{ value: BET }(mode);
         vm.prank(bob);
-        rps.joinMatch{ value: BET }(id, _commit(bob, b, SALT_B));
+        rps.joinMatch{ value: BET }(id);
     }
 
+    /// @dev Both players commit their sealed move: advances Scouting -> Revealing.
+    function _commitBoth(uint256 id, RPSCore.Move a, RPSCore.Move b) internal {
+        vm.prank(alice);
+        rps.commitMove(id, _commit(alice, a, SALT_A));
+        vm.prank(bob);
+        rps.commitMove(id, _commit(bob, b, SALT_B));
+    }
+
+    /// @dev Full flow up to (but not including) reveal: match made + both committed.
+    function _toReveal(RPSCore.Move a, RPSCore.Move b) internal returns (uint256 id) {
+        id = _matchmake(RPSCore.Mode.Casual);
+        _commitBoth(id, a, b);
+    }
+
+    /// @dev End-to-end: match made, both committed, both revealed (settles).
     function _play(RPSCore.Move a, RPSCore.Move b) internal returns (uint256 id) {
-        id = _createAndJoin(a, b);
+        id = _toReveal(a, b);
         vm.prank(alice);
         rps.reveal(id, a, SALT_A);
         vm.prank(bob);
@@ -74,28 +90,36 @@ contract RPSCoreTest is Test {
 
     function test_CreateMatch_StoresState() public {
         vm.prank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Ranked, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Ranked);
 
         RPSCore.Match memory m = rps.getMatch(id);
         assertEq(m.playerA, alice);
         assertEq(m.bet, BET);
         assertEq(uint8(m.mode), uint8(RPSCore.Mode.Ranked));
         assertEq(uint8(m.state), uint8(RPSCore.MatchState.WaitingForOpponent));
+        assertEq(m.commitA, bytes32(0)); // no move committed yet
         assertEq(address(rps).balance, BET);
     }
 
     function test_CreateMatch_RevertOnZeroBet() public {
         vm.prank(alice);
         vm.expectRevert(RPSCore.InvalidBet.selector);
-        rps.createMatch{ value: 0 }(RPSCore.Mode.Casual, bytes32(0));
+        rps.createMatch{ value: 0 }(RPSCore.Mode.Casual);
+    }
+
+    function test_CreateMatch_RevertOnHugeBet() public {
+        // Bets are stored as uint96; anything larger is rejected.
+        uint256 huge = uint256(type(uint96).max) + 1;
+        vm.deal(alice, huge);
+        vm.prank(alice);
+        vm.expectRevert(RPSCore.InvalidBet.selector);
+        rps.createMatch{ value: huge }(RPSCore.Mode.Casual);
     }
 
     function test_CreateMatch_IncrementsId() public {
         vm.startPrank(alice);
-        uint256 id0 = rps.createMatch{ value: BET }(RPSCore.Mode.Casual, bytes32(uint256(1)));
-        uint256 id1 = rps.createMatch{ value: BET }(RPSCore.Mode.Casual, bytes32(uint256(2)));
+        uint256 id0 = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
+        uint256 id1 = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.stopPrank();
         assertEq(id0, 0);
         assertEq(id1, 1);
@@ -105,37 +129,96 @@ contract RPSCoreTest is Test {
 
     function test_JoinMatch_RevertOnBetMismatch() public {
         vm.prank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.prank(bob);
         vm.expectRevert(RPSCore.BetMismatch.selector);
-        rps.joinMatch{ value: BET + 1 }(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
+        rps.joinMatch{ value: BET + 1 }(id);
     }
 
     function test_JoinMatch_RevertOnOwnMatch() public {
         vm.startPrank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.expectRevert(RPSCore.CannotJoinOwnMatch.selector);
-        rps.joinMatch{ value: BET }(id, _commit(alice, RPSCore.Move.Paper, SALT_B));
+        rps.joinMatch{ value: BET }(id);
         vm.stopPrank();
     }
 
     function test_JoinMatch_RevertWhenAlreadyFull() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
         vm.prank(carol);
         vm.expectRevert(RPSCore.WrongState.selector);
-        rps.joinMatch{ value: BET }(id, _commit(carol, RPSCore.Move.Scissors, SALT_B));
+        rps.joinMatch{ value: BET }(id);
     }
 
-    function test_JoinMatch_SetsRevealingState() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+    function test_JoinMatch_OpensScoutingWindow() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
         RPSCore.Match memory m = rps.getMatch(id);
         assertEq(m.playerB, bob);
+        assertEq(uint8(m.state), uint8(RPSCore.MatchState.Scouting));
+        assertEq(m.commitDeadline, block.timestamp + rps.COMMIT_WINDOW());
+        assertEq(m.revealDeadline, 0); // not set until both commit
+    }
+
+    // --- commitMove ---
+
+    function test_CommitBoth_OpensRevealPhase() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        _commitBoth(id, RPSCore.Move.Rock, RPSCore.Move.Paper);
+
+        RPSCore.Match memory m = rps.getMatch(id);
         assertEq(uint8(m.state), uint8(RPSCore.MatchState.Revealing));
-        assertEq(m.revealDeadline, block.timestamp + rps.REVEAL_TIMEOUT());
+        assertEq(m.revealDeadline, block.timestamp + rps.REVEAL_WINDOW());
+        assertTrue(m.commitA != bytes32(0));
+        assertTrue(m.commitB != bytes32(0));
+    }
+
+    function test_Commit_FirstCommitStaysInScouting() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.prank(alice);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+
+        RPSCore.Match memory m = rps.getMatch(id);
+        assertEq(uint8(m.state), uint8(RPSCore.MatchState.Scouting));
+        assertEq(m.revealDeadline, 0);
+    }
+
+    function test_Commit_RevertBeforeMatched() public {
+        vm.prank(alice);
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
+        vm.prank(alice);
+        vm.expectRevert(RPSCore.WrongState.selector);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+    }
+
+    function test_Commit_RevertAfterDeadline() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.warp(block.timestamp + rps.COMMIT_WINDOW() + 1);
+        vm.prank(alice);
+        vm.expectRevert(RPSCore.TooLate.selector);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+    }
+
+    function test_Commit_RevertOnZeroCommit() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.prank(alice);
+        vm.expectRevert(RPSCore.InvalidCommit.selector);
+        rps.commitMove(id, bytes32(0));
+    }
+
+    function test_Commit_RevertOnDoubleCommit() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.startPrank(alice);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.expectRevert(RPSCore.AlreadyCommitted.selector);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Paper, SALT_A));
+        vm.stopPrank();
+    }
+
+    function test_Commit_RevertOnNonPlayer() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.prank(carol);
+        vm.expectRevert(RPSCore.NotPlayer.selector);
+        rps.commitMove(id, _commit(carol, RPSCore.Move.Rock, SALT_A));
     }
 
     // --- happy path / settlement ---
@@ -206,10 +289,13 @@ contract RPSCoreTest is Test {
                 RPSCore.Move b = RPSCore.Move(bi);
 
                 vm.prank(alice);
-                uint256 id =
-                    fresh.createMatch{ value: bet }(RPSCore.Mode.Casual, _commit(alice, a, SALT_A));
+                uint256 id = fresh.createMatch{ value: bet }(RPSCore.Mode.Casual);
                 vm.prank(bob);
-                fresh.joinMatch{ value: bet }(id, _commit(bob, b, SALT_B));
+                fresh.joinMatch{ value: bet }(id);
+                vm.prank(alice);
+                fresh.commitMove(id, _commit(alice, a, SALT_A));
+                vm.prank(bob);
+                fresh.commitMove(id, _commit(bob, b, SALT_B));
                 vm.prank(alice);
                 fresh.reveal(id, a, SALT_A);
                 vm.prank(bob);
@@ -236,35 +322,35 @@ contract RPSCoreTest is Test {
     // --- reveal reverts ---
 
     function test_Reveal_RevertOnBadSalt() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(alice);
         vm.expectRevert(RPSCore.BadReveal.selector);
         rps.reveal(id, RPSCore.Move.Rock, keccak256("wrong"));
     }
 
     function test_Reveal_RevertOnWrongMove() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(alice);
         vm.expectRevert(RPSCore.BadReveal.selector);
         rps.reveal(id, RPSCore.Move.Paper, SALT_A); // committed Rock
     }
 
     function test_Reveal_RevertOnNoneMove() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(alice);
         vm.expectRevert(RPSCore.InvalidMove.selector);
         rps.reveal(id, RPSCore.Move.None, SALT_A);
     }
 
     function test_Reveal_RevertOnNonPlayer() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(carol);
         vm.expectRevert(RPSCore.NotPlayer.selector);
         rps.reveal(id, RPSCore.Move.Rock, SALT_A);
     }
 
     function test_Reveal_RevertOnDoubleReveal() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.startPrank(alice);
         rps.reveal(id, RPSCore.Move.Rock, SALT_A);
         vm.expectRevert(RPSCore.AlreadyRevealed.selector);
@@ -272,25 +358,98 @@ contract RPSCoreTest is Test {
         vm.stopPrank();
     }
 
-    function test_Reveal_RevertBeforeJoin() public {
-        vm.prank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+    function test_Reveal_RevertBeforeRevealPhase() public {
+        // Still in the scouting window (only matched, not both committed).
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
         vm.prank(alice);
         vm.expectRevert(RPSCore.WrongState.selector);
         rps.reveal(id, RPSCore.Move.Rock, SALT_A);
     }
 
-    // --- timeout ---
+    function test_Reveal_RevertAfterDeadline() public {
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        vm.warp(block.timestamp + rps.REVEAL_WINDOW() + 1);
+        vm.prank(alice);
+        vm.expectRevert(RPSCore.TooLate.selector);
+        rps.reveal(id, RPSCore.Move.Rock, SALT_A);
+    }
 
-    function test_Timeout_RevealedPlayerWins() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+    /// @dev Regression for the audit race: once the deadline passes, a late reveal is
+    ///      rejected and only claimRevealTimeout can finalize, so the on-time revealer wins
+    ///      deterministically — outcome is never decided by transaction ordering.
+    function test_Reveal_LateRevealCannotRaceTimeout() public {
+        // bob's Paper would beat alice's Rock, but bob is the one who is late.
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        vm.prank(alice);
+        rps.reveal(id, RPSCore.Move.Rock, SALT_A);
+
+        vm.warp(block.timestamp + rps.REVEAL_WINDOW() + 1);
+        vm.prank(bob);
+        vm.expectRevert(RPSCore.TooLate.selector);
+        rps.reveal(id, RPSCore.Move.Paper, SALT_B);
+
+        rps.claimRevealTimeout(id);
+        uint256 pot = uint256(BET) * 2;
+        uint256 fee = pot * rps.FEE_BPS() / rps.BPS_DENOMINATOR();
+        assertEq(rps.pendingWithdrawals(alice), pot - fee);
+        assertEq(rps.pendingWithdrawals(bob), 0);
+    }
+
+    // --- commit timeout (scouting window) ---
+
+    function test_CommitTimeout_CommitterWins() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        // Only alice commits; bob never does.
+        vm.prank(alice);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+
+        vm.warp(block.timestamp + rps.COMMIT_WINDOW() + 1);
+        rps.claimCommitTimeout(id);
+
+        uint256 pot = uint256(BET) * 2;
+        uint256 fee = pot * rps.FEE_BPS() / rps.BPS_DENOMINATOR();
+        assertEq(rps.pendingWithdrawals(alice), pot - fee);
+        assertEq(rps.pendingWithdrawals(bob), 0);
+        assertEq(rps.pendingWithdrawals(treasury), fee);
+        assertEq(uint8(rps.getMatch(id).state), uint8(RPSCore.MatchState.Settled));
+    }
+
+    function test_CommitTimeout_NeitherCommitted_RefundsBoth() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.warp(block.timestamp + rps.COMMIT_WINDOW() + 1);
+        rps.claimCommitTimeout(id);
+
+        assertEq(rps.pendingWithdrawals(alice), BET);
+        assertEq(rps.pendingWithdrawals(bob), BET);
+        assertEq(rps.pendingWithdrawals(treasury), 0);
+        assertEq(uint8(rps.getMatch(id).state), uint8(RPSCore.MatchState.Cancelled));
+    }
+
+    function test_CommitTimeout_RevertTooEarly() public {
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
+        vm.prank(alice);
+        rps.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.expectRevert(RPSCore.TooEarly.selector);
+        rps.claimCommitTimeout(id);
+    }
+
+    function test_CommitTimeout_RevertWhenRevealing() public {
+        // Both committed -> Revealing, so the commit timeout no longer applies.
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        vm.warp(block.timestamp + rps.COMMIT_WINDOW() + 1);
+        vm.expectRevert(RPSCore.WrongState.selector);
+        rps.claimCommitTimeout(id);
+    }
+
+    // --- reveal timeout ---
+
+    function test_RevealTimeout_RevealedPlayerWins() public {
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(alice);
         rps.reveal(id, RPSCore.Move.Rock, SALT_A); // bob never reveals
 
-        vm.warp(block.timestamp + rps.REVEAL_TIMEOUT() + 1);
-        rps.claimTimeout(id);
+        vm.warp(block.timestamp + rps.REVEAL_WINDOW() + 1);
+        rps.claimRevealTimeout(id);
 
         uint256 pot = uint256(BET) * 2;
         uint256 fee = pot * rps.FEE_BPS() / rps.BPS_DENOMINATOR();
@@ -299,18 +458,18 @@ contract RPSCoreTest is Test {
         assertEq(uint8(rps.getMatch(id).state), uint8(RPSCore.MatchState.Settled));
     }
 
-    function test_Timeout_RevertTooEarly() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+    function test_RevealTimeout_RevertTooEarly() public {
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
         vm.prank(alice);
         rps.reveal(id, RPSCore.Move.Rock, SALT_A);
         vm.expectRevert(RPSCore.TooEarly.selector);
-        rps.claimTimeout(id);
+        rps.claimRevealTimeout(id);
     }
 
-    function test_Timeout_NeitherRevealed_RefundsBoth() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
-        vm.warp(block.timestamp + rps.REVEAL_TIMEOUT() + 1);
-        rps.claimTimeout(id);
+    function test_RevealTimeout_NeitherRevealed_RefundsBoth() public {
+        uint256 id = _toReveal(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        vm.warp(block.timestamp + rps.REVEAL_WINDOW() + 1);
+        rps.claimRevealTimeout(id);
 
         assertEq(rps.pendingWithdrawals(alice), BET);
         assertEq(rps.pendingWithdrawals(bob), BET);
@@ -318,20 +477,18 @@ contract RPSCoreTest is Test {
         assertEq(uint8(rps.getMatch(id).state), uint8(RPSCore.MatchState.Cancelled));
     }
 
-    function test_Timeout_RevertWhenSettled() public {
+    function test_RevealTimeout_RevertWhenSettled() public {
         uint256 id = _play(RPSCore.Move.Rock, RPSCore.Move.Scissors);
-        vm.warp(block.timestamp + rps.REVEAL_TIMEOUT() + 1);
+        vm.warp(block.timestamp + rps.REVEAL_WINDOW() + 1);
         vm.expectRevert(RPSCore.WrongState.selector);
-        rps.claimTimeout(id);
+        rps.claimRevealTimeout(id);
     }
 
     // --- cancel ---
 
     function test_Cancel_ByCreatorRefunds() public {
         vm.prank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.prank(alice);
         rps.cancelMatch(id);
         assertEq(rps.pendingWithdrawals(alice), BET);
@@ -340,16 +497,14 @@ contract RPSCoreTest is Test {
 
     function test_Cancel_RevertNonCreator() public {
         vm.prank(alice);
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.prank(bob);
         vm.expectRevert(RPSCore.NotPlayer.selector);
         rps.cancelMatch(id);
     }
 
     function test_Cancel_RevertAfterJoined() public {
-        uint256 id = _createAndJoin(RPSCore.Move.Rock, RPSCore.Move.Paper);
+        uint256 id = _matchmake(RPSCore.Mode.Casual);
         vm.prank(alice);
         vm.expectRevert(RPSCore.WrongState.selector);
         rps.cancelMatch(id);
@@ -363,11 +518,13 @@ contract RPSCoreTest is Test {
 
         // rejecter (as A) plays Rock and beats bob's Scissors.
         vm.prank(address(rejecter));
-        uint256 id = rps.createMatch{ value: BET }(
-            RPSCore.Mode.Casual, _commit(address(rejecter), RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = rps.createMatch{ value: BET }(RPSCore.Mode.Casual);
         vm.prank(bob);
-        rps.joinMatch{ value: BET }(id, _commit(bob, RPSCore.Move.Scissors, SALT_B));
+        rps.joinMatch{ value: BET }(id);
+        vm.prank(address(rejecter));
+        rps.commitMove(id, _commit(address(rejecter), RPSCore.Move.Rock, SALT_A));
+        vm.prank(bob);
+        rps.commitMove(id, _commit(bob, RPSCore.Move.Scissors, SALT_B));
         vm.prank(address(rejecter));
         rps.reveal(id, RPSCore.Move.Rock, SALT_A);
 

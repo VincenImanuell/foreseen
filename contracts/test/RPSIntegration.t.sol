@@ -32,9 +32,13 @@ contract RPSIntegrationTest is Test {
 
     function _play(RPSCore.Move a, RPSCore.Move b) internal returns (uint256 id) {
         vm.prank(alice);
-        id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked, _commit(alice, a, SALT_A));
+        id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked);
         vm.prank(bob);
-        core.joinMatch{ value: BET }(id, _commit(bob, b, SALT_B));
+        core.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core.commitMove(id, _commit(alice, a, SALT_A));
+        vm.prank(bob);
+        core.commitMove(id, _commit(bob, b, SALT_B));
         vm.prank(alice);
         core.reveal(id, a, SALT_A);
         vm.prank(bob);
@@ -78,34 +82,52 @@ contract RPSIntegrationTest is Test {
         assertEq(stats.getStats(bob).afterLossMove[0], 1);
     }
 
-    function test_OneSidedTimeout_RecordsOnlyRevealer() public {
+    function test_RevealTimeout_RecordsNothing() public {
         vm.prank(alice);
-        uint256 id = core.createMatch{ value: BET }(
-            RPSCore.Mode.Ranked, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked);
         vm.prank(bob);
-        core.joinMatch{ value: BET }(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
+        core.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.prank(bob);
+        core.commitMove(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
         vm.prank(alice);
         core.reveal(id, RPSCore.Move.Rock, SALT_A); // bob never reveals
 
-        vm.warp(block.timestamp + core.REVEAL_TIMEOUT() + 1);
-        core.claimTimeout(id);
+        vm.warp(block.timestamp + core.REVEAL_WINDOW() + 1);
+        core.claimRevealTimeout(id);
 
-        assertEq(stats.getStats(alice).wins, 1);
-        assertEq(stats.getStats(alice).moveCount[0], 1); // Rock
-        assertEq(stats.getStats(bob).totalMatches, 0); // no move to record
+        // A forfeit pays out the pot but records no reputation: only fully-revealed,
+        // head-to-head settlements feed stats (this blocks self-match forfeit farming).
+        assertEq(stats.getStats(alice).totalMatches, 0);
+        assertEq(stats.getStats(bob).totalMatches, 0);
     }
 
     function test_NeitherRevealed_RecordsNothing() public {
         vm.prank(alice);
-        uint256 id = core.createMatch{ value: BET }(
-            RPSCore.Mode.Ranked, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked);
         vm.prank(bob);
-        core.joinMatch{ value: BET }(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
+        core.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.prank(bob);
+        core.commitMove(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
 
-        vm.warp(block.timestamp + core.REVEAL_TIMEOUT() + 1);
-        core.claimTimeout(id);
+        vm.warp(block.timestamp + core.REVEAL_WINDOW() + 1);
+        core.claimRevealTimeout(id);
+
+        assertEq(stats.getStats(alice).totalMatches, 0);
+        assertEq(stats.getStats(bob).totalMatches, 0);
+    }
+
+    function test_NeitherCommitted_RecordsNothing() public {
+        vm.prank(alice);
+        uint256 id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked);
+        vm.prank(bob);
+        core.joinMatch{ value: BET }(id);
+
+        vm.warp(block.timestamp + core.COMMIT_WINDOW() + 1);
+        core.claimCommitTimeout(id);
 
         assertEq(stats.getStats(alice).totalMatches, 0);
         assertEq(stats.getStats(bob).totalMatches, 0);
@@ -119,11 +141,13 @@ contract RPSIntegrationTest is Test {
         vm.deal(bob, 10 ether);
 
         vm.prank(alice);
-        uint256 id = core2.createMatch{ value: BET }(
-            RPSCore.Mode.Ranked, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = core2.createMatch{ value: BET }(RPSCore.Mode.Ranked);
         vm.prank(bob);
-        core2.joinMatch{ value: BET }(id, _commit(bob, RPSCore.Move.Scissors, SALT_B));
+        core2.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core2.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.prank(bob);
+        core2.commitMove(id, _commit(bob, RPSCore.Move.Scissors, SALT_B));
         vm.prank(alice);
         core2.reveal(id, RPSCore.Move.Rock, SALT_A);
         vm.prank(bob);
