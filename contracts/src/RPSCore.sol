@@ -13,14 +13,23 @@ interface IRPSRanked {
 }
 
 /// @title RPSCore
-/// @notice Commit-reveal Rock Paper Scissors match engine with escrowed bets,
-///         reveal timeouts and a protocol fee.
-/// @dev    Both players commit blind (commit-on-create / commit-on-join) so
-///         neither can react to the other's choice. Payouts use a pull-payment
-///         pattern (`pendingWithdrawals` + `withdraw`) so settlement can never be
-///         blocked by a recipient that rejects funds, and reentrancy is avoided.
-///         On settlement the engine optionally feeds a stats contract, so player
-///         stats are derived only from real, on-chain settled matches.
+/// @notice Matchmaking-first, commit-reveal Rock Paper Scissors with escrowed bets.
+/// @dev    The flow is built around scouting, the heart of the mind-sport:
+///
+///         1. createMatch(mode)        — open a match and escrow your bet (no move yet).
+///         2. joinMatch(id)            — match the bet; both players are now known and a
+///                                       scouting window opens (COMMIT_WINDOW).
+///         3. commitMove(id, commit)   — each player studies the opponent, then seals a
+///                                       move blind. Both commits move the match to reveal.
+///         4. reveal(id, move, salt)   — open both moves; the second reveal settles.
+///
+///         Because neither player commits until *after* matchmaking, both can scout the
+///         opponent's on-chain history before choosing — yet moves stay hashed, so neither
+///         can react to the other's actual throw. Payouts use a pull-payment pattern
+///         (`pendingWithdrawals` + `withdraw`) so settlement can never be blocked by a
+///         recipient that rejects funds, and reentrancy is avoided. On settlement the engine
+///         optionally feeds a stats / ranked contract, so records derive only from real,
+///         on-chain settled matches.
 contract RPSCore {
     enum Move {
         None,
@@ -37,31 +46,36 @@ contract RPSCore {
     enum MatchState {
         None,
         WaitingForOpponent,
+        Scouting,
         Revealing,
         Settled,
         Cancelled
     }
 
+    /// @dev Packed into five storage slots: {playerA, bet}, {playerB, deadlines, mode, state},
+    ///      commitA, commitB, {revealA, revealB}. A zero commit means "not committed yet"
+    ///      (keccak256 can never be zero in practice, so this is an unambiguous flag).
     struct Match {
-        address playerA;
-        address playerB;
-        bytes32 commitA;
-        bytes32 commitB;
-        Move revealA;
-        Move revealB;
-        uint128 bet; // per-player stake in wei
-        uint64 createdAt; // when A committed
-        uint64 joinedAt; // when B committed
-        uint64 revealDeadline; // both must reveal before this
-        Mode mode;
-        MatchState state;
+        address playerA; // slot 0
+        uint96 bet; // slot 0 — per-player stake in wei
+        address playerB; // slot 1
+        uint40 commitDeadline; // slot 1 — set on join; commit before this
+        uint40 revealDeadline; // slot 1 — set once both have committed
+        Mode mode; // slot 1
+        MatchState state; // slot 1
+        bytes32 commitA; // slot 2
+        bytes32 commitB; // slot 3
+        Move revealA; // slot 4
+        Move revealB; // slot 4
     }
 
     /// @notice Protocol fee in basis points (5%).
     uint256 public constant FEE_BPS = 500;
     uint256 public constant BPS_DENOMINATOR = 10_000;
-    /// @notice Window for both players to reveal once a match is full.
-    uint256 public constant REVEAL_TIMEOUT = 5 minutes;
+    /// @notice Scouting window: once a match is full, both players must commit before this.
+    uint256 public constant COMMIT_WINDOW = 90 seconds;
+    /// @notice Reveal window: once both have committed, both must reveal before this.
+    uint256 public constant REVEAL_WINDOW = 90 seconds;
 
     /// @notice Destination for protocol fees.
     address public immutable treasury;
@@ -74,7 +88,7 @@ contract RPSCore {
     ///         the zero address disables it.
     IRPSRanked public immutable ranked;
 
-    // Result encoding forwarded to the stats engine.
+    // Result encoding forwarded to the stats / ranked engines.
     uint8 private constant RESULT_WIN = 0;
     uint8 private constant RESULT_LOSS = 1;
     uint8 private constant RESULT_DRAW = 2;
@@ -87,8 +101,10 @@ contract RPSCore {
         uint256 indexed matchId, address indexed playerA, Mode mode, uint256 bet, uint256 createdAt
     );
     event MatchJoined(
-        uint256 indexed matchId, address indexed playerB, uint256 joinedAt, uint256 revealDeadline
+        uint256 indexed matchId, address indexed playerB, uint256 joinedAt, uint256 commitDeadline
     );
+    event MoveCommitted(uint256 indexed matchId, address indexed player);
+    event RevealPhase(uint256 indexed matchId, uint256 revealDeadline);
     event Revealed(uint256 indexed matchId, address indexed player, Move move, uint256 timestamp);
     event Settled(
         uint256 indexed matchId,
@@ -108,10 +124,13 @@ contract RPSCore {
     error CannotJoinOwnMatch();
     error BetMismatch();
     error InvalidMove();
+    error InvalidCommit();
+    error AlreadyCommitted();
     error AlreadyRevealed();
     error BadReveal();
     error NotPlayer();
     error TooEarly();
+    error TooLate();
     error NothingToWithdraw();
     error TransferFailed();
     error Reentrancy();
@@ -140,47 +159,78 @@ contract RPSCore {
         ranked = IRPSRanked(ranked_);
     }
 
-    /// @notice Open a new match, committing your move blind. The bet is `msg.value`.
+    /// @notice Open a new match and escrow your bet. No move is chosen yet — you commit
+    ///         only after an opponent joins and you have scouted them.
     /// @param mode Casual or Ranked.
-    /// @param commit `keccak256(abi.encodePacked(msg.sender, move, salt))`.
     /// @return matchId Identifier of the created match.
-    function createMatch(Mode mode, bytes32 commit) external payable returns (uint256 matchId) {
-        if (msg.value == 0 || msg.value > type(uint128).max) revert InvalidBet();
+    function createMatch(Mode mode) external payable returns (uint256 matchId) {
+        if (msg.value == 0 || msg.value > type(uint96).max) revert InvalidBet();
 
         matchId = nextMatchId++;
         Match storage m = matches[matchId];
         m.playerA = msg.sender;
-        m.commitA = commit;
-        m.bet = uint128(msg.value);
-        m.createdAt = uint64(block.timestamp);
+        m.bet = uint96(msg.value);
         m.mode = mode;
         m.state = MatchState.WaitingForOpponent;
 
         emit MatchCreated(matchId, msg.sender, mode, msg.value, block.timestamp);
     }
 
-    /// @notice Join an open match, matching its bet and committing your move blind.
+    /// @notice Join an open match by matching its bet. This opens the scouting window:
+    ///         both players are now known and have COMMIT_WINDOW to commit a move.
     /// @param matchId Match to join.
-    /// @param commit `keccak256(abi.encodePacked(msg.sender, move, salt))`.
-    function joinMatch(uint256 matchId, bytes32 commit) external payable {
+    function joinMatch(uint256 matchId) external payable {
         Match storage m = matches[matchId];
         if (m.state != MatchState.WaitingForOpponent) revert WrongState();
         if (msg.sender == m.playerA) revert CannotJoinOwnMatch();
         if (msg.value != m.bet) revert BetMismatch();
 
         m.playerB = msg.sender;
-        m.commitB = commit;
-        m.joinedAt = uint64(block.timestamp);
-        m.revealDeadline = uint64(block.timestamp + REVEAL_TIMEOUT);
-        m.state = MatchState.Revealing;
+        uint40 deadline = uint40(block.timestamp + COMMIT_WINDOW);
+        m.commitDeadline = deadline;
+        m.state = MatchState.Scouting;
 
-        emit MatchJoined(matchId, msg.sender, block.timestamp, m.revealDeadline);
+        emit MatchJoined(matchId, msg.sender, block.timestamp, deadline);
+    }
+
+    /// @notice Seal your move during the scouting window. Once both players have committed,
+    ///         the match advances to the reveal phase.
+    /// @param matchId Match to commit to.
+    /// @param commit `keccak256(abi.encodePacked(msg.sender, move, salt))`.
+    function commitMove(uint256 matchId, bytes32 commit) external {
+        Match storage m = matches[matchId];
+        if (m.state != MatchState.Scouting) revert WrongState();
+        if (block.timestamp > m.commitDeadline) revert TooLate();
+        if (commit == bytes32(0)) revert InvalidCommit();
+
+        if (msg.sender == m.playerA) {
+            if (m.commitA != bytes32(0)) revert AlreadyCommitted();
+            m.commitA = commit;
+        } else if (msg.sender == m.playerB) {
+            if (m.commitB != bytes32(0)) revert AlreadyCommitted();
+            m.commitB = commit;
+        } else {
+            revert NotPlayer();
+        }
+
+        emit MoveCommitted(matchId, msg.sender);
+
+        if (m.commitA != bytes32(0) && m.commitB != bytes32(0)) {
+            uint40 deadline = uint40(block.timestamp + REVEAL_WINDOW);
+            m.revealDeadline = deadline;
+            m.state = MatchState.Revealing;
+            emit RevealPhase(matchId, deadline);
+        }
     }
 
     /// @notice Reveal your move and salt. Settles automatically once both reveal.
     function reveal(uint256 matchId, Move move, bytes32 salt) external {
         Match storage m = matches[matchId];
         if (m.state != MatchState.Revealing) revert WrongState();
+        // Reveal is only valid within the window. Past the deadline the match can only be
+        // finalized via claimRevealTimeout, so reveal() and the timeout are never both live
+        // on the same state — settlement is deterministic, not decided by transaction order.
+        if (block.timestamp > m.revealDeadline) revert TooLate();
         if (move == Move.None) revert InvalidMove();
 
         bytes32 expected = keccak256(abi.encodePacked(msg.sender, move, salt));
@@ -203,11 +253,54 @@ contract RPSCore {
         }
     }
 
-    /// @notice After the reveal deadline, finalize a match where a player failed to
-    ///         reveal. The revealed player wins; if neither revealed, both are refunded.
-    /// @dev    Permissionless on purpose: anyone (the winner or a keeper) can finalize,
-    ///         so a non-revealing loser can only delay payout by the timeout, never deny it.
-    function claimTimeout(uint256 matchId) external {
+    /// @notice After the scouting window, finalize a match where a player failed to commit.
+    ///         The player who committed wins the pot by forfeit; if neither committed, both
+    ///         are refunded.
+    /// @dev    Permissionless on purpose: anyone can finalize, so a player who refuses to
+    ///         commit can only delay payout by the window, never deny it.
+    ///         Forfeits do NOT touch stats or ranked progression — reputation is recorded
+    ///         only from fully-revealed, head-to-head settlements (`_settle`). This keeps the
+    ///         on-chain record meaningful and removes the incentive to farm rank by
+    ///         self-matching and forfeiting (the only cost of which would be the fee).
+    function claimCommitTimeout(uint256 matchId) external {
+        Match storage m = matches[matchId];
+        if (m.state != MatchState.Scouting) revert WrongState();
+        if (block.timestamp <= m.commitDeadline) revert TooEarly();
+
+        bool aCommitted = m.commitA != bytes32(0);
+        bool bCommitted = m.commitB != bytes32(0);
+        uint256 pot = uint256(m.bet) * 2;
+
+        if (aCommitted && !bCommitted) {
+            m.state = MatchState.Settled;
+            uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
+            uint256 payout = pot - fee;
+            pendingWithdrawals[m.playerA] += payout;
+            pendingWithdrawals[treasury] += fee;
+            emit Settled(matchId, m.playerA, payout, fee, Move.None, Move.None);
+        } else if (bCommitted && !aCommitted) {
+            m.state = MatchState.Settled;
+            uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
+            uint256 payout = pot - fee;
+            pendingWithdrawals[m.playerB] += payout;
+            pendingWithdrawals[treasury] += fee;
+            emit Settled(matchId, m.playerB, payout, fee, Move.None, Move.None);
+        } else {
+            // Neither committed: refund both, no fee.
+            m.state = MatchState.Cancelled;
+            pendingWithdrawals[m.playerA] += m.bet;
+            pendingWithdrawals[m.playerB] += m.bet;
+            emit MatchCancelled(matchId);
+        }
+    }
+
+    /// @notice After the reveal deadline, finalize a match where a player failed to reveal.
+    ///         The revealed player wins; if neither revealed, both are refunded.
+    /// @dev    Permissionless on purpose: anyone (the winner or a keeper) can finalize.
+    ///         Like the commit timeout, a forfeit pays out the pot but does NOT record stats
+    ///         or ranked progression — reputation comes only from fully-revealed settlements
+    ///         (`_settle`), so it cannot be farmed by self-matching and forfeiting.
+    function claimRevealTimeout(uint256 matchId) external {
         Match storage m = matches[matchId];
         if (m.state != MatchState.Revealing) revert WrongState();
         if (block.timestamp <= m.revealDeadline) revert TooEarly();
@@ -223,11 +316,6 @@ contract RPSCore {
             pendingWithdrawals[m.playerA] += payout;
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerA, payout, fee, m.revealA, m.revealB);
-            _recordStats(m.playerA, m.revealA, RESULT_WIN);
-            if (m.mode == Mode.Ranked) {
-                _recordRanked(m.playerA, RESULT_WIN);
-                _recordRanked(m.playerB, RESULT_LOSS); // forfeit by no-reveal
-            }
         } else if (bRevealed && !aRevealed) {
             m.state = MatchState.Settled;
             uint256 fee = pot * FEE_BPS / BPS_DENOMINATOR;
@@ -235,11 +323,6 @@ contract RPSCore {
             pendingWithdrawals[m.playerB] += payout;
             pendingWithdrawals[treasury] += fee;
             emit Settled(matchId, m.playerB, payout, fee, m.revealA, m.revealB);
-            _recordStats(m.playerB, m.revealB, RESULT_WIN);
-            if (m.mode == Mode.Ranked) {
-                _recordRanked(m.playerB, RESULT_WIN);
-                _recordRanked(m.playerA, RESULT_LOSS); // forfeit by no-reveal
-            }
         } else {
             // Neither revealed: refund both, no fee.
             m.state = MatchState.Cancelled;
@@ -250,6 +333,8 @@ contract RPSCore {
     }
 
     /// @notice Cancel an open match that never found an opponent and reclaim the bet.
+    /// @dev    Only valid while WaitingForOpponent. Once matched, a player exits via the
+    ///         commit / reveal timeouts (a no-show forfeits to the opponent).
     function cancelMatch(uint256 matchId) external {
         Match storage m = matches[matchId];
         if (m.state != MatchState.WaitingForOpponent) revert WrongState();

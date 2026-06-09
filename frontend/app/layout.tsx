@@ -3,9 +3,10 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Foreseen — On-chain Rock Paper Scissors",
+  title: "Foreseen — the Rock Paper Scissors mind-sport",
   description:
-    "A psychological mind-sport on Celo. Commit-reveal Rock Paper Scissors with on-chain stats, ranked play and Soulbound ranks.",
+    "A skill-based mind-sport on Celo mainnet. Matchmake, scout your opponent's on-chain history, then commit blind. A game of reading, not luck — not gambling.",
+  icons: { icon: "/foreseen-eye.jpg" },
 };
 
 export default function RootLayout({

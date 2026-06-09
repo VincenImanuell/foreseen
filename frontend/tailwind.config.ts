@@ -24,6 +24,30 @@ const config: Config = {
       },
       boxShadow: {
         glow: "0 0 30px -5px rgba(124, 92, 255, 0.45)",
+        "glow-lg": "0 0 80px -10px rgba(124, 92, 255, 0.55)",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        glowPulse: {
+          "0%, 100%": { opacity: "0.55", transform: "scale(1)" },
+          "50%": { opacity: "0.9", transform: "scale(1.06)" },
+        },
+        spinSlow: {
+          to: { transform: "rotate(360deg)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "200% 50%" },
+        },
+      },
+      animation: {
+        float: "float 6s ease-in-out infinite",
+        glowPulse: "glowPulse 5s ease-in-out infinite",
+        spinSlow: "spinSlow 40s linear infinite",
+        shimmer: "shimmer 6s linear infinite",
       },
     },
   },

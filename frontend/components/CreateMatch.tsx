@@ -1,17 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { parseEther, parseEventLogs } from "viem";
+import { parseEther } from "viem";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { rpsCore } from "@/lib/contracts";
-import {
-  computeCommit,
-  MOVES,
-  Mode,
-  Move,
-  randomSalt,
-  saveSecret,
-} from "@/lib/rps";
+import { Mode } from "@/lib/rps";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
 
 export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
@@ -19,46 +12,29 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
   const publicClient = usePublicClient();
   const { writeContractAsync } = useWriteContract();
 
-  const [move, setMove] = useState<Move | null>(null);
   const [bet, setBet] = useState("0.01");
   const [mode, setMode] = useState<Mode>(Mode.Casual);
   const [status, setStatus] = useState<TxStatus>({ kind: "idle" });
 
   const busy = status.kind === "pending";
-  const canSubmit =
-    isConnected && move !== null && Number(bet) > 0 && !busy && !!publicClient;
+  const canSubmit = isConnected && Number(bet) > 0 && !busy && !!publicClient;
 
   async function handleCreate() {
-    if (!address || move === null || !publicClient) return;
+    if (!address || !publicClient) return;
     try {
-      const salt = randomSalt();
-      const commit = computeCommit(address, move, salt);
       setStatus({ kind: "pending", msg: "Confirm in your wallet…" });
-
       const hash = await writeContractAsync({
         ...rpsCore,
         functionName: "createMatch",
-        args: [mode, commit],
+        args: [mode],
         value: parseEther(bet),
       });
-
-      setStatus({ kind: "pending", msg: "Sealing your move on-chain…" });
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
-      const logs = parseEventLogs({
-        abi: rpsCore.abi,
-        logs: receipt.logs,
-        eventName: "MatchCreated",
-      });
-      const matchId = (logs[0]?.args as { matchId: bigint }).matchId;
-
-      // Persist the secret — without it you can never reveal & claim.
-      saveSecret(publicClient.chain.id, matchId, address, { move, salt });
-
+      setStatus({ kind: "pending", msg: "Opening your match on-chain…" });
+      await publicClient.waitForTransactionReceipt({ hash });
       setStatus({
         kind: "success",
-        msg: `Match #${matchId.toString()} opened. Your move is sealed — wait for a challenger.`,
+        msg: "Match opened. When someone joins, scout them — then commit your move.",
       });
-      setMove(null);
       onChanged?.();
     } catch (e) {
       setStatus({ kind: "error", msg: shortError(e) });
@@ -69,26 +45,9 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
     <div className="card">
       <h2 className="font-display text-lg font-bold">Open a match</h2>
       <p className="mt-1 text-sm text-slate-400">
-        Pick your move in secret. It’s committed as a hash — your opponent can’t
-        see it until you both reveal.
+        Set your stake — no move yet. You pick your throw <em>after</em> an
+        opponent joins and you’ve scouted them.
       </p>
-
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        {MOVES.map((m) => (
-          <button
-            key={m.value}
-            onClick={() => setMove(m.value)}
-            className={`flex flex-col items-center gap-1 rounded-xl border py-3 text-sm transition ${
-              move === m.value
-                ? "border-oracle-purple bg-oracle-purple/15 text-white shadow-glow"
-                : "border-white/10 hover:border-white/25"
-            }`}
-          >
-            <span className="text-2xl">{m.emoji}</span>
-            {m.label}
-          </button>
-        ))}
-      </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
         <label className="text-sm">
@@ -120,7 +79,7 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
         disabled={!canSubmit}
         onClick={handleCreate}
       >
-        {busy ? "Working…" : "Seal move & open match"}
+        {busy ? "Working…" : "Open match"}
       </button>
 
       <StatusBanner status={status} />

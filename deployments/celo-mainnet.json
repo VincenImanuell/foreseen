@@ -5,37 +5,44 @@
   "explorer": "https://celoscan.io",
   "deployer": "0xe39A646BB19aBfefE11b5d8bB0907D7c20B48841",
   "deployScript": "script/DeploySystem.s.sol:DeploySystem",
+  "version": "v2-matchmaking-first",
+  "notes": "v2 flow: createMatch(mode) -> joinMatch(id) -> commitMove(id,hash) x2 -> reveal x2. 90s commit (scouting) + 90s reveal windows. Forfeits pay the pot but record no reputation. Supersedes v1 (RPSCore 0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80).",
   "contracts": {
     "RPSCore": {
-      "address": "0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80",
-      "treasury": "0x81A445ec7fC8d41956b2a8811b57597b3e1Fc985",
-      "stats": "0x50dF5d5924dA98Ab8e84329d47048c54094c16D8",
-      "ranked": "0x7a5B97Ad9aa3E98Ca2f8e63312Fc70e52ed869D5",
-      "feeBps": 500
+      "address": "0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e",
+      "treasury": "0xFF81B19dE799e828f3b76bC3240896Fa73d22540",
+      "stats": "0x0f5F94A4f5C72CAc4D6E69a6DD89341c7b1a475A",
+      "ranked": "0x8230D28C9a8Fbda2490F830c6cBc1cE3056096cb",
+      "feeBps": 500,
+      "commitWindowSeconds": 90,
+      "revealWindowSeconds": 90
     },
     "RPSStats": {
-      "address": "0x50dF5d5924dA98Ab8e84329d47048c54094c16D8",
-      "recorder": "0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80",
+      "address": "0x0f5F94A4f5C72CAc4D6E69a6DD89341c7b1a475A",
+      "recorder": "0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e",
       "recorderLocked": true
     },
     "RPSRanked": {
-      "address": "0x7a5B97Ad9aa3E98Ca2f8e63312Fc70e52ed869D5",
-      "recorder": "0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80",
+      "address": "0x8230D28C9a8Fbda2490F830c6cBc1cE3056096cb",
+      "recorder": "0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e",
       "recorderLocked": true,
-      "badge": "0x1cCE5ecE0E7F8fb5C6523293E87d70C11Fb5A45A"
+      "badge": "0x0bF75Da1E76df7c7619d1Beb738DD34b96EDd8b6"
     },
     "RPSSoulbound": {
-      "address": "0x1cCE5ecE0E7F8fb5C6523293E87d70C11Fb5A45A",
-      "minter": "0x7a5B97Ad9aa3E98Ca2f8e63312Fc70e52ed869D5",
+      "address": "0x0bF75Da1E76df7c7619d1Beb738DD34b96EDd8b6",
+      "minter": "0x8230D28C9a8Fbda2490F830c6cBc1cE3056096cb",
       "minterLocked": true,
       "name": "Foreseen Rank Badge",
       "symbol": "FORESEEN"
     },
     "RPSTreasury": {
-      "address": "0x81A445ec7fC8d41956b2a8811b57597b3e1Fc985",
-      "core": "0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80",
+      "address": "0xFF81B19dE799e828f3b76bC3240896Fa73d22540",
+      "core": "0x4DFc92FF97378D0F5E82d44EB968cb7793C5b90e",
       "coreLocked": true,
       "distributor": "0xe39A646BB19aBfefE11b5d8bB0907D7c20B48841"
     }
+  },
+  "previousDeployments": {
+    "v1_RPSCore": "0xcbdF1F8B2bfC2b482A63CdFA4e20077EEb3D1f80"
   }
 }

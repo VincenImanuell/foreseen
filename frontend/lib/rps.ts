@@ -6,7 +6,7 @@ import {
   type Hex,
 } from "viem";
 
-// ---- On-chain enums (must match RPSCore.sol exactly) ----------------------
+// ---- On-chain enums (must match RPSCore.sol v2 exactly) -------------------
 
 export enum Move {
   None = 0,
@@ -23,10 +23,13 @@ export enum Mode {
 export enum MatchState {
   None = 0,
   WaitingForOpponent = 1,
-  Revealing = 2,
-  Settled = 3,
-  Cancelled = 4,
+  Scouting = 2,
+  Revealing = 3,
+  Settled = 4,
+  Cancelled = 5,
 }
+
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export const MOVES: { value: Move; label: string; emoji: string }[] = [
   { value: Move.Rock, label: "Rock", emoji: "🪨" },
@@ -42,41 +45,102 @@ export function moveEmoji(m: Move): string {
   return MOVES.find((x) => x.value === m)?.emoji ?? "❔";
 }
 
-export const REVEAL_TIMEOUT_SECONDS = 5 * 60;
+// Match windows (seconds) — must match the contract constants.
+export const COMMIT_WINDOW_SECONDS = 90;
+export const REVEAL_WINDOW_SECONDS = 90;
 
 // ---- Match shape decoded from getMatch() ----------------------------------
 
 export type RpsMatch = {
   playerA: Address;
+  bet: bigint;
   playerB: Address;
+  commitDeadline: bigint;
+  revealDeadline: bigint;
+  mode: Mode;
+  state: MatchState;
   commitA: Hex;
   commitB: Hex;
   revealA: Move;
   revealB: Move;
-  bet: bigint;
-  createdAt: bigint;
-  joinedAt: bigint;
-  revealDeadline: bigint;
-  mode: Mode;
-  state: MatchState;
 };
 
-/** Normalize the tuple/struct that viem returns from getMatch() / matches(). */
+/** Normalize the struct viem returns from getMatch(). */
 export function toRpsMatch(raw: any): RpsMatch {
   return {
     playerA: raw.playerA,
+    bet: BigInt(raw.bet),
     playerB: raw.playerB,
+    commitDeadline: BigInt(raw.commitDeadline),
+    revealDeadline: BigInt(raw.revealDeadline),
+    mode: Number(raw.mode) as Mode,
+    state: Number(raw.state) as MatchState,
     commitA: raw.commitA,
     commitB: raw.commitB,
     revealA: Number(raw.revealA) as Move,
     revealB: Number(raw.revealB) as Move,
-    bet: BigInt(raw.bet),
-    createdAt: BigInt(raw.createdAt),
-    joinedAt: BigInt(raw.joinedAt),
-    revealDeadline: BigInt(raw.revealDeadline),
-    mode: Number(raw.mode) as Mode,
-    state: Number(raw.state) as MatchState,
   };
+}
+
+const ZERO_HASH =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
+
+/** Has this side sealed a move yet (commit != 0)? */
+export function hasCommitted(commit?: Hex): boolean {
+  return !!commit && commit !== ZERO_HASH;
+}
+
+// ---- On-chain behavioral stats (RPSStats.getStats) ------------------------
+
+export type RpsStats = {
+  totalMatches: bigint;
+  wins: bigint;
+  losses: bigint;
+  draws: bigint;
+  moveCount: [bigint, bigint, bigint];
+  afterWinMove: [bigint, bigint, bigint];
+  afterLossMove: [bigint, bigint, bigint];
+  afterDrawMove: [bigint, bigint, bigint];
+};
+
+export function toRpsStats(raw: any): RpsStats {
+  const trip = (a: any): [bigint, bigint, bigint] => [
+    BigInt(a[0]),
+    BigInt(a[1]),
+    BigInt(a[2]),
+  ];
+  return {
+    totalMatches: BigInt(raw.totalMatches),
+    wins: BigInt(raw.wins),
+    losses: BigInt(raw.losses),
+    draws: BigInt(raw.draws),
+    moveCount: trip(raw.moveCount),
+    afterWinMove: trip(raw.afterWinMove),
+    afterLossMove: trip(raw.afterLossMove),
+    afterDrawMove: trip(raw.afterDrawMove),
+  };
+}
+
+/** Percentage split (0..100) of a 3-bucket move tally. */
+export function distributionPct(
+  counts: [bigint, bigint, bigint],
+): [number, number, number] {
+  const total = Number(counts[0] + counts[1] + counts[2]);
+  if (total === 0) return [0, 0, 0];
+  return [
+    Math.round((Number(counts[0]) / total) * 100),
+    Math.round((Number(counts[1]) / total) * 100),
+    Math.round((Number(counts[2]) / total) * 100),
+  ];
+}
+
+/** Index (0..2) of the most-played bucket, or -1 if no data. */
+export function dominantMove(counts: [bigint, bigint, bigint]): number {
+  const total = counts[0] + counts[1] + counts[2];
+  if (total === 0n) return -1;
+  let best = 0;
+  for (let i = 1; i < 3; i++) if (counts[i] > counts[best]) best = i;
+  return best;
 }
 
 // ---- Commit-reveal crypto --------------------------------------------------

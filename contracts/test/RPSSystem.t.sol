@@ -51,9 +51,13 @@ contract RPSSystemTest is Test {
 
     function _play(RPSCore.Mode mode, RPSCore.Move a, RPSCore.Move b) internal {
         vm.prank(alice);
-        uint256 id = core.createMatch{ value: BET }(mode, _commit(alice, a, SALT_A));
+        uint256 id = core.createMatch{ value: BET }(mode);
         vm.prank(bob);
-        core.joinMatch{ value: BET }(id, _commit(bob, b, SALT_B));
+        core.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core.commitMove(id, _commit(alice, a, SALT_A));
+        vm.prank(bob);
+        core.commitMove(id, _commit(bob, b, SALT_B));
         vm.prank(alice);
         core.reveal(id, a, SALT_A);
         vm.prank(bob);
@@ -123,23 +127,26 @@ contract RPSSystemTest is Test {
         assertEq(uint8(ranked.getProgress(alice).peakRank), uint8(RPSRanked.Rank.Silver));
     }
 
-    function test_RankedTimeout_ForfeiterLosesStreak() public {
+    function test_RankedTimeout_RecordsNoProgression() public {
         // alice builds a streak, then a ranked opponent times out the next match.
-        _rankedAliceWin(); // alice streak 1
-        // new ranked match: alice reveals, bob never does
+        _rankedAliceWin(); // alice streak 1, bob 1 loss (from the real settled match)
+        // new ranked match: both commit, alice reveals, bob never does
         vm.prank(alice);
-        uint256 id = core.createMatch{ value: BET }(
-            RPSCore.Mode.Ranked, _commit(alice, RPSCore.Move.Rock, SALT_A)
-        );
+        uint256 id = core.createMatch{ value: BET }(RPSCore.Mode.Ranked);
         vm.prank(bob);
-        core.joinMatch{ value: BET }(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
+        core.joinMatch{ value: BET }(id);
+        vm.prank(alice);
+        core.commitMove(id, _commit(alice, RPSCore.Move.Rock, SALT_A));
+        vm.prank(bob);
+        core.commitMove(id, _commit(bob, RPSCore.Move.Paper, SALT_B));
         vm.prank(alice);
         core.reveal(id, RPSCore.Move.Rock, SALT_A);
-        vm.warp(block.timestamp + core.REVEAL_TIMEOUT() + 1);
-        core.claimTimeout(id);
+        vm.warp(block.timestamp + core.REVEAL_WINDOW() + 1);
+        core.claimRevealTimeout(id);
 
-        assertEq(ranked.streakOf(alice), 2); // win by timeout extends streak
-        // bob lost match 1 and forfeited match 2 -> 2 ranked losses (forfeit counts).
-        assertEq(ranked.getProgress(bob).losses, 2);
+        // The forfeit pays alice the pot but does not move ranked progression: reputation
+        // only changes on fully-revealed settlements, so a no-show can't be farmed for rank.
+        assertEq(ranked.streakOf(alice), 1); // unchanged by the timeout win
+        assertEq(ranked.getProgress(bob).losses, 1); // only the match-1 loss counts
     }
 }

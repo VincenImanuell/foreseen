@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formatEther, type Hex } from "viem";
 import {
   useAccount,
@@ -11,6 +11,7 @@ import {
 import { rpsCore } from "@/lib/contracts";
 import {
   computeCommit,
+  hasCommitted,
   loadSecret,
   MOVES,
   MatchState,
@@ -22,33 +23,55 @@ import {
   resultOf,
   saveSecret,
   shortAddress,
+  ZERO_ADDRESS,
 } from "@/lib/rps";
+import { Countdown } from "./Countdown";
+import { ScoutPanel } from "./ScoutPanel";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
+import { useNow } from "./useNow";
 import type { MatchEntry } from "./useMatches";
-
-/** Ticks once a second so reveal countdowns stay live. */
-function useNow() {
-  const [now, setNow] = useState(() => Math.floor(Date.now() / 1000));
-  useEffect(() => {
-    const t = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
-    return () => clearInterval(t);
-  }, []);
-  return now;
-}
 
 function StateBadge({ state }: { state: MatchState }) {
   const map: Record<MatchState, [string, string]> = {
     [MatchState.None]: ["—", "bg-white/10 text-slate-300"],
-    [MatchState.WaitingForOpponent]: [
-      "Open",
-      "bg-oracle-cyan/15 text-oracle-cyan",
-    ],
+    [MatchState.WaitingForOpponent]: ["Open", "bg-oracle-cyan/15 text-oracle-cyan"],
+    [MatchState.Scouting]: ["Scouting", "bg-oracle-gold/15 text-oracle-gold"],
     [MatchState.Revealing]: ["Revealing", "bg-oracle-purple/20 text-oracle-purple"],
     [MatchState.Settled]: ["Settled", "bg-emerald-500/15 text-emerald-300"],
     [MatchState.Cancelled]: ["Cancelled", "bg-white/10 text-slate-400"],
   };
   const [label, cls] = map[state];
   return <span className={`badge ${cls}`}>{label}</span>;
+}
+
+function MovePicker({
+  value,
+  onPick,
+  disabled,
+}: {
+  value: Move | null;
+  onPick: (m: Move) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {MOVES.map((m) => (
+        <button
+          key={m.value}
+          disabled={disabled}
+          onClick={() => onPick(m.value)}
+          className={`flex flex-col items-center gap-1 rounded-xl border py-3 text-sm transition disabled:opacity-40 ${
+            value === m.value
+              ? "border-oracle-purple bg-oracle-purple/15 text-white shadow-glow"
+              : "border-white/10 hover:border-white/25"
+          }`}
+        >
+          <span className="text-2xl">{m.emoji}</span>
+          {m.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export function MatchCard({
@@ -66,7 +89,7 @@ export function MatchCard({
   const now = useNow();
 
   const [status, setStatus] = useState<TxStatus>({ kind: "idle" });
-  const [joinMove, setJoinMove] = useState<Move | null>(null);
+  const [pickMove, setPickMove] = useState<Move | null>(null);
   const [manualMove, setManualMove] = useState<Move | null>(null);
   const [manualSalt, setManualSalt] = useState("");
 
@@ -76,16 +99,29 @@ export function MatchCard({
   const isPlayer = isA || isB;
   const busy = status.kind === "pending";
 
+  const opponent = isA ? match.playerB : match.playerA;
+  const iCommitted = isA
+    ? hasCommitted(match.commitA)
+    : isB
+      ? hasCommitted(match.commitB)
+      : false;
+  const oppCommitted = isA
+    ? hasCommitted(match.commitB)
+    : isB
+      ? hasCommitted(match.commitA)
+      : false;
   const iRevealed = isA
     ? match.revealA !== Move.None
     : isB
       ? match.revealB !== Move.None
       : false;
-  const deadlinePassed =
-    match.state === MatchState.Revealing &&
-    now > Number(match.revealDeadline) &&
-    match.revealDeadline > 0n;
-  const secondsLeft = Number(match.revealDeadline) - now;
+
+  const commitOver =
+    match.state === MatchState.Scouting && now > Number(match.commitDeadline);
+  const revealOver =
+    match.state === MatchState.Revealing && now > Number(match.revealDeadline);
+
+  const haveSecret = !!address && !!loadSecret(chainId, id, address);
 
   async function run(label: string, fn: () => Promise<Hex>) {
     if (!publicClient) return;
@@ -102,17 +138,28 @@ export function MatchCard({
   }
 
   function doJoin() {
-    if (!address || joinMove === null) return;
-    const salt = randomSalt();
-    const commit = computeCommit(address, joinMove, salt);
-    run("Join match", async () => {
-      const hash = await writeContractAsync({
+    run("Join match", () =>
+      writeContractAsync({
         ...rpsCore,
         functionName: "joinMatch",
-        args: [id, commit],
+        args: [id],
         value: match.bet,
+      }),
+    );
+  }
+
+  function doCommit() {
+    if (!address || pickMove === null) return;
+    const salt = randomSalt();
+    const commit = computeCommit(address, pickMove, salt);
+    run("Commit move", async () => {
+      const hash = await writeContractAsync({
+        ...rpsCore,
+        functionName: "commitMove",
+        args: [id, commit],
       });
-      saveSecret(chainId, id, address, { move: joinMove, salt });
+      // Persist the secret — without it you can never reveal & claim.
+      saveSecret(chainId, id, address, { move: pickMove, salt });
       return hash;
     });
   }
@@ -132,27 +179,17 @@ export function MatchCard({
     );
   }
 
-  function doClaimTimeout() {
-    run("Claim timeout", () =>
-      writeContractAsync({
-        ...rpsCore,
-        functionName: "claimTimeout",
-        args: [id],
-      }),
+  function doClaim(fnName: "claimCommitTimeout" | "claimRevealTimeout") {
+    run("Finalize match", () =>
+      writeContractAsync({ ...rpsCore, functionName: fnName, args: [id] }),
     );
   }
 
   function doCancel() {
     run("Cancel match", () =>
-      writeContractAsync({
-        ...rpsCore,
-        functionName: "cancelMatch",
-        args: [id],
-      }),
+      writeContractAsync({ ...rpsCore, functionName: "cancelMatch", args: [id] }),
     );
   }
-
-  const haveSecret = !!address && !!loadSecret(chainId, id, address);
 
   return (
     <div className="card">
@@ -161,9 +198,7 @@ export function MatchCard({
           <span className="font-display font-bold">Match #{id.toString()}</span>
           <StateBadge state={match.state} />
           {match.mode === Mode.Ranked && (
-            <span className="badge bg-oracle-gold/15 text-oracle-gold">
-              Ranked
-            </span>
+            <span className="badge bg-oracle-gold/15 text-oracle-gold">Ranked</span>
           )}
         </div>
         <div className="text-right">
@@ -178,7 +213,7 @@ export function MatchCard({
         <span className="font-mono">{shortAddress(match.playerA)}</span>
         {isA && <span className="text-oracle-cyan"> (you)</span>}
         <span className="mx-1">vs</span>
-        {match.playerB === "0x0000000000000000000000000000000000000000" ? (
+        {match.playerB === ZERO_ADDRESS ? (
           <span className="italic text-slate-600">waiting…</span>
         ) : (
           <>
@@ -196,33 +231,62 @@ export function MatchCard({
               Cancel & refund my bet
             </button>
           ) : (
-            <>
-              <div className="mb-2 text-sm text-slate-400">
-                Match the {formatEther(match.bet)} CELO bet and seal your move:
+            <button className="btn-primary w-full" disabled={busy} onClick={doJoin}>
+              Join — match {formatEther(match.bet)} CELO
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* ---- Scouting: study opponent, then commit ---- */}
+      {match.state === MatchState.Scouting && (
+        <div className="mt-3 space-y-3">
+          <div className="flex items-center justify-between text-xs text-slate-400">
+            <span>Scouting window</span>
+            <Countdown deadline={match.commitDeadline} className="text-sm" />
+          </div>
+
+          {isPlayer && <ScoutPanel opponent={opponent} />}
+
+          {isPlayer && !iCommitted && !commitOver && (
+            <div className="space-y-2">
+              <div className="text-sm text-slate-300">
+                Read them, then seal your move:
               </div>
-              <div className="grid grid-cols-3 gap-2">
-                {MOVES.map((m) => (
-                  <button
-                    key={m.value}
-                    onClick={() => setJoinMove(m.value)}
-                    className={`rounded-xl border py-2 text-sm transition ${
-                      joinMove === m.value
-                        ? "border-oracle-purple bg-oracle-purple/15"
-                        : "border-white/10 hover:border-white/25"
-                    }`}
-                  >
-                    {m.emoji} {m.label}
-                  </button>
-                ))}
-              </div>
+              <MovePicker value={pickMove} onPick={setPickMove} disabled={busy} />
               <button
-                className="btn-primary mt-2 w-full"
-                disabled={busy || joinMove === null}
-                onClick={doJoin}
+                className="btn-primary w-full"
+                disabled={busy || pickMove === null}
+                onClick={doCommit}
               >
-                Join & seal move
+                Commit move (sealed)
               </button>
-            </>
+            </div>
+          )}
+
+          {isPlayer && iCommitted && (
+            <div className="text-sm text-emerald-300">
+              ✓ Your move is sealed.{" "}
+              {oppCommitted
+                ? "Both committed — opening reveal…"
+                : "Waiting for your opponent to commit."}
+            </div>
+          )}
+
+          {commitOver && (
+            <button
+              className="btn-gold w-full"
+              disabled={busy}
+              onClick={() => doClaim("claimCommitTimeout")}
+            >
+              Scouting window over — finalize
+            </button>
+          )}
+
+          {!isPlayer && (
+            <div className="text-xs text-slate-500">
+              Players are scouting & committing their moves.
+            </div>
           )}
         </div>
       )}
@@ -230,18 +294,12 @@ export function MatchCard({
       {/* ---- Revealing ---- */}
       {match.state === MatchState.Revealing && (
         <div className="mt-3 space-y-2">
-          {!deadlinePassed && (
-            <div className="text-xs text-slate-400">
-              Reveal window:{" "}
-              <span className="font-mono text-oracle-purple">
-                {Math.max(0, Math.floor(secondsLeft / 60))}m{" "}
-                {Math.max(0, secondsLeft % 60)}s
-              </span>{" "}
-              left
-            </div>
-          )}
+          <div className="flex items-center justify-between text-xs text-slate-400">
+            <span>Reveal window</span>
+            <Countdown deadline={match.revealDeadline} className="text-sm" />
+          </div>
 
-          {isPlayer && !iRevealed && (
+          {isPlayer && !iRevealed && !revealOver && (
             <>
               {haveSecret ? (
                 <button
@@ -257,20 +315,12 @@ export function MatchCard({
                     Secret not found in this browser. Enter your move & salt to
                     reveal:
                   </div>
-                  <div className="mt-2 grid grid-cols-3 gap-2">
-                    {MOVES.map((m) => (
-                      <button
-                        key={m.value}
-                        onClick={() => setManualMove(m.value)}
-                        className={`rounded-lg border py-1.5 text-xs ${
-                          manualMove === m.value
-                            ? "border-oracle-purple bg-oracle-purple/15"
-                            : "border-white/10"
-                        }`}
-                      >
-                        {m.emoji}
-                      </button>
-                    ))}
+                  <div className="mt-2">
+                    <MovePicker
+                      value={manualMove}
+                      onPick={setManualMove}
+                      disabled={busy}
+                    />
                   </div>
                   <input
                     className="input mt-2 font-mono text-xs"
@@ -290,32 +340,32 @@ export function MatchCard({
             </>
           )}
 
-          {isPlayer && iRevealed && (
+          {isPlayer && iRevealed && !revealOver && (
             <div className="text-sm text-emerald-300">
               You revealed — waiting for your opponent.
             </div>
           )}
 
-          {deadlinePassed && (
+          {revealOver && (
             <button
               className="btn-gold w-full"
               disabled={busy}
-              onClick={doClaimTimeout}
+              onClick={() => doClaim("claimRevealTimeout")}
             >
-              Reveal window over — finalize (claim timeout)
+              Reveal window over — finalize
             </button>
           )}
         </div>
       )}
 
-      {/* ---- Settled ---- */}
+      {/* ---- Settled / Cancelled ---- */}
       {match.state === MatchState.Settled && (
         <SettledSummary match={match} isA={isA} isB={isB} />
       )}
 
       {match.state === MatchState.Cancelled && (
         <div className="mt-3 text-sm text-slate-400">
-          Cancelled — bets refunded to claimable balance.
+          Cancelled — bets refunded to your claimable balance.
         </div>
       )}
 
@@ -333,6 +383,17 @@ function SettledSummary({
   isA: boolean;
   isB: boolean;
 }) {
+  // A forfeit settles with no revealed moves (both None).
+  const isForfeit = match.revealA === Move.None && match.revealB === Move.None;
+  if (isForfeit) {
+    return (
+      <div className="mt-3 rounded-xl border border-white/10 bg-void/40 p-3 text-center text-sm">
+        Settled by forfeit — a player ran out the clock. Pot paid to the player
+        who showed up; collect from your claimable balance.
+      </div>
+    );
+  }
+
   const r = resultOf(match.revealA, match.revealB);
   let outcome: string;
   if (r === 0) outcome = "Draw — both bets refunded.";
