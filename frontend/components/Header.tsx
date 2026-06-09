@@ -24,6 +24,12 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-3">
+          <Link
+            href="/#how"
+            className="hidden text-xs text-slate-400 hover:text-white sm:block"
+          >
+            How to play
+          </Link>
           <a
             href={`https://celoscan.io/address/${RPS_CORE_ADDRESS}`}
             target="_blank"
