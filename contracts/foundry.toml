@@ -13,11 +13,13 @@ line_length = 100
 tab_width = 4
 bracket_spacing = true
 
-# Celo Sepolia testnet only (no mainnet during development)
+# Celo Sepolia testnet (development) + Celo mainnet (production deploy)
 [rpc_endpoints]
 celo_sepolia = "https://forno.celo-sepolia.celo-testnet.org"
+celo = "https://forno.celo.org"
 
 [etherscan]
 celo_sepolia = { key = "${CELOSCAN_API_KEY}", url = "https://api-sepolia.celoscan.io/api", chain = 11142220 }
+celo = { key = "${CELOSCAN_API_KEY}", url = "https://api.etherscan.io/v2/api", chain = 42220 }
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

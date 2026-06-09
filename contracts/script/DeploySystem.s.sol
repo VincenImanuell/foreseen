@@ -10,7 +10,8 @@ import { RPSTreasury } from "../src/RPSTreasury.sol";
 
 /// @notice Deploys the full Foreseen v1 system and wires every module so that all
 ///         on-chain records (stats, rank, badge, fees) flow only from real settled
-///         matches, then permanently locks each writer. Testnet (Celo Sepolia) only.
+///         matches, then permanently locks each writer. Targets Celo Sepolia (dev) and
+///         Celo mainnet (production) — note the writer locks are irreversible once mined.
 /// @dev    Deploy order respects immutable dependencies: soulbound before ranked
 ///         (ranked holds the badge), and treasury/stats/ranked before core (core holds
 ///         their addresses). Fees are routed to the RPSTreasury contract.

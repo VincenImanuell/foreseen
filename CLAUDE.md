@@ -27,9 +27,9 @@
 ### 3. ZERO biaya tambahan — cuma pakai langganan Claude Max
 - ❌ JANGAN pernah set atau pakai `ANTHROPIC_API_KEY` (itu menagih API rate, bukan kuota Max).
 - ❌ JANGAN daftar/pakai layanan berbayar, RPC berbayar, atau MCP berbayar.
-- ❌ JANGAN deploy ke **mainnet** (gas = uang asli). Hanya **testnet**.
-- ✅ Hanya pakai yang **gratis**: testnet, faucet gratis, RPC publik gratis, local node, free-tier (tanpa kartu).
-- Kalau suatu langkah butuh bayar/kartu kredit → **STOP & tanya dulu**, jangan jalan sendiri.
+- ⚠️ **Mainnet — DIIZINKAN KHUSUS (override oleh Vincen, 2026-06-09):** deploy Foreseen ke **Celo mainnet** (chainId 42220) disetujui pemilik. Gas dibayar pakai CELO milik Vincen sendiri (funded dari INDODAX). Default tetap testnet untuk chain/proyek lain; mainnet hanya untuk Foreseen sesuai persetujuan ini. Tetap **STOP & konfirmasi** sebelum broadcast tx mainnet apa pun.
+- ✅ Hanya pakai yang **gratis** untuk tooling: testnet, faucet gratis, RPC publik gratis, local node, free-tier (tanpa kartu). (Gas mainnet = pengecualian di atas.)
+- Kalau suatu langkah butuh bayar/kartu kredit di luar gas mainnet yang sudah disetujui → **STOP & tanya dulu**, jangan jalan sendiri.
 
 ---
 
