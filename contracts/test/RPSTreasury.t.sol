@@ -14,6 +14,7 @@ contract MockCore {
 
     function withdraw() external {
         uint256 amt = pendingWithdrawals[msg.sender];
+        require(amt > 0, "NothingToWithdraw"); // mirror real RPSCore.withdraw()
         pendingWithdrawals[msg.sender] = 0;
         (bool ok,) = msg.sender.call{ value: amt }("");
         require(ok, "transfer failed");
@@ -66,6 +67,14 @@ contract RPSTreasuryTest is Test {
         assertEq(treasury.tournamentPool(), 2000);
         assertEq(treasury.devPool(), 2001); // remainder
         assertEq(treasury.totalPooled(), 10_001);
+    }
+
+    function test_CollectFromCore_NoopWhenEmpty() public {
+        // No pending fees: the real RPSCore.withdraw() would revert NothingToWithdraw,
+        // so collectFromCore must guard and be a safe no-op for keepers.
+        treasury.collectFromCore();
+        assertEq(treasury.totalPooled(), 0);
+        assertEq(address(treasury).balance, 0);
     }
 
     function test_CollectableFromCore_View() public {

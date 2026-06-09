@@ -121,9 +121,14 @@ contract RPSTreasury {
     // --- fee intake ---
 
     /// @notice Pull this contract's accrued fees out of RPSCore. The withdrawal lands
-    ///         in {receive}, which splits it into the pools. Permissionless (keeper-safe).
+    ///         in {receive}, which splits it into the pools. Permissionless and keeper-safe:
+    ///         a no-op (no revert) when the core is unset or nothing is collectable, so a
+    ///         polling keeper never reverts on an empty cycle.
     function collectFromCore() external {
-        IRPSCoreFees(core).withdraw();
+        address c = core;
+        if (c == address(0)) return;
+        if (IRPSCoreFees(c).pendingWithdrawals(address(this)) == 0) return;
+        IRPSCoreFees(c).withdraw();
     }
 
     /// @notice Fees collectable from RPSCore right now.
