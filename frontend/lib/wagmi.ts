@@ -1,6 +1,6 @@
 import { createConfig, http } from "wagmi";
 import { injected } from "wagmi/connectors";
-import { celoSepolia } from "./chain";
+import { celo } from "./chain";
 
 /**
  * wagmi config. We use the `injected` connector only — it covers MetaMask,
@@ -8,10 +8,10 @@ import { celoSepolia } from "./chain";
  * accounts or WalletConnect project ids required (keeps the demo free & signup-less).
  */
 export const wagmiConfig = createConfig({
-  chains: [celoSepolia],
+  chains: [celo],
   connectors: [injected({ shimDisconnect: true })],
   transports: {
-    [celoSepolia.id]: http(),
+    [celo.id]: http(),
   },
   ssr: true,
 });

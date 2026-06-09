@@ -47,7 +47,7 @@ export default function Home() {
       </div>
 
       <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
-        Foreseen · Celo Sepolia testnet · commit-reveal RPS · no real funds
+        Foreseen · Celo mainnet · commit-reveal RPS · real CELO stakes
       </footer>
     </main>
   );

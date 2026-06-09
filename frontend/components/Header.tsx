@@ -16,7 +16,7 @@ export function Header() {
               Foreseen
             </div>
             <a
-              href={`https://sepolia.celoscan.io/address/${RPS_CORE_ADDRESS}`}
+              href={`https://celoscan.io/address/${RPS_CORE_ADDRESS}`}
               target="_blank"
               rel="noreferrer"
               className="font-mono text-[11px] text-slate-400 hover:text-oracle-cyan"

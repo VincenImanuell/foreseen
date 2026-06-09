@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
-import { celoSepolia } from "@/lib/chain";
+import { celo } from "@/lib/chain";
 import { shortAddress } from "@/lib/rps";
 import { useMounted } from "./useMounted";
 
@@ -29,13 +29,13 @@ export function ConnectButton() {
     );
   }
 
-  if (chainId !== celoSepolia.id) {
+  if (chainId !== celo.id) {
     return (
       <button
         className="btn-gold"
-        onClick={() => switchChain({ chainId: celoSepolia.id })}
+        onClick={() => switchChain({ chainId: celo.id })}
       >
-        Switch to Celo Sepolia
+        Switch to Celo
       </button>
     );
   }
@@ -43,7 +43,7 @@ export function ConnectButton() {
   return (
     <div className="flex items-center gap-2">
       <span className="badge bg-oracle-cyan/15 text-oracle-cyan">
-        ● Celo Sepolia
+        ● Celo
       </span>
       <button
         className="btn-ghost font-mono"
