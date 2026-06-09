@@ -20,7 +20,7 @@ contract RPSIntegrationTest is Test {
 
     function setUp() public {
         stats = new RPSStats(); // owner = this test
-        core = new RPSCore(treasury, address(stats));
+        core = new RPSCore(treasury, address(stats), address(0));
         stats.setRecorder(address(core));
         vm.deal(alice, 100 ether);
         vm.deal(bob, 100 ether);
@@ -114,7 +114,7 @@ contract RPSIntegrationTest is Test {
     function test_SettlementNotBlockedWhenStatsReverts() public {
         // A stats contract whose recorder is NOT this core -> recordMatch reverts.
         RPSStats badStats = new RPSStats(); // recorder left unset
-        RPSCore core2 = new RPSCore(treasury, address(badStats));
+        RPSCore core2 = new RPSCore(treasury, address(badStats), address(0));
         vm.deal(alice, 10 ether);
         vm.deal(bob, 10 ether);
 
