@@ -3,6 +3,23 @@
   "version": "0.1.0",
   "description": "TypeScript SDK for Foreseen — the on-chain Rock Paper Scissors mind-sport on Celo. Matchmake, scout opponents from their on-chain history, commit-reveal, and build bots.",
   "license": "MIT",
+  "author": "VincenImanuell",
+  "homepage": "https://github.com/VincenImanuell/foreseen/tree/main/sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VincenImanuell/foreseen.git",
+    "directory": "sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/VincenImanuell/foreseen/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
