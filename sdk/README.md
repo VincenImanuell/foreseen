@@ -1,5 +1,9 @@
 # @foreseen/sdk
 
+[![npm version](https://img.shields.io/npm/v/@foreseen/sdk.svg)](https://www.npmjs.com/package/@foreseen/sdk)
+[![npm downloads](https://img.shields.io/npm/dm/@foreseen/sdk.svg)](https://www.npmjs.com/package/@foreseen/sdk)
+[![license](https://img.shields.io/npm/l/@foreseen/sdk.svg)](https://github.com/VincenImanuell/foreseen/blob/main/LICENSE)
+
 TypeScript SDK for **Foreseen** — the on-chain Rock Paper Scissors *mind-sport* on
 Celo. Matchmake, scout an opponent from their tamper-proof on-chain history, play
 the commit–reveal flow, and build bots.
