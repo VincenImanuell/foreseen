@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
-import { RPS_CORE_ADDRESS } from "@/lib/contracts";
+import { RPS_CORE_ADDRESS, CELO_MAINNET_CONTRACTS } from "@/lib/contracts";
 import { shortAddress } from "@/lib/rps";
 
 const STEPS = [
@@ -312,9 +312,31 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-white/10 py-8 text-center text-xs text-slate-500">
-        Foreseen · Celo mainnet · skill-based mind-sport, not gambling · real
-        CELO stakes
+      <footer className="border-t border-white/10 px-4 py-10 text-center">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+            Deployed contracts · Celo mainnet
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {CELO_MAINNET_CONTRACTS.map((c) => (
+              <a
+                key={c.name}
+                href={`https://celoscan.io/address/${c.address}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs hover:border-oracle-cyan/40"
+              >
+                <span className="font-medium text-slate-300">{c.name}</span>
+                <span className="font-mono text-slate-500">
+                  {shortAddress(c.address)} ↗
+                </span>
+              </a>
+            ))}
+          </div>
+          <p className="mt-6 text-xs text-slate-500">
+            Foreseen · skill-based mind-sport, not gambling · real CELO stakes
+          </p>
+        </div>
       </footer>
     </main>
   );
