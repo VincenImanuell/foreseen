@@ -92,7 +92,7 @@ export default function Landing() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-8 flex justify-center">
             <div className="animate-float">
-              <Logo size={132} />
+              <Logo size={132} eyeOnly />
             </div>
           </div>
 
@@ -284,7 +284,7 @@ export default function Landing() {
           <Reveal>
             <div className="mb-6 flex justify-center">
               <div className="animate-float">
-                <Logo size={84} />
+                <Logo size={84} eyeOnly />
               </div>
             </div>
             <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">

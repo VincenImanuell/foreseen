@@ -3,10 +3,13 @@ export function Logo({
   size = 40,
   glow = true,
   className = "",
+  eyeOnly = false,
 }: {
   size?: number;
   glow?: boolean;
   className?: string;
+  /** Use the text-free eye mark (no "FORESEEN" wordmark) — for large floating logos. */
+  eyeOnly?: boolean;
 }) {
   return (
     <span
@@ -21,7 +24,7 @@ export function Logo({
       )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/foreseen-eye.jpg"
+        src={eyeOnly ? "/foreseen-eye.svg" : "/foreseen-eye.jpg"}
         alt="Foreseen"
         width={size}
         height={size}

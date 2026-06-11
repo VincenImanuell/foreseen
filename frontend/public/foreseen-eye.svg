@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="fsGold" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F6DA92"/>
+      <stop offset="1" stop-color="#C8962F"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0A0A12"/>
+  <g fill="none">
+    <path d="M6 32 Q 32 11 58 32 Q 32 53 6 32 Z" stroke="url(#fsGold)" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="32" cy="32" r="13" stroke="url(#fsGold)" stroke-width="1.5" opacity="0.85"/>
+    <circle cx="32" cy="32" r="10" stroke="#5EEAD4" stroke-width="1.4" stroke-dasharray="0.8 2.4" opacity="0.85"/>
+    <circle cx="32" cy="32" r="7" stroke="url(#fsGold)" stroke-width="1.4"/>
+    <path d="M32 27 L36 29.5 L36 34.5 L32 37 L28 34.5 L28 29.5 Z" fill="url(#fsGold)"/>
+    <path d="M6 32 H 13" stroke="#5EEAD4" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M58 32 H 51" stroke="#5EEAD4" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>
