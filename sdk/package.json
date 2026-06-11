@@ -1,0 +1,65 @@
+{
+  "name": "@foreseen/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for Foreseen — the on-chain Rock Paper Scissors mind-sport on Celo. Matchmake, scout opponents from their on-chain history, commit-reveal, and build bots.",
+  "license": "MIT",
+  "author": "VincenImanuell",
+  "homepage": "https://github.com/VincenImanuell/foreseen/tree/main/sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VincenImanuell/foreseen.git",
+    "directory": "sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/VincenImanuell/foreseen/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./bot": {
+      "types": "./dist/bot.d.ts",
+      "import": "./dist/bot.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "viem": "^2.21.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "celo",
+    "rock-paper-scissors",
+    "web3",
+    "game",
+    "bot",
+    "viem",
+    "minipay",
+    "commit-reveal"
+  ]
+}
