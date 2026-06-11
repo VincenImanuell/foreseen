@@ -1,0 +1,41 @@
+name: Bug report
+description: Report something that is broken or behaving unexpectedly.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug and what you expected instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Contracts
+        - SDK
+        - Frontend
+        - CI / tooling
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps, commands, or a failing test that reproduces the issue.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: network
+    attributes:
+      label: Network / environment
+      description: e.g. Celo mainnet 42220, Celo Sepolia 11142220, local anvil, Node version.
+    validations:
+      required: false
