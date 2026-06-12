@@ -7,6 +7,8 @@ import { rpsCore } from "@/lib/contracts";
 import { Mode } from "@/lib/rps";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
 
+const BET_PRESETS = ["0.01", "0.05", "0.1"];
+
 export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
