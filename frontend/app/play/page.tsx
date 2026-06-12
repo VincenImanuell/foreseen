@@ -21,6 +21,12 @@ const ARENA_STATS = [
   ["Settlement", "On-chain", "Reveal or timeout finalizes"],
 ];
 
+const TABLE_RULES = [
+  "Opening a match never reveals your move.",
+  "Both players get the same 90-second scouting window.",
+  "Winnings and refunds collect through withdrawal.",
+];
+
 export default function Play() {
   const mounted = useMounted();
   const { isConnected } = useAccount();
