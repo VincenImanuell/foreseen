@@ -79,6 +79,11 @@ body {
     @apply text-xs font-semibold uppercase tracking-wide text-oracle-cyan;
   }
 
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10
+           bg-white/[0.045] px-3 py-1 text-xs text-slate-300;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
