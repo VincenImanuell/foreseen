@@ -75,6 +75,10 @@ body {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
   }
 
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-wide text-oracle-cyan;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
