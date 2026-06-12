@@ -105,6 +105,10 @@ body {
     background-size: 32px 32px;
   }
 
+  .meter-track {
+    @apply h-2 overflow-hidden rounded-full bg-white/10;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
