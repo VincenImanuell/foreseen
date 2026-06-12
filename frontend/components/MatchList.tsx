@@ -70,7 +70,10 @@ function Section({
   return (
     <section>
       <div className="mb-3">
-        <h2 className="font-display text-lg font-bold">{title}</h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="font-display text-lg font-bold">{title}</h2>
+          <span className="chip">{count} live</span>
+        </div>
         <p className="text-sm text-slate-400">{hint}</p>
       </div>
       {entries.length === 0 ? (
