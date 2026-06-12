@@ -15,6 +15,12 @@ const PHASES = [
   ["4 · Reveal", "Both reveal within 90s. The contract settles & pays the winner."],
 ];
 
+const ARENA_STATS = [
+  ["Network", "Celo mainnet", "Real CELO stakes"],
+  ["Game loop", "Scout first", "Commit after matchmaking"],
+  ["Settlement", "On-chain", "Reveal or timeout finalizes"],
+];
+
 export default function Play() {
   const mounted = useMounted();
   const { isConnected } = useAccount();
