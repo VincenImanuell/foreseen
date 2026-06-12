@@ -44,6 +44,16 @@ function StateBadge({ state }: { state: MatchState }) {
   return <span className={`badge ${cls}`}>{label}</span>;
 }
 
+function StateRail({ state }: { state: MatchState }) {
+  const tone =
+    state === MatchState.Settled
+      ? "from-emerald-400"
+      : state === MatchState.Cancelled
+        ? "from-slate-500"
+        : "from-oracle-cyan";
+  return <div className={`h-1 rounded-full bg-gradient-to-r ${tone} to-transparent`} />;
+}
+
 function MovePicker({
   value,
   onPick,
