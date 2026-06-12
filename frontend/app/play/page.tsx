@@ -59,18 +59,31 @@ export default function Play() {
               </div>
             ))}
           </div>
-          <div className="mt-4 grid gap-2 sm:grid-cols-4">
-            {PHASES.map(([t, d]) => (
-              <div
-                key={t}
-                className="rounded-xl border border-white/10 bg-panel/60 p-3"
-              >
-                <div className="text-xs font-semibold text-oracle-cyan">{t}</div>
-                <div className="mt-1 text-[11px] leading-snug text-slate-400">
-                  {d}
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_280px]">
+            <div className="grid gap-2 sm:grid-cols-4">
+              {PHASES.map(([t, d]) => (
+                <div
+                  key={t}
+                  className="rounded-xl border border-white/10 bg-panel/60 p-3"
+                >
+                  <div className="text-xs font-semibold text-oracle-cyan">{t}</div>
+                  <div className="mt-1 text-[11px] leading-snug text-slate-400">
+                    {d}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="surface-soft p-4">
+              <div className="text-xs font-semibold text-slate-300">Table rules</div>
+              <ul className="mt-2 space-y-2 text-[11px] leading-snug text-slate-500">
+                {TABLE_RULES.map((rule) => (
+                  <li key={rule} className="flex gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-oracle-cyan" />
+                    <span>{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
 
