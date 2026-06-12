@@ -22,9 +22,9 @@ function Bar({ pct, emoji, label }: { pct: number; emoji: string; label: string 
         </span>
         <span className="font-mono text-slate-400">{pct}%</span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/10">
+      <div className="meter-track">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-oracle-purple to-oracle-cyan transition-[width] duration-700"
+          className="meter-fill transition-[width] duration-700"
           style={{ width: `${pct}%` }}
         />
       </div>
