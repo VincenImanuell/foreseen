@@ -65,6 +65,8 @@ function Section({
   entries: MatchEntry[];
   onChanged?: () => void;
 }) {
+  const count = entries.length;
+
   return (
     <section>
       <div className="mb-3">
