@@ -132,6 +132,7 @@ export function MatchCard({
     match.state === MatchState.Revealing && now > Number(match.revealDeadline);
 
   const haveSecret = !!address && !!loadSecret(chainId, id, address);
+  const pot = match.bet * 2n;
 
   async function run(label: string, fn: () => Promise<Hex>) {
     if (!publicClient) return;
