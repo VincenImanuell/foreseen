@@ -94,6 +94,9 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
             <option value={Mode.Casual}>Casual</option>
             <option value={Mode.Ranked}>Ranked</option>
           </select>
+          <p className="mt-2 text-[11px] leading-snug text-slate-500">
+            {MODE_HELP[mode]}
+          </p>
         </label>
       </div>
 
