@@ -109,6 +109,10 @@ body {
     @apply h-2 overflow-hidden rounded-full bg-white/10;
   }
 
+  .meter-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-oracle-purple via-oracle-cyan to-oracle-gold;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
