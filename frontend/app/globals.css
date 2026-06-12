@@ -84,6 +84,10 @@ body {
            bg-white/[0.045] px-3 py-1 text-xs text-slate-300;
   }
 
+  .stat-card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] p-4;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
