@@ -94,6 +94,10 @@ body {
            focus-visible:ring-offset-void;
   }
 
+  .divider-fade {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+
   /* Headline gradient — purple → cyan → gold, animated shimmer. */
   .text-gradient {
     @apply bg-clip-text text-transparent;
