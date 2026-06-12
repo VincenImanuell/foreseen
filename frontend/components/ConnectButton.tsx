@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
-import { celo } from "@/lib/chain";
+import { celo, CELO_NETWORK_SHORT_LABEL } from "@/lib/chain";
 import { shortAddress } from "@/lib/rps";
 import { useMiniPay } from "./useMiniPay";
 import { useMounted } from "./useMounted";
@@ -45,7 +45,7 @@ export function ConnectButton() {
         className="btn-gold"
         onClick={() => switchChain({ chainId: celo.id })}
       >
-        Switch to Celo
+        Switch to {CELO_NETWORK_SHORT_LABEL}
       </button>
     );
   }
@@ -53,7 +53,7 @@ export function ConnectButton() {
   return (
     <div className="flex items-center gap-2">
       <span className="badge bg-oracle-cyan/15 text-oracle-cyan">
-        ● {isMiniPay ? "MiniPay" : "Celo"}
+        ● {isMiniPay ? "MiniPay" : CELO_NETWORK_SHORT_LABEL}
       </span>
       {isMiniPay ? (
         <span className="badge bg-white/5 font-mono text-slate-300">

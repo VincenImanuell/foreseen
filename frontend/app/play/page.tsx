@@ -7,6 +7,7 @@ import { MatchList } from "@/components/MatchList";
 import { Withdraw } from "@/components/Withdraw";
 import { useMatches } from "@/components/useMatches";
 import { useMounted } from "@/components/useMounted";
+import { CELO_NETWORK_LABEL } from "@/lib/chain";
 
 const PHASES = [
   ["1 · Matchmake", "Open a match or join one. Bets are escrowed — no move yet."],
@@ -16,7 +17,7 @@ const PHASES = [
 ];
 
 const ARENA_STATS = [
-  ["Network", "Celo mainnet", "Real CELO stakes"],
+  ["Network", CELO_NETWORK_LABEL, "Real CELO stakes"],
   ["Game loop", "Scout first", "Commit after matchmaking"],
   ["Settlement", "On-chain", "Reveal or timeout finalizes"],
 ];
@@ -102,7 +103,7 @@ export default function Play() {
       </div>
 
       <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
-        Foreseen · Celo mainnet · skill-based mind-sport, not gambling · real
+        Foreseen · {CELO_NETWORK_LABEL} · skill-based mind-sport, not gambling · real
         CELO stakes
       </footer>
     </main>

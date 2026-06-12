@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { RPS_CORE_ADDRESS } from "@/lib/contracts";
+import { CELO_NETWORK_LABEL, CELO_EXPLORER_URL } from "@/lib/chain";
 import { shortAddress } from "@/lib/rps";
 import { ConnectButton } from "./ConnectButton";
 import { Logo } from "./Logo";
@@ -18,7 +19,7 @@ export function Header() {
             </div>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Celo mainnet · ← back to home
+              {CELO_NETWORK_LABEL} · ← back to home
             </div>
           </div>
         </Link>
@@ -31,7 +32,7 @@ export function Header() {
             How to play
           </Link>
           <a
-            href={`https://celoscan.io/address/${RPS_CORE_ADDRESS}`}
+            href={`${CELO_EXPLORER_URL}/address/${RPS_CORE_ADDRESS}`}
             target="_blank"
             rel="noreferrer"
             className="hidden font-mono text-[11px] text-slate-500 hover:text-oracle-cyan sm:block"

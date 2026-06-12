@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
-import { RPS_CORE_ADDRESS, CELO_MAINNET_CONTRACTS } from "@/lib/contracts";
+import { CELO_EXPLORER_URL, CELO_NETWORK_LABEL } from "@/lib/chain";
+import { RPS_CORE_ADDRESS, CELO_CONTRACTS } from "@/lib/contracts";
 import { shortAddress } from "@/lib/rps";
 
 const STEPS = [
@@ -99,7 +100,7 @@ export default function Landing() {
           <Reveal>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Live on Celo mainnet
+              Live on {CELO_NETWORK_LABEL}
             </div>
           </Reveal>
 
@@ -298,9 +299,9 @@ export default function Landing() {
               </Link>
             </div>
             <p className="mt-6 text-xs text-slate-500">
-              Live on Celo mainnet · RPSCore{" "}
+              Live on {CELO_NETWORK_LABEL} · RPSCore{" "}
               <a
-                href={`https://celoscan.io/address/${RPS_CORE_ADDRESS}`}
+                href={`${CELO_EXPLORER_URL}/address/${RPS_CORE_ADDRESS}`}
                 target="_blank"
                 rel="noreferrer"
                 className="font-mono text-slate-400 hover:text-oracle-cyan"
@@ -315,13 +316,13 @@ export default function Landing() {
       <footer className="border-t border-white/10 px-4 py-10 text-center">
         <div className="mx-auto max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-            Deployed contracts · Celo mainnet
+            Deployed contracts · {CELO_NETWORK_LABEL}
           </div>
           <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {CELO_MAINNET_CONTRACTS.map((c) => (
+            {CELO_CONTRACTS.map((c) => (
               <a
                 key={c.name}
-                href={`https://celoscan.io/address/${c.address}`}
+                href={`${CELO_EXPLORER_URL}/address/${c.address}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs hover:border-oracle-cyan/40"

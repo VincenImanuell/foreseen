@@ -56,3 +56,5 @@ export const CELO_NETWORK_LABEL =
 
 export const CELO_NETWORK_SHORT_LABEL =
   celoNetwork === "sepolia" ? "Sepolia" : "Celo";
+
+export const CELO_EXPLORER_URL = celo.blockExplorers.default.url;
