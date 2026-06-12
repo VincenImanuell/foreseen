@@ -203,6 +203,7 @@ export function MatchCard({
 
   return (
     <div className="card">
+      <StateRail state={match.state} />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="font-display font-bold">Match #{id.toString()}</span>
