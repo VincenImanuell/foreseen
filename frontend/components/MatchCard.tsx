@@ -224,7 +224,7 @@ export function MatchCard({
         </div>
       </div>
 
-      <div className="mt-2 text-xs text-slate-400">
+      <div className="mt-3 rounded-xl border border-white/10 bg-void/35 px-3 py-2 text-xs text-slate-400">
         <span className="font-mono">{shortAddress(match.playerA)}</span>
         {isA && <span className="text-oracle-cyan"> (you)</span>}
         <span className="mx-1">vs</span>
