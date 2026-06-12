@@ -26,6 +26,11 @@ body {
   background-attachment: fixed;
 }
 
+::selection {
+  background: rgba(55, 230, 255, 0.24);
+  color: white;
+}
+
 @layer components {
   .card {
     @apply rounded-2xl border border-white/10 bg-panel/80 p-5 backdrop-blur;
