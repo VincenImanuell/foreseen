@@ -62,6 +62,18 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
             value={bet}
             onChange={(e) => setBet(e.target.value)}
           />
+          <div className="mt-2 flex gap-1.5">
+            {BET_PRESETS.map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setBet(preset)}
+                className="rounded-full border border-white/10 px-2 py-1 text-[11px] text-slate-400 transition hover:text-white"
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
         </label>
         <label className="text-sm">
           <span className="text-slate-400">Mode</span>
