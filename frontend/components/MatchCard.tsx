@@ -73,7 +73,7 @@ function MovePicker({
           className={`flex flex-col items-center gap-1 rounded-xl border py-3 text-sm transition disabled:opacity-40 ${
             value === m.value
               ? "border-oracle-purple bg-oracle-purple/15 text-white shadow-glow"
-              : "border-white/10 hover:border-white/25"
+              : "border-white/10 bg-white/[0.03] hover:border-white/25 hover:bg-white/[0.06]"
           }`}
         >
           <span className="text-2xl">{m.emoji}</span>
