@@ -9,6 +9,11 @@ import { shortError, StatusBanner, type TxStatus } from "./Status";
 
 const BET_PRESETS = ["0.01", "0.05", "0.1"];
 
+const MODE_HELP: Record<Mode, string> = {
+  [Mode.Casual]: "Casual matches keep the pressure low.",
+  [Mode.Ranked]: "Ranked matches can move your soulbound rank.",
+};
+
 export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
