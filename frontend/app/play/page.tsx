@@ -32,6 +32,7 @@ export default function Play() {
 
       <div className="mx-auto max-w-5xl px-4 py-8">
         <section className="mb-6">
+          <div className="eyebrow">Live arena</div>
           <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
             The arena
           </h1>
