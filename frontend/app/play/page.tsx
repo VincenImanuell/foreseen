@@ -2,12 +2,14 @@
 
 import { useAccount } from "wagmi";
 import { CreateMatch } from "@/components/CreateMatch";
+import { ArenaSummary } from "@/components/ArenaSummary";
 import { Header } from "@/components/Header";
 import { MatchList } from "@/components/MatchList";
 import { Withdraw } from "@/components/Withdraw";
 import { useMatches } from "@/components/useMatches";
 import { useMounted } from "@/components/useMounted";
 import { CELO_NETWORK_LABEL } from "@/lib/chain";
+import { ARENA_INSIGHTS } from "@/lib/landingContent";
 
 const PHASES = [
   ["1 · Matchmake", "Open a match or join one. Bets are escrowed — no move yet."],
@@ -60,6 +62,9 @@ export default function Play() {
               </div>
             ))}
           </div>
+          <div className="mt-3">
+            <ArenaSummary entries={entries} />
+          </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_280px]">
             <div className="grid gap-2 sm:grid-cols-4">
               {PHASES.map(([t, d]) => (
@@ -85,6 +90,16 @@ export default function Play() {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            {ARENA_INSIGHTS.map(([label, detail]) => (
+              <div key={label} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+                <div className="font-display text-sm font-bold text-white">{label}</div>
+                <div className="mt-1 text-xs leading-snug text-slate-400">
+                  {detail}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
