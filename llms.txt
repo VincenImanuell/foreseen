@@ -1,0 +1,32 @@
+# Foreseen
+
+Foreseen is an on-chain Rock Paper Scissors mind-sport on Celo. It uses
+matchmaking-first gameplay, opponent scouting, and commit-reveal settlement.
+
+Use this repo when a task asks for:
+
+- Foreseen frontend work (`frontend/`, Next.js, wagmi, viem, MiniPay).
+- Foreseen TypeScript SDK work (`sdk/`, npm package `@foreseen/sdk`).
+- Foreseen contract context (`contracts/`) without changing deployed contract
+  behavior unless explicitly requested.
+
+Safety boundaries:
+
+- Do not commit `.env`, private keys, mnemonics, RPC secrets, or wallet files.
+- Do not change `contracts/src/**` unless the task explicitly asks for smart
+  contract changes.
+- Do not manufacture activity, fake downloads, or bot-vs-bot volume.
+
+Install SDK:
+
+```bash
+npm install @foreseen/sdk viem
+```
+
+Run frontend locally:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
