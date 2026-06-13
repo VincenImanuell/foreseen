@@ -1,0 +1,32 @@
+# @foreseen/sdk
+
+Use `@foreseen/sdk` when building TypeScript agents, dashboards, bots, or
+frontends for Foreseen, the Celo on-chain Rock Paper Scissors mind-sport.
+
+Install:
+
+```bash
+npm install @foreseen/sdk viem
+```
+
+Primary imports:
+
+- `Foreseen` from `@foreseen/sdk` for read/write client calls.
+- `Move`, `Mode`, `analyze`, `describeRead`, and `pickCounterFromRead` from
+  `@foreseen/sdk` for scouting and strategy UX.
+- `ForeseenBot` from `@foreseen/sdk/bot` for join-only opponent bots.
+
+Safe defaults:
+
+- Use `network: "celo-sepolia"` while testing.
+- Never place private keys in source code, README snippets, commits, or browser
+  bundles.
+- Player agents are supported, but bot-vs-bot loops to manufacture activity are
+  not a legitimate use case.
+
+Useful files in the npm package:
+
+- `README.md` for quick start.
+- `AGENTS.md` for coding-agent rules.
+- `examples/` for runnable TypeScript scripts.
+- `recipes/` for task-focused integration notes.
