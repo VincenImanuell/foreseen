@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useAccount } from "wagmi";
 import { MatchState } from "@/lib/rps";
+import { ArenaFilters, matchesFilter, type ArenaFilter } from "./ArenaFilters";
 import { MatchCard } from "./MatchCard";
 import type { MatchEntry } from "./useMatches";
 
@@ -15,6 +17,7 @@ export function MatchList({
   isLoading: boolean;
 }) {
   const { address } = useAccount();
+  const [filter, setFilter] = useState<ArenaFilter>("all");
   const me = address?.toLowerCase();
 
   const isMine = (e: MatchEntry) =>
@@ -22,19 +25,28 @@ export function MatchList({
     (e.match.playerA.toLowerCase() === me ||
       e.match.playerB.toLowerCase() === me);
 
-  const openLobbies = entries.filter(
+  const filtered = entries.filter((e) => matchesFilter(e.match.mode, filter));
+  const openLobbies = filtered.filter(
     (e) => e.match.state === MatchState.WaitingForOpponent && !isMine(e),
   );
-  const mine = entries.filter(isMine);
+  const mine = filtered.filter(isMine);
 
   return (
     <div className="space-y-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="eyebrow">Match feed</div>
+          <p className="mt-1 text-sm text-slate-400">
+            Filter the arena without leaving the table.
+          </p>
+        </div>
+        <ArenaFilters value={filter} onChange={setFilter} />
+      </div>
+
       <Section
         title="Open lobbies"
         hint="Anyone can challenge these — match the bet to play."
-        empty={
-          isLoading ? "Loading matches…" : "No open lobbies. Be the first to open one."
-        }
+        empty={isLoading ? "Loading matches…" : "No open lobbies match this filter."}
         entries={openLobbies}
         onChanged={onChanged}
       />
@@ -43,7 +55,7 @@ export function MatchList({
         <Section
           title="Your matches"
           hint="Reveal in time or risk forfeiting your bet."
-          empty="You haven’t played yet. Open a match to begin."
+          empty="You have no matches in this view."
           entries={mine}
           onChanged={onChanged}
         />
