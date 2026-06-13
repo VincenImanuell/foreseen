@@ -1,6 +1,7 @@
 import type { Address, Hex } from "viem";
 import { Foreseen, type ForeseenOptions } from "./client.js";
 import { counter } from "./crypto.js";
+import { pickCounterFromRead } from "./strategy.js";
 import {
   MatchState,
   Mode,
@@ -42,7 +43,7 @@ export const strategies = {
   /** Scout the opponent's stats and throw the counter to their favorite move. */
   counterStats: ((ctx) => {
     const r = ctx.opponentRead;
-    if (r?.suggestedCounter) return r.suggestedCounter;
+    if (r?.suggestedCounter) return pickCounterFromRead(r).move;
     // Fall back to the lose-shift tell, then random.
     if (r?.tells.afterLoss) return counter(r.tells.afterLoss);
     return pickRandom();
