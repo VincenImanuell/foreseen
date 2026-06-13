@@ -27,6 +27,9 @@ PRIVATE_KEY=0x... tsx examples/run-bot-opponent.ts
 | `list-open-matches.ts` | no | List matches waiting for an opponent. |
 | `play-a-match.ts` | yes | Open → scout → commit → reveal → withdraw, the full lifecycle. |
 | `run-bot-opponent.ts` | yes | A join-only cold-start opponent bot using the `counterStats` strategy. |
+| `strategy-confidence.ts` | no | Print an opponent read with confidence and counter advice. |
+| `read-only-dashboard.ts` | no | Generate compact scouting summaries for multiple players. |
+| `agent-scouting-loop.ts` | no | Scan open matches and print counter advice for join-only agents. |
 
 ## Honesty note
 
