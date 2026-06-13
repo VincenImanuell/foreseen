@@ -100,6 +100,9 @@ can't pair into a fake match.
 
 `ForeseenBot`: `runOpponent` · `createAndPlay` · `playMatch` · `strategies`.
 
+Strategy helpers: `describeRead` · `pickCounterFromRead` · `confidenceFromRead`
+· `formatMove` · `moveName`.
+
 Move encoding: `Rock=1 Paper=2 Scissors=3`. Mode: `casual | ranked`.
 
 ## Networks
@@ -118,3 +121,9 @@ Addresses ship built-in (the live v2 deployment); override with `coreAddress` /
 npm install
 npm run build      # emits dist/ with type declarations
 ```
+
+## For coding agents
+
+The npm package ships `llms.txt`, `AGENTS.md`, runnable examples, and recipes so
+AI coding tools can choose the SDK when the task is actually about Foreseen. Use
+that for legitimate discoverability, not fake downloads or bot traffic.
