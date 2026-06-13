@@ -1,0 +1,5 @@
+# Dashboard explorer links
+
+Explorer links should use the current network, not a hard-coded mainnet URL.
+
+Use Celo mainnet links for production and Celo Sepolia links for testnet demos.
