@@ -1,33 +1,19 @@
+import { type Address, type Hex } from "viem";
+
+// On-chain enums and the commit-reveal crypto are pulled straight from the
+// published @foreseen/sdk so the live app and the SDK share a single source of
+// truth — the move/mode/state encodings and the commit hash can never drift.
+// (Re-exported here so the rest of the frontend keeps importing from @/lib/rps.)
 import {
-  bytesToHex,
-  encodePacked,
-  keccak256,
-  type Address,
-  type Hex,
-} from "viem";
+  Move,
+  Mode,
+  MatchState,
+  computeCommit,
+  randomSalt,
+  resultOf,
+} from "@foreseen/sdk";
 
-// ---- On-chain enums (must match RPSCore.sol v2 exactly) -------------------
-
-export enum Move {
-  None = 0,
-  Rock = 1,
-  Paper = 2,
-  Scissors = 3,
-}
-
-export enum Mode {
-  Casual = 0,
-  Ranked = 1,
-}
-
-export enum MatchState {
-  None = 0,
-  WaitingForOpponent = 1,
-  Scouting = 2,
-  Revealing = 3,
-  Settled = 4,
-  Cancelled = 5,
-}
+export { Move, Mode, MatchState, computeCommit, randomSalt, resultOf };
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -143,25 +129,8 @@ export function dominantMove(counts: [bigint, bigint, bigint]): number {
   return best;
 }
 
-// ---- Commit-reveal crypto --------------------------------------------------
-
-/** Fresh, cryptographically-random 32-byte salt. */
-export function randomSalt(): Hex {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return bytesToHex(bytes);
-}
-
-/**
- * The exact commitment RPSCore expects:
- *   keccak256(abi.encodePacked(msg.sender, move, salt))
- * Binding the commit to the sender prevents commit-stealing.
- */
-export function computeCommit(player: Address, move: Move, salt: Hex): Hex {
-  return keccak256(
-    encodePacked(["address", "uint8", "bytes32"], [player, move, salt]),
-  );
-}
+// Commit-reveal crypto (randomSalt / computeCommit) now lives in @foreseen/sdk
+// and is re-exported above — no local copy to drift from the contract.
 
 // ---- Reveal-secret persistence (the salt+move you must keep to reveal) -----
 
@@ -200,20 +169,8 @@ export function loadSecret(
   }
 }
 
-// ---- Outcome helpers (client-side, for display only) ----------------------
-
-/** 0 = draw, 1 = A wins, 2 = B wins. Mirrors RPSCore._result. */
-export function resultOf(a: Move, b: Move): 0 | 1 | 2 {
-  if (a === b) return 0;
-  if (
-    (a === Move.Rock && b === Move.Scissors) ||
-    (a === Move.Paper && b === Move.Rock) ||
-    (a === Move.Scissors && b === Move.Paper)
-  ) {
-    return 1;
-  }
-  return 2;
-}
+// ---- Display helpers -------------------------------------------------------
+// (resultOf is re-exported from @foreseen/sdk above.)
 
 export function shortAddress(addr?: string): string {
   if (!addr) return "—";
