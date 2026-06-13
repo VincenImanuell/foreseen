@@ -1,0 +1,55 @@
+name: SDK smoke (published)
+
+# Installs the PUBLISHED @foreseen/sdk straight from the npm registry into a
+# clean throwaway project and verifies its public API loads. This is a
+# release-safety check on the artifact users actually `npm install`: that the
+# tarball ships its dist, the ESM exports resolve, the viem peer is satisfied,
+# and the on-chain enums / commit-reveal crypto still behave. Light cadence —
+# when this workflow changes, once a week, and on manual dispatch.
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/sdk-smoke.yml"]
+  schedule:
+    - cron: "23 6 * * 1" # Mondays 06:23 UTC
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: install + import from npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Install published @foreseen/sdk in a clean project
+        run: |
+          mkdir -p "$RUNNER_TEMP/sdk-smoke"
+          cd "$RUNNER_TEMP/sdk-smoke"
+          npm init -y >/dev/null
+          npm install @foreseen/sdk@latest viem@^2.21.0
+
+      - name: Verify public exports load and behave
+        working-directory: ${{ runner.temp }}/sdk-smoke
+        run: |
+          node --input-type=module -e "
+            import {
+              Foreseen, ForeseenBot, analyze, distributionPct, dominantMove,
+              computeCommit, randomSalt, resultOf, counter,
+              DEPLOYMENTS, CHAINS, rpsCoreAbi, rpsStatsAbi, Move, Mode,
+            } from '@foreseen/sdk';
+            const fns = { Foreseen, ForeseenBot, analyze, distributionPct, dominantMove, computeCommit, randomSalt, resultOf, counter };
+            for (const [k, v] of Object.entries(fns)) {
+              if (typeof v !== 'function') throw new Error('export not callable: ' + k);
+            }
+            if (!DEPLOYMENTS || !CHAINS || !rpsCoreAbi || !rpsStatsAbi) throw new Error('missing data exports');
+            if (Move.Rock !== 1 || Mode.Ranked !== 1) throw new Error('enum drift');
+            // Exercise the pure logic so the import is genuinely used.
+            const salt = randomSalt();
+            const commit = computeCommit('0x0000000000000000000000000000000000000001', Move.Rock, salt);
+            if (!commit.startsWith('0x') || commit.length !== 66) throw new Error('computeCommit bad output');
+            if (resultOf(Move.Rock, Move.Scissors) !== 1) throw new Error('resultOf wrong: rock should beat scissors');
+            console.log('OK: published @foreseen/sdk installs and its exports verify');
+          "
