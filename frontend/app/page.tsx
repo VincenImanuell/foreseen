@@ -3,6 +3,7 @@ import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { CELO_EXPLORER_URL, CELO_NETWORK_LABEL } from "@/lib/chain";
 import { RPS_CORE_ADDRESS, CELO_CONTRACTS } from "@/lib/contracts";
+import { BUILDER_POINTS, SAFETY_NOTES, TRUST_SIGNALS } from "@/lib/landingContent";
 import { shortAddress } from "@/lib/rps";
 
 const STEPS = [
@@ -136,6 +137,21 @@ export default function Landing() {
               <span>⚖️ Not gambling — pure skill</span>
               <span>🔐 Provably fair commit–reveal</span>
               <span>🏅 Soulbound ranks</span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="mt-8 grid gap-3 text-left sm:grid-cols-3">
+              {TRUST_SIGNALS.map(([label, detail]) => (
+                <div key={label} className="stat-card">
+                  <div className="font-display text-sm font-bold text-white">
+                    {label}
+                  </div>
+                  <p className="mt-1 text-xs leading-snug text-slate-400">
+                    {detail}
+                  </p>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
@@ -276,6 +292,47 @@ export default function Landing() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ---- Builders ---- */}
+      <section className="border-t border-white/5 px-4 py-20">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_360px]">
+          <Reveal>
+            <div>
+              <div className="eyebrow">For builders</div>
+              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                Ship agents, dashboards, and scouting tools.
+              </h2>
+              <p className="mt-4 max-w-2xl text-slate-400">
+                The TypeScript SDK exposes read-only scouting, commit-reveal
+                helpers, and a join-only bot module for real player liquidity.
+              </p>
+              <div className="mt-5 grid gap-2">
+                {BUILDER_POINTS.map((point) => (
+                  <div key={point} className="chip w-fit">{point}</div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="surface-soft p-5">
+              <div className="text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
+                npm
+              </div>
+              <pre className="mt-3 overflow-x-auto rounded-xl border border-white/10 bg-void/70 p-4 text-sm text-slate-200">
+                <code>npm install @foreseen/sdk viem</code>
+              </pre>
+              <ul className="mt-4 space-y-2 text-xs leading-snug text-slate-400">
+                {SAFETY_NOTES.map((note) => (
+                  <li key={note} className="flex gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-oracle-gold" />
+                    <span>{note}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </section>
 
