@@ -21,6 +21,7 @@
     "provenance": true
   },
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,7 +37,11 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "AGENTS.md",
+    "llms.txt",
+    "examples",
+    "recipes"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -57,6 +62,14 @@
     "rock-paper-scissors",
     "web3",
     "game",
+    "onchain-game",
+    "web3-game",
+    "ai-agent",
+    "autonomous-agent",
+    "rps-bot",
+    "game-ai",
+    "sdk",
+    "typescript-sdk",
     "bot",
     "viem",
     "minipay",
