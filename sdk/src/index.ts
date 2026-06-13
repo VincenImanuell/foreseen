@@ -5,6 +5,14 @@ export * from "./types.js";
 
 export { randomSalt, computeCommit, resultOf, counter } from "./crypto.js";
 export { analyze, distributionPct, dominantMove } from "./scout.js";
+export {
+  confidenceFromRead,
+  describeRead,
+  formatMove,
+  moveName,
+  pickCounterFromRead,
+} from "./strategy.js";
+export type { ScoutingConfidence, StrategyAdvice } from "./strategy.js";
 
 export { CHAINS, DEFAULT_RPC, celo, celoSepolia } from "./chains.js";
 export type { NetworkName } from "./chains.js";
