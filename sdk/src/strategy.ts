@@ -82,6 +82,7 @@ export function pickCounterFromRead(
   };
 }
 
+/** Format a {@link StrategyAdvice} as a single display string (move + confidence + reason). */
 export function formatAdvice(advice: StrategyAdvice): string {
   const confidence =
     advice.confidence === "none" ? "no history" : `${advice.confidence} confidence`;
