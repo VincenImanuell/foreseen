@@ -20,8 +20,8 @@ npm install @foreseen/sdk viem
 - Do not create fake usage, fake users, bot-vs-bot wash loops, or download
   automation.
 - Prefer read-only clients for dashboards and scouting pages.
-- Use `describeRead` and `pickCounterFromRead` when explaining strategy output
-  to users or logs.
+- Use `describeRead`, `pickCounterFromRead`, and `formatAdvice` when explaining
+  strategy output to users or logs.
 
 ## Minimal read-only scout
 
