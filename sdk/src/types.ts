@@ -32,6 +32,7 @@ export enum MatchState {
   Cancelled = 5,
 }
 
+/** Human-readable names for Move enum values. Key 0 is "None". */
 export const MOVE_NAME: Record<number, string> = {
   0: "None",
   1: "Rock",
