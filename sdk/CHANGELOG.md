@@ -16,10 +16,15 @@ First public release.
 - Commit–reveal helpers: `randomSalt`, `computeCommit`, `resultOf`, `counter`.
 - Opponent scouting from on-chain history: `analyze`, `distributionPct`,
   `dominantMove`.
+- Strategy formatting helper: `formatAdvice` for compact dashboard and agent
+  logs.
 - `ForeseenBot` (`@foreseen/sdk/bot`): join-only `runOpponent`, `createAndPlay`,
   `playMatch`, and built-in `strategies` (`random`, `biasRock`, `counterStats`).
 - Built-in Celo mainnet (42220) and Celo Sepolia (11142220) chain configs and
   live v2 contract addresses, overridable per call.
+- Focused npm subpath exports for `abi`, `addresses`, `chains`, `crypto`,
+  `scout`, `strategy`, and `types`.
 - Ships ESM with bundled type declarations.
+- Publish readiness check via `npm run publish:check`.
 
 [0.1.0]: https://github.com/VincenImanuell/foreseen/releases/tag/sdk-v0.1.0
