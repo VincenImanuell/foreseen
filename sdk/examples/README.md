@@ -31,6 +31,15 @@ PRIVATE_KEY=0x... tsx examples/run-bot-opponent.ts
 | `read-only-dashboard.ts` | no | Generate compact scouting summaries for multiple players. |
 | `agent-scouting-loop.ts` | no | Scan open matches and print counter advice for join-only agents. |
 
+## Focused helper imports
+
+Apps that only need labels, advice, or local commit helpers can import subpaths:
+
+```ts
+import { computeCommit } from "@foreseen/sdk/crypto";
+import { pickCounterFromRead } from "@foreseen/sdk/strategy";
+```
+
 ## Honesty note
 
 Bots playing **real players** (cold-start opponents, player-deployed agents) are
