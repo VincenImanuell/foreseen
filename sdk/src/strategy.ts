@@ -39,6 +39,11 @@ export function formatMove(move: Move | null | undefined): string {
   return move ? `${MOVE_EMOJI[move]} (${moveName(move)})` : "unknown";
 }
 
+/**
+ * Derive a {@link ScoutingConfidence} tier from a scouting read.
+ * Requires ≥24 matches and a ≥46% dominant share for "high".
+ * @since 0.1.0
+ */
 export function confidenceFromRead(read: OpponentRead): ScoutingConfidence {
   const matches = Number(read.stats.totalMatches);
   if (matches === 0 || !read.dominantMove) return "none";
