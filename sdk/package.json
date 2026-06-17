@@ -30,6 +30,22 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./abi": {
+      "types": "./dist/abi.d.ts",
+      "import": "./dist/abi.js"
+    },
+    "./chains": {
+      "types": "./dist/chains.d.ts",
+      "import": "./dist/chains.js"
+    },
+    "./crypto": {
+      "types": "./dist/crypto.d.ts",
+      "import": "./dist/crypto.js"
+    },
+    "./strategy": {
+      "types": "./dist/strategy.d.ts",
+      "import": "./dist/strategy.js"
+    },
     "./bot": {
       "types": "./dist/bot.d.ts",
       "import": "./dist/bot.js"
