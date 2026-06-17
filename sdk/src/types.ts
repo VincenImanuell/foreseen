@@ -11,6 +11,9 @@ export enum Move {
   Scissors = 3,
 }
 
+/** Game mode — Casual has no rank stakes; Ranked updates soulbound badges.
+ * @since 0.1.0
+ */
 export enum Mode {
   Casual = 0,
   Ranked = 1,
