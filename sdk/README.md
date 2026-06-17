@@ -43,6 +43,8 @@ await rps.reveal({ matchId, move, salt });
 await rps.withdraw();
 ```
 
+## 60-second read-only scout
+
 Read-only (no key) is fine for scouting:
 
 ```ts
