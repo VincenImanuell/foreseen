@@ -6,6 +6,8 @@ import { Move } from "./types.js";
  * Fresh, cryptographically-random 32-byte salt. (We borrow viem's CSPRNG-backed
  * key generator — it returns exactly a random 0x-prefixed 32-byte hex.) Keep the
  * salt secret until reveal; it is the blind in commit-reveal.
+ * @returns A 0x-prefixed 32-byte hex string suitable as a commit salt.
+ * @since 0.1.0
  */
 export function randomSalt(): Hex {
   return generatePrivateKey();
