@@ -1,6 +1,9 @@
 import type { Address, Hex } from "viem";
 
-/** On-chain Move encoding (RPSCore.Move). None=0 is never a valid play. */
+/**
+ * On-chain Move encoding (RPSCore.Move). None=0 is never a valid play.
+ * @since 0.1.0
+ */
 export enum Move {
   None = 0,
   Rock = 1,
