@@ -52,6 +52,8 @@ const scout = new Foreseen({ network: "celo" });
 const read = await scout.analyzeOpponent("0x...");
 ```
 
+This path does not require a wallet, private key, backend, or indexer.
+
 ## Bots
 
 ```ts
