@@ -71,6 +71,12 @@ describe("strategy helpers", () => {
     expect(formatAdvice(advice)).toContain("high confidence");
   });
 
+  it("formats no-history advice distinctly", () => {
+    const advice = pickCounterFromRead(null, Move.Rock);
+    expect(formatAdvice(advice)).toContain("no history");
+    expect(formatAdvice(advice)).toContain("rock (Rock)");
+  });
+
   it("builds compact scouting lines for dashboards and bots", () => {
     const lines = describeRead(analyze(ADDRESS, stats()));
     expect(lines[0]).toContain("revealed matches");
