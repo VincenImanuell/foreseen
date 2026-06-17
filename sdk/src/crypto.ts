@@ -14,9 +14,13 @@ export function randomSalt(): Hex {
 }
 
 /**
- * The exact commitment RPSCore expects:
- *   keccak256(abi.encodePacked(player, move, salt))
- * Binding the commit to the player prevents another player from replaying it.
+ * Compute the commitment hash RPSCore expects: `keccak256(abi.encodePacked(player, move, salt))`.
+ * Binding the commit to the player prevents replay attacks.
+ * @param player - The address of the committing player.
+ * @param move - The move being committed (Rock, Paper, or Scissors).
+ * @param salt - A 32-byte random salt from {@link randomSalt}.
+ * @returns The 32-byte commitment hash to pass to `commitMove`.
+ * @since 0.1.0
  */
 export function computeCommit(player: Address, move: Move, salt: Hex): Hex {
   return keccak256(encodePacked(["address", "uint8", "bytes32"], [player, move, salt]));
