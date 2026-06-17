@@ -2,7 +2,11 @@ import type { Address } from "viem";
 import { Move, type OpponentRead, type PlayerStats } from "./types.js";
 import { counter } from "./crypto.js";
 
-/** Percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally. */
+/**
+ * Compute the percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally.
+ * Values sum to ~100 (rounding may cause ±1 difference).
+ * @since 0.1.0
+ */
 export function distributionPct(
   counts: [bigint, bigint, bigint],
 ): { rock: number; paper: number; scissors: number } {
