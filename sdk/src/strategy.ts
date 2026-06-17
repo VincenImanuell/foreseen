@@ -30,6 +30,7 @@ function dominantShare(read: OpponentRead): number {
   return Math.max(rock, paper, scissors);
 }
 
+/** Return the human-readable name for a move (e.g. "Rock"). Falls back to "Unknown". */
 export function moveName(move: Move | null | undefined): string {
   return move ? MOVE_NAME[move] ?? "Unknown" : "Unknown";
 }
