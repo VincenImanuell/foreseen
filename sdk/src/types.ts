@@ -39,6 +39,7 @@ export const MOVE_NAME: Record<number, string> = {
   3: "Scissors",
 };
 
+/** String alias for {@link Mode} — accepted anywhere a Mode enum value is. */
 export type ModeName = "casual" | "ranked";
 
 export function modeToEnum(m: ModeName | Mode): Mode {
