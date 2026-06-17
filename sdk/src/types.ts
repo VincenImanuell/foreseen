@@ -65,7 +65,11 @@ export interface MatchView {
   revealB: Move;
 }
 
-/** Tamper-proof on-chain behavioral profile (from RPSStats.getStats). */
+/**
+ * Tamper-proof on-chain behavioral profile from `RPSStats.getStats`.
+ * All counters are bigints to preserve exact on-chain values.
+ * @since 0.1.0
+ */
 export interface PlayerStats {
   totalMatches: bigint;
   wins: bigint;
