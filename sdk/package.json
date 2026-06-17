@@ -34,6 +34,10 @@
       "types": "./dist/abi.d.ts",
       "import": "./dist/abi.js"
     },
+    "./addresses": {
+      "types": "./dist/addresses.d.ts",
+      "import": "./dist/addresses.js"
+    },
     "./chains": {
       "types": "./dist/chains.d.ts",
       "import": "./dist/chains.js"
@@ -45,6 +49,14 @@
     "./strategy": {
       "types": "./dist/strategy.d.ts",
       "import": "./dist/strategy.js"
+    },
+    "./scout": {
+      "types": "./dist/scout.d.ts",
+      "import": "./dist/scout.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
     },
     "./bot": {
       "types": "./dist/bot.d.ts",
