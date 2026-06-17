@@ -1,6 +1,10 @@
 import { counter } from "./crypto.js";
 import { Move, MOVE_NAME, type OpponentRead } from "./types.js";
 
+/**
+ * Confidence tier for a scouting read. "none" = no history, "high" = strong sample.
+ * @since 0.1.0
+ */
 export type ScoutingConfidence = "none" | "low" | "medium" | "high";
 
 export interface StrategyAdvice {
