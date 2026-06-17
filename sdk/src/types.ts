@@ -19,6 +19,10 @@ export enum Mode {
   Ranked = 1,
 }
 
+/**
+ * Lifecycle state of a match on-chain.
+ * @since 0.1.0
+ */
 export enum MatchState {
   None = 0,
   WaitingForOpponent = 1,
