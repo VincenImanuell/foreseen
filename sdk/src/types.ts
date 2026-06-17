@@ -46,7 +46,10 @@ export function modeToEnum(m: ModeName | Mode): Mode {
   return m === "ranked" ? Mode.Ranked : Mode.Casual;
 }
 
-/** Normalized view of a match (from getMatch). */
+/**
+ * Normalized view of a match returned by `Foreseen.getMatch`.
+ * @since 0.1.0
+ */
 export interface MatchView {
   id: bigint;
   playerA: Address;
