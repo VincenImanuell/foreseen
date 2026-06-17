@@ -89,7 +89,9 @@
   },
   "keywords": [
     "celo",
+    "celo-sdk",
     "rock-paper-scissors",
+    "onchain-rps",
     "web3",
     "game",
     "onchain-game",
@@ -103,6 +105,7 @@
     "bot",
     "viem",
     "minipay",
-    "commit-reveal"
+    "commit-reveal",
+    "commit-reveal-game"
   ]
 }
