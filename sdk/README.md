@@ -133,6 +133,7 @@ Addresses ship built-in (the live v2 deployment); override with `coreAddress` /
 ```bash
 npm install
 npm run build      # emits dist/ with type declarations
+npm run pack:list  # previews published files as JSON
 npm run publish:check
 ```
 
