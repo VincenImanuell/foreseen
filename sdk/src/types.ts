@@ -89,7 +89,7 @@ export interface PlayerStats {
 export interface OpponentRead {
   address: Address;
   stats: PlayerStats;
-  /** 0..1 */
+  /** Win rate over decided (non-draw) matches, in the range 0..1. */
   winRate: number;
   /** Percentage split (0..100) over rock/paper/scissors. */
   distribution: { rock: number; paper: number; scissors: number };
