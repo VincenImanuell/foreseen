@@ -88,6 +88,11 @@ export function formatAdvice(advice: StrategyAdvice): string {
   return `${formatMove(advice.move)} | ${confidence}: ${advice.reason}`;
 }
 
+/**
+ * Format a scouting read as an array of human-readable bullet lines.
+ * Useful for displaying in CLI tools, Telegram bots, or agent reasoning traces.
+ * @since 0.1.0
+ */
 export function describeRead(read: OpponentRead): string[] {
   const advice = pickCounterFromRead(read);
   const lines = [
