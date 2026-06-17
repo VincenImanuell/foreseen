@@ -101,7 +101,14 @@ can't pair into a fake match.
 `ForeseenBot`: `runOpponent` · `createAndPlay` · `playMatch` · `strategies`.
 
 Strategy helpers: `describeRead` · `pickCounterFromRead` · `confidenceFromRead`
-· `formatMove` · `moveName`.
+· `formatAdvice` · `formatMove` · `moveName`.
+
+Focused imports are available when you only need a small helper surface:
+
+```ts
+import { computeCommit } from "@foreseen/sdk/crypto";
+import { formatAdvice, pickCounterFromRead } from "@foreseen/sdk/strategy";
+```
 
 Move encoding: `Rock=1 Paper=2 Scissors=3`. Mode: `casual | ranked`.
 
@@ -120,6 +127,7 @@ Addresses ship built-in (the live v2 deployment); override with `coreAddress` /
 ```bash
 npm install
 npm run build      # emits dist/ with type declarations
+npm run publish:check
 ```
 
 ## For coding agents
