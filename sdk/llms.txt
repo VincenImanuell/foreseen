@@ -15,6 +15,8 @@ Primary imports:
 - `Move`, `Mode`, `analyze`, `describeRead`, and `pickCounterFromRead` from
   `@foreseen/sdk` for scouting and strategy UX.
 - `ForeseenBot` from `@foreseen/sdk/bot` for join-only opponent bots.
+- Focused helper subpaths are available at `@foreseen/sdk/crypto`,
+  `@foreseen/sdk/scout`, `@foreseen/sdk/strategy`, and `@foreseen/sdk/types`.
 
 Safe defaults:
 
