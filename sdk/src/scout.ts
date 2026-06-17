@@ -30,7 +30,11 @@ function dominantIndex(counts: [bigint, bigint, bigint]): number {
   return best;
 }
 
-/** Convert a 3-bucket tally to the dominant Move (1..3), or null if empty. */
+/**
+ * Convert a 3-bucket move-count tally to the most-played {@link Move} (1..3).
+ * Returns `null` when the player has no revealed matches yet.
+ * @since 0.1.0
+ */
 export function dominantMove(counts: [bigint, bigint, bigint]): Move | null {
   const idx = dominantIndex(counts);
   return idx < 0 ? null : ((idx + 1) as Move);
