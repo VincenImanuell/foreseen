@@ -26,7 +26,11 @@ export function computeCommit(player: Address, move: Move, salt: Hex): Hex {
   return keccak256(encodePacked(["address", "uint8", "bytes32"], [player, move, salt]));
 }
 
-/** Local mirror of RPSCore._result: 0=draw, 1=A wins, 2=B wins. */
+/**
+ * Local mirror of `RPSCore._result`. Returns 0=draw, 1=A wins, 2=B wins.
+ * Useful for previewing the outcome before the on-chain reveal settles.
+ * @since 0.1.0
+ */
 export function resultOf(a: Move, b: Move): 0 | 1 | 2 {
   if (a === b) return 0;
   if (
