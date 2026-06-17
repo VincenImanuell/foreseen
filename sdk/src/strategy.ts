@@ -53,6 +53,14 @@ export function confidenceFromRead(read: OpponentRead): ScoutingConfidence {
   return "low";
 }
 
+/**
+ * Pick the recommended counter move from a scouting read.
+ * Falls back to `fallback` (default Rock) when there is no history.
+ * @param read - The opponent's scouting read, or null/undefined.
+ * @param fallback - Move to play when the read has no dominant pattern.
+ * @returns A {@link StrategyAdvice} with the recommended move and reasoning.
+ * @since 0.1.0
+ */
 export function pickCounterFromRead(
   read: OpponentRead | null | undefined,
   fallback: Move = Move.Rock,
