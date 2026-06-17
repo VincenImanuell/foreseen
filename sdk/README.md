@@ -107,7 +107,9 @@ Focused imports are available when you only need a small helper surface:
 
 ```ts
 import { computeCommit } from "@foreseen/sdk/crypto";
+import { analyze } from "@foreseen/sdk/scout";
 import { formatAdvice, pickCounterFromRead } from "@foreseen/sdk/strategy";
+import type { MatchView, OpponentRead } from "@foreseen/sdk/types";
 ```
 
 Move encoding: `Rock=1 Paper=2 Scissors=3`. Mode: `casual | ranked`.
