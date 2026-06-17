@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   confidenceFromRead,
   describeRead,
+  formatAdvice,
   formatMove,
   moveName,
   pickCounterFromRead,
@@ -62,6 +63,12 @@ describe("strategy helpers", () => {
     const advice = pickCounterFromRead(analyze(ADDRESS, stats()));
     expect(advice.move).toBe(Move.Paper);
     expect(advice.reason).toContain("Rock");
+  });
+
+  it("formats compact strategy advice for dashboards", () => {
+    const advice = pickCounterFromRead(analyze(ADDRESS, stats()));
+    expect(formatAdvice(advice)).toContain("paper (Paper)");
+    expect(formatAdvice(advice)).toContain("high confidence");
   });
 
   it("builds compact scouting lines for dashboards and bots", () => {

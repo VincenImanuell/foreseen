@@ -59,13 +59,19 @@ export function pickCounterFromRead(
   };
 }
 
+export function formatAdvice(advice: StrategyAdvice): string {
+  const confidence =
+    advice.confidence === "none" ? "no history" : `${advice.confidence} confidence`;
+  return `${formatMove(advice.move)} | ${confidence}: ${advice.reason}`;
+}
+
 export function describeRead(read: OpponentRead): string[] {
   const advice = pickCounterFromRead(read);
   const lines = [
     `${read.address} has ${read.stats.totalMatches.toString()} revealed matches.`,
     `Distribution: rock ${read.distribution.rock}%, paper ${read.distribution.paper}%, scissors ${read.distribution.scissors}%.`,
     `Dominant throw: ${formatMove(read.dominantMove)}.`,
-    `Suggested counter: ${formatMove(advice.move)} (${advice.confidence} confidence).`,
+    `Suggested counter: ${formatAdvice(advice)}.`,
   ];
 
   if (read.tells.afterWin) {

@@ -8,6 +8,7 @@ export { analyze, distributionPct, dominantMove } from "./scout.js";
 export {
   confidenceFromRead,
   describeRead,
+  formatAdvice,
   formatMove,
   moveName,
   pickCounterFromRead,
