@@ -43,7 +43,10 @@ export function resultOf(a: Move, b: Move): 0 | 1 | 2 {
   return 2;
 }
 
-/** The move that beats `m`. */
+/**
+ * Returns the move that beats `m`. Rock→Paper, Paper→Scissors, Scissors→Rock.
+ * @since 0.1.0
+ */
 export function counter(m: Move): Move {
   return m === Move.Rock ? Move.Paper : m === Move.Paper ? Move.Scissors : Move.Rock;
 }
