@@ -46,3 +46,17 @@ const bot = new ForeseenBot({
 
 await bot.runOpponent({ maxMatches: 3 });
 ```
+
+## MiniPay (CELO)
+
+In MiniPay contexts `window.ethereum.isMiniPay === true` and the wallet is
+injected automatically. Use a read-only client — no private key needed:
+
+```ts
+import { Foreseen, describeRead } from "@foreseen/sdk";
+
+// Works inside MiniPay or any CELO browser context.
+const rps = new Foreseen({ network: "celo" });
+const read = await rps.analyzeOpponent("0xOpponent...");
+console.log(describeRead(read).join("\n"));
+```
