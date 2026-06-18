@@ -1,0 +1,1 @@
+CELO sdk deploy changelog: maintain a CHANGELOG.md entry per @foreseen/sdk release noting CELO mainnet ABI compatibility range, so frontend devs know which SDK version matches which RPSCore deployment.
