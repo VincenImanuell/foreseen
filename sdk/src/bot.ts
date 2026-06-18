@@ -61,7 +61,9 @@ export const strategies = {
 export type StrategyName = keyof typeof strategies;
 
 /**
- * Options for {@link ForeseenBot}. Extends {@link ForeseenOptions} — `privateKey` is required.
+ * Options for {@link ForeseenBot} running on CELO.
+ * Extends {@link ForeseenOptions} — `privateKey` is required for any bot that commits.
+ * Set `network: "celo"` for CELO mainnet or `"celo-sepolia"` for testnet bots.
  * @since 0.1.0
  */
 export interface ForeseenBotOptions extends ForeseenOptions {
