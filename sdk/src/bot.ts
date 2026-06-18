@@ -48,7 +48,10 @@ export const strategies = {
   /** Always Rock — exploitable, for testing only. */
   biasRock: (() => Move.Rock) as Strategy,
 
-  /** Scout the opponent's stats and throw the counter to their favorite move. */
+  /**
+   * Scout the opponent's CELO on-chain stats and throw the counter to their dominant move.
+   * Falls back to lose-shift tell, then random if no CELO history is available.
+   */
   counterStats: ((ctx) => {
     const r = ctx.opponentRead;
     if (r?.suggestedCounter) return pickCounterFromRead(r).move;
@@ -61,7 +64,9 @@ export const strategies = {
 export type StrategyName = keyof typeof strategies;
 
 /**
- * Options for {@link ForeseenBot}. Extends {@link ForeseenOptions} — `privateKey` is required.
+ * Options for {@link ForeseenBot} running on CELO.
+ * Extends {@link ForeseenOptions} — `privateKey` is required for any bot that commits.
+ * Set `network: "celo"` for CELO mainnet or `"celo-sepolia"` for testnet bots.
  * @since 0.1.0
  */
 export interface ForeseenBotOptions extends ForeseenOptions {
@@ -85,13 +90,13 @@ export interface Outcome {
 }
 
 /**
- * A turnkey Foreseen agent. Wraps a {@link Foreseen} client and drives the full
- * commit-reveal lifecycle with a pluggable strategy.
+ * A turnkey Foreseen agent running on CELO. Wraps a {@link Foreseen} client and drives the full
+ * CELO commit-reveal lifecycle with a pluggable strategy.
  *
- * Honesty note: bots playing **real players** is a first-class feature (cold-start
+ * Honesty note: bots playing **real players** is a first-class CELO feature (cold-start
  * opponents, player-deployed agents). Do NOT run bots against each other in a
- * funded loop to manufacture volume / fees / DAU — that is wash trading. Label bot
- * wallets [BOT] and never report them as organic users.
+ * funded CELO loop to manufacture volume / fees / DAU — that is wash trading. Label bot
+ * wallets [BOT] and never report them as organic CELO users.
  */
 export class ForeseenBot {
   readonly rps: Foreseen;
