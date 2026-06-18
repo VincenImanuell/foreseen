@@ -208,6 +208,7 @@ export class Foreseen {
     return this.readCore<bigint>("pendingWithdrawals", [a]);
   }
 
+  /** Fetch a fully-decoded match by id. Throws if the id is out of range. */
   async getMatch(matchId: bigint): Promise<MatchView> {
     const m = await this.readCore<{
       playerA: Address; bet: bigint; playerB: Address;
