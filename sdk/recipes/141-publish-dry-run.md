@@ -8,3 +8,4 @@ Checklist:
 - Do not assume the package contents match the working tree.
 - Check README, examples, recipes, types, and built JavaScript in the tarball.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO publish dry-run: `npm publish --dry-run` — confirm CELO ABI is bundled before real publish.
