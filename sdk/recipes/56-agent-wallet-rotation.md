@@ -5,3 +5,4 @@ operations.
 
 Do not reuse a personal wallet as an automated player wallet. Separation keeps
 funding, permissions, and incident response easier to reason about.
+Rotate CELO agent wallets periodically — keep old wallets funded until pending winnings are withdrawn.
