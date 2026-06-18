@@ -8,3 +8,4 @@ Checklist:
 - Do not store tokens or OTP values in the repository.
 - Verify the published package after any manual release.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO provenance fallback: if IPFS CID unavailable, serve ABI from /public/abi/rps-core.json for CELO.
