@@ -48,7 +48,10 @@ export const strategies = {
   /** Always Rock — exploitable, for testing only. */
   biasRock: (() => Move.Rock) as Strategy,
 
-  /** Scout the opponent's stats and throw the counter to their favorite move. */
+  /**
+   * Scout the opponent's CELO on-chain stats and throw the counter to their dominant move.
+   * Falls back to lose-shift tell, then random if no CELO history is available.
+   */
   counterStats: ((ctx) => {
     const r = ctx.opponentRead;
     if (r?.suggestedCounter) return pickCounterFromRead(r).move;
