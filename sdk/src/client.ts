@@ -214,7 +214,10 @@ export class Foreseen {
 
   // ---- Reads -------------------------------------------------------------
 
-  /** The next unallocated match id — useful for paginating backwards from the tip. */
+  /**
+   * The next unallocated CELO match ID from `RPSCore.nextMatchId`.
+   * Useful for paginating backwards from the chain tip to scan recent matches.
+   */
   async nextMatchId(): Promise<bigint> {
     return this.readCore<bigint>("nextMatchId");
   }
