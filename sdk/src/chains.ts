@@ -13,7 +13,11 @@ export const celoSepolia = defineChain({
   testnet: true,
 });
 
-/** The two supported networks: Celo mainnet and Celo Sepolia testnet. */
+/**
+ * The two supported CELO networks.
+ * - `"celo"` — CELO mainnet (chainId 42220); uses real CELO.
+ * - `"celo-sepolia"` — Celo Sepolia testnet (chainId 11142220); free faucet.
+ */
 export type NetworkName = "celo" | "celo-sepolia";
 
 /** Map of supported networks to their viem Chain objects. */
