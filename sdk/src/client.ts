@@ -119,7 +119,11 @@ export class Foreseen {
 
   // ---- Matchmaking -------------------------------------------------------
 
-  /** Open a match and escrow your bet. Returns the new match id. */
+  /**
+   * Open a CELO match and escrow the bet on-chain. Returns the new match ID.
+   * @param p.mode - "casual" or "ranked" (ranked updates soulbound badge on CELO).
+   * @param p.bet - Stake in decimal CELO string (e.g. "0.1") or wei bigint.
+   */
   async createMatch(p: { mode: ModeName | Mode; bet: string | bigint }): Promise<{ matchId: bigint; txHash: Hex }> {
     const account = this.requireAccount();
     const value = typeof p.bet === "bigint" ? p.bet : parseEther(p.bet);
@@ -139,7 +143,12 @@ export class Foreseen {
     return { matchId, txHash: hash };
   }
 
-  /** Join an open match, matching its bet (read automatically if not given). */
+  /**
+   * Join an open CELO match, sending the exact bet amount as `msg.value`.
+   * The bet is read automatically from the chain if not passed explicitly.
+   * @param p.matchId - The match ID to join on CELO.
+   * @param p.bet - Optional bet override (wei bigint or decimal CELO string).
+   */
   async joinMatch(p: { matchId: bigint; bet?: string | bigint }): Promise<{ txHash: Hex }> {
     let value: bigint;
     if (p.bet === undefined) {
@@ -173,7 +182,12 @@ export class Foreseen {
     return { txHash };
   }
 
-  /** Finalize a match whose opponent let the commit or reveal window lapse. */
+  /**
+   * Finalize a CELO match whose opponent let the commit or reveal window lapse.
+   * Automatically picks `claimCommitTimeout` or `claimRevealTimeout` based on state.
+   * The CELO winnings become withdrawable via {@link withdraw} after settlement.
+   * @param p.matchId - The CELO match ID to finalize.
+   */
   async claimTimeout(p: { matchId: bigint }): Promise<{ txHash: Hex }> {
     const m = await this.getMatch(p.matchId);
     if (m.state === MatchState.Scouting) {
@@ -284,7 +298,12 @@ export class Foreseen {
     };
   }
 
-  /** Full scouting read for an address: distribution, tells, suggested counter. */
+  /**
+   * Full CELO scouting read for an address: distribution, contextual tells,
+   * and the move that counters their dominant throw.
+   * Reads `RPSStats.getStats` on CELO — no private key required.
+   * @param address - The CELO address of the opponent to scout.
+   */
   async analyzeOpponent(address: Address): Promise<OpponentRead> {
     const stats = await this.getPlayerStats(address);
     return analyze(address, stats);
