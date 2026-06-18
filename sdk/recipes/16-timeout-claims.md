@@ -8,3 +8,5 @@ await rps.claimTimeout({ matchId });
 ```
 
 Use it when commit or reveal windows have elapsed.
+
+CELO timeout claims auto-dispatch the winner's CELO stake via `claimTimeout()`.
