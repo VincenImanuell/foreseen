@@ -165,8 +165,12 @@ export class Foreseen {
   // ---- Gameplay (commit-reveal) -----------------------------------------
 
   /**
-   * Seal a move on Celo. Auto-generates a salt if omitted — you MUST store and pass
-   * the returned `salt` to {@link reveal} within the 90-second reveal window.
+   * Seal a move on CELO mainnet by calling `RPSCore.commitMove`. Auto-generates a salt if omitted.
+   * You MUST store the returned `salt` and pass it to {@link reveal} within the 90-second CELO window.
+   * Losing the salt = unable to reveal = opponent can claim timeout winnings.
+   * @param p.matchId - The CELO match ID to commit a move in.
+   * @param p.move - Rock, Paper, or Scissors (not None).
+   * @param p.salt - Optional deterministic salt; auto-generated if omitted.
    */
   async commit(p: { matchId: bigint; move: Move; salt?: Hex }): Promise<{ salt: Hex; commit: Hex; txHash: Hex }> {
     const account = this.requireAccount();
