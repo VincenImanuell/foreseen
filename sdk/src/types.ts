@@ -20,7 +20,9 @@ export enum Mode {
 }
 
 /**
- * Lifecycle state of a match on-chain.
+ * Lifecycle state of a CELO match, as returned by `RPSCore.getMatch`.
+ * Transitions: None → WaitingForOpponent → Scouting → Revealing → Settled.
+ * Any state can transition to Cancelled (timeout or manual cancel).
  * @since 0.1.0
  */
 export enum MatchState {
@@ -32,7 +34,10 @@ export enum MatchState {
   Cancelled = 5,
 }
 
-/** Human-readable names for Move enum values. Key 0 is "None". */
+/**
+ * Human-readable display names for {@link Move} enum values on CELO.
+ * Key 0 is "None" (invalid move). Keys 1–3 map to Rock/Paper/Scissors.
+ */
 export const MOVE_NAME: Record<number, string> = {
   0: "None",
   1: "Rock",
@@ -40,7 +45,10 @@ export const MOVE_NAME: Record<number, string> = {
   3: "Scissors",
 };
 
-/** String alias for {@link Mode} — accepted anywhere a Mode enum value is. */
+/**
+ * String alias for {@link Mode} — accepted anywhere a Mode enum value is.
+ * `"casual"` = no rank stake on CELO; `"ranked"` = updates soulbound badge.
+ */
 export type ModeName = "casual" | "ranked";
 
 export function modeToEnum(m: ModeName | Mode): Mode {
