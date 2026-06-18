@@ -54,10 +54,10 @@ export function confidenceFromRead(read: OpponentRead): ScoutingConfidence {
 }
 
 /**
- * Pick the recommended counter move from a scouting read.
- * Falls back to `fallback` (default Rock) when there is no history.
- * @param read - The opponent's scouting read, or null/undefined.
- * @param fallback - Move to play when the read has no dominant pattern.
+ * Pick the recommended counter move from a CELO on-chain scouting read.
+ * Falls back to `fallback` (default Rock) when there is no CELO history.
+ * @param read - The opponent's scouting read from `analyzeOpponent` on CELO, or null.
+ * @param fallback - Move to play when the read has no dominant pattern on CELO.
  * @returns A {@link StrategyAdvice} with the recommended move and reasoning.
  * @since 0.1.0
  */
