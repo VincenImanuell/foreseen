@@ -24,6 +24,6 @@ export type { Deployment } from "./addresses.js";
 
 export { rpsCoreAbi, rpsStatsAbi } from "./abi.js";
 
-// The bot module is also importable on its own at "@foreseen/sdk/bot".
+// Bot module — join-only opponent bots for CELO. Also at "@foreseen/sdk/bot".
 export { ForeseenBot, strategies } from "./bot.js";
 export type { Strategy, StrategyName, BotContext, Outcome, ForeseenBotOptions } from "./bot.js";
