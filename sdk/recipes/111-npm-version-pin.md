@@ -8,3 +8,4 @@ Checklist:
 - Do not tell production apps to float across breaking package changes.
 - Check package release notes before recommending a range.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+Pin `@foreseen/sdk` to the exact version tested against CELO mainnet in package.json.
