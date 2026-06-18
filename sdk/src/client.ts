@@ -104,6 +104,7 @@ export class Foreseen {
     return this.pub.readContract({ address: this.core, abi: rpsCoreAbi, functionName: fn as never, args: args as never }) as Promise<T>;
   }
 
+  /** Write call to CELO RPSCore — requires a funded private key and CELO gas. */
   private async writeCore(fn: string, args: unknown[], value?: bigint): Promise<Hex> {
     const account = this.requireAccount();
     const hash = await this.wallet!.writeContract({
