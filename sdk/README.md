@@ -118,6 +118,14 @@ import type { MatchView, OpponentRead } from "@foreseen/sdk/types";
 
 Move encoding: `Rock=1 Paper=2 Scissors=3`. Mode: `casual | ranked`.
 
+## MiniPay (Opera)
+
+Foreseen-Web detects `window.ethereum.isMiniPay` and auto-connects the wallet —
+no manual connect step needed inside MiniPay. The SDK works identically in
+MiniPay contexts: initialize a read-only client (`new Foreseen({ network: "celo" })`)
+and call `analyzeOpponent`, `getOpenMatches`, etc. See
+`examples/minipay-scout.ts` for a runnable example.
+
 ## Networks
 
 | network | chain id | use |
