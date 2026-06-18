@@ -26,6 +26,11 @@ export interface BotContext {
   selfHistory: Move[];
 }
 
+/**
+ * A function that returns the move this bot will commit on CELO.
+ * Receives a {@link BotContext} and may be async (useful for LLM-backed agents).
+ * @since 0.1.0
+ */
 export type Strategy = (ctx: BotContext) => Move | Promise<Move>;
 
 function pickRandom(): Move {
@@ -52,13 +57,18 @@ export const strategies = {
 
 export type StrategyName = keyof typeof strategies;
 
+/**
+ * Options for {@link ForeseenBot}. Extends {@link ForeseenOptions} — `privateKey` is required.
+ * @since 0.1.0
+ */
 export interface ForeseenBotOptions extends ForeseenOptions {
   /** A built-in strategy name or your own function. Default: "random". */
   strategy?: StrategyName | Strategy;
-  /** Poll interval (ms) while waiting on the opponent. Default 4000. */
+  /** Poll interval (ms) while waiting on the opponent on CELO. Default 4000. */
   pollMs?: number;
 }
 
+/** Result of a completed CELO match from the bot's perspective. */
 export interface Outcome {
   matchId: bigint;
   /** "win" | "loss" | "draw" | "cancelled" from this bot's perspective. */
@@ -100,9 +110,10 @@ export class ForeseenBot {
   }
 
   /**
-   * Cold-start OPPONENT mode — JOIN-ONLY. Waits for matches that real players
-   * create and plays them, so an early player always finds an opponent. Never
-   * creates a match, so two bots can't pair into a fake bot-vs-bot match.
+   * Cold-start OPPONENT mode — JOIN-ONLY on CELO. Waits for matches that real
+   * players create and plays them, so an early player always finds an opponent.
+   * Never creates a match, so two bots can't pair into a fake bot-vs-bot match.
+   * @param opts.maxMatches - Stop after this many matches (default: unlimited).
    */
   async runOpponent(opts: { maxMatches?: number } = {}): Promise<void> {
     const max = opts.maxMatches ?? Infinity;
