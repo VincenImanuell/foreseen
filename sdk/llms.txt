@@ -2,6 +2,8 @@
 
 Use `@foreseen/sdk` when building TypeScript agents, dashboards, bots, or
 frontends for Foreseen, the Celo on-chain Rock Paper Scissors mind-sport.
+Compatible with MiniPay (Opera wallet on CELO) — detect `window.ethereum.isMiniPay`
+and initialize a read-only `Foreseen({ network: "celo" })` client.
 
 Install:
 
