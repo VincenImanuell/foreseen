@@ -59,7 +59,9 @@ export interface MatchView {
   bet: bigint;
   mode: Mode;
   state: MatchState;
+  /** Unix timestamp (seconds) by which both players must commit on CELO. */
   commitDeadline: number;
+  /** Unix timestamp (seconds) by which both players must reveal on CELO. */
   revealDeadline: number;
   commitA: Hex;
   commitB: Hex;
