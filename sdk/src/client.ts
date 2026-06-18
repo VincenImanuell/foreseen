@@ -249,7 +249,11 @@ export class Foreseen {
     return this.readCore<bigint>("pendingWithdrawals", [a]);
   }
 
-  /** Fetch a fully-decoded match by id. Throws if the id is out of range. */
+  /**
+   * Fetch a fully-decoded CELO match by ID from `RPSCore.getMatch`.
+   * Read-only — no private key required. Throws if the match ID is out of range.
+   * @param matchId - The CELO match ID to fetch.
+   */
   async getMatch(matchId: bigint): Promise<MatchView> {
     const m = await this.readCore<{
       playerA: Address; bet: bigint; playerB: Address;
