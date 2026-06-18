@@ -14,3 +14,5 @@ Not allowed:
 - Bot-vs-bot funded loops.
 - Fake DAU, fake volume, or fake download automation.
 - Reporting bot traffic as organic players.
+
+Label CELO bot wallets `[BOT]` in any public display to maintain transparency.

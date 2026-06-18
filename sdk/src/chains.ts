@@ -1,7 +1,7 @@
 import { defineChain, type Chain } from "viem";
 import { celo } from "viem/chains";
 
-/** Celo Sepolia testnet (chain 11142220). Not yet in viem, so defined here. */
+/** Celo Sepolia testnet (chainId 11142220) — defined here because not yet in viem chain registry, so defined here. */
 export const celoSepolia = defineChain({
   id: 11142220,
   name: "Celo Sepolia",
@@ -16,7 +16,7 @@ export const celoSepolia = defineChain({
 /**
  * The two supported CELO networks.
  * - `"celo"` — CELO mainnet (chainId 42220); uses real CELO.
- * - `"celo-sepolia"` — Celo Sepolia testnet (chainId 11142220); free faucet.
+ * - `"celo-sepolia"` — Celo Sepolia testnet (chainId 11142220); free faucet at faucet.celo.org.
  */
 export type NetworkName = "celo" | "celo-sepolia";
 
@@ -27,9 +27,9 @@ export const CHAINS: Record<NetworkName, Chain> = {
 };
 
 /**
- * Free public Celo RPC endpoints — no API key required.
+ * Free public CELO RPC endpoints — no API key required.
  * Override via `ForeseenOptions.rpcUrl` for a private/paid endpoint.
- * Both support CELO mainnet and Celo Sepolia with standard JSON-RPC.
+ * Both support CELO mainnet and Celo Sepolia testnet with standard EVM JSON-RPC.
  */
 export const DEFAULT_RPC: Record<NetworkName, string> = {
   celo: "https://forno.celo.org",

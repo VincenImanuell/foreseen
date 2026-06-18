@@ -9,3 +9,5 @@ await rps.reveal({ matchId, move, salt });
 
 Persist the salt outside source control. If the salt is lost, the player cannot
 reveal from that commitment.
+
+The salt is never sent to CELO on-chain — only the hash (commit) is stored on-chain.

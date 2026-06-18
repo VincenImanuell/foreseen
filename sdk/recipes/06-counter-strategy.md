@@ -9,3 +9,5 @@ const advice = pickCounterFromRead(read);
 
 The helper returns a move, confidence label, and human-readable reason that can
 be logged or shown in UI.
+
+The counter move is committed to CELO mainnet via `commit()`.

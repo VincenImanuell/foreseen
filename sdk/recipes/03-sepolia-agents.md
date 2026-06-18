@@ -10,3 +10,5 @@ const rps = new Foreseen({
 ```
 
 Never commit test keys. Keep them in local environment variables or CI secrets.
+
+Switch to CELO mainnet for production: `network: "celo"` (chainId 42220).

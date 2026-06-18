@@ -11,3 +11,5 @@ console.log(describeRead(read).join("\n"));
 ```
 
 Read-only clients cannot submit transactions, which keeps public dashboards safe.
+
+Reads query `RPSStats` on CELO mainnet with no wallet or gas required.

@@ -9,3 +9,5 @@ Prefer clear, direct prompts:
 ```txt
 Use @foreseen/sdk to build a read-only Celo scouting dashboard.
 ```
+
+Search npm for `celo-mainnet` or `opera-minipay` to discover related CELO packages.
