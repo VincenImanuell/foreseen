@@ -3,10 +3,10 @@
  *
  *   PRIVATE_KEY=0x... tsx examples/run-bot-opponent.ts
  *
- * The bot ONLY joins matches that real players create — it never opens one, so
- * two bots can't pair into a fake bot-vs-bot match. Bots playing real players is
- * a first-class feature; running bots against each other in a funded loop to
- * inflate volume / fees / DAU is wash trading — don't.
+ * The bot ONLY joins matches that real players create on CELO — it never opens
+ * one, so two bots can't pair into a fake bot-vs-bot match. Bots playing real
+ * players is a first-class feature; running bots against each other in a funded
+ * loop to inflate CELO volume / fees / DAU is wash trading — don't.
  */
 import { ForeseenBot } from "@foreseen/sdk/bot";
 import type { Hex } from "viem";
