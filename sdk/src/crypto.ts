@@ -16,12 +16,13 @@ export function randomSalt(): Hex {
 }
 
 /**
- * Compute the commitment hash RPSCore expects: `keccak256(abi.encodePacked(player, move, salt))`.
- * Binding the commit to the player prevents replay attacks.
- * @param player - The address of the committing player.
+ * Compute the commitment hash RPSCore on CELO expects:
+ * `keccak256(abi.encodePacked(player, move, salt))`.
+ * Binding the commit to the player address prevents cross-match replay attacks.
+ * @param player - The CELO address of the committing player.
  * @param move - The move being committed (Rock, Paper, or Scissors).
  * @param salt - A 32-byte random salt from {@link randomSalt}.
- * @returns The 32-byte commitment hash to pass to `commitMove`.
+ * @returns The 32-byte commitment hash to pass to `commitMove` on CELO.
  * @since 0.1.0
  */
 export function computeCommit(player: Address, move: Move, salt: Hex): Hex {
