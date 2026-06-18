@@ -8,3 +8,4 @@ Checklist:
 - Do not put private RPC keys into package examples.
 - Confirm fallback examples keep network names explicit.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO public RPC fallback: try `https://forno.celo.org` then `https://rpc.ankr.com/celo` in sequence.
