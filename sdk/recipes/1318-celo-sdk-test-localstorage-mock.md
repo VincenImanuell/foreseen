@@ -1,0 +1,1 @@
+CELO sdk test localstorage-mock: mock window.localStorage in tests for saveSecret/loadSecret — jsdom's default localStorage works, but explicit clearing between tests avoids CELO secret leakage across test cases.

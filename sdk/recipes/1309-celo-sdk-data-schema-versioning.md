@@ -1,0 +1,1 @@
+CELO sdk data schema-versioning: if RPSCore's struct layout changes on a future CELO mainnet upgrade, toRpsMatch()/toRpsStats() are the single normalization point to update — no scattered raw-struct access.

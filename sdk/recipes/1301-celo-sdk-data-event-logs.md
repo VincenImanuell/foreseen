@@ -1,0 +1,1 @@
+CELO sdk data event-logs: RPSCore emits events (MatchOpened, Committed, Revealed, Settled) — a future @foreseen/sdk helper could subscribe via viem's watchContractEvent for real-time CELO match feeds instead of polling.
