@@ -8,3 +8,4 @@ Checklist:
 - Do not bump major frontend dependencies without migration review.
 - Record whether a fix affects runtime, dev tooling, or release automation.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO npm audit response: patch viem/wagmi CVEs fast — CELO wallet signing security is critical.

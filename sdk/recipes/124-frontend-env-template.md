@@ -8,3 +8,4 @@ Checklist:
 - Do not include npm tokens, deployer keys, or private RPC credentials.
 - Verify defaults point at documented Celo networks.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO frontend env template: add `NEXT_PUBLIC_CHAIN_ID=42220` and `NEXT_PUBLIC_FORNO_URL` to `.env.example`.

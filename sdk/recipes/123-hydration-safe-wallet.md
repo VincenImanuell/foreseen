@@ -8,3 +8,4 @@ Checklist:
 - Do not render wallet-only state before the component is mounted.
 - Check the first paint with and without an injected wallet.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO hydration-safe wallet: delay wallet reads until `mounted` — avoids SSR/client CELO address mismatch.

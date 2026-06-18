@@ -8,3 +8,4 @@ Checklist:
 - Do not publish local caches, env files, or generated app builds.
 - Run a dry-pack inspection before changing the `files` allowlist.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO package-files-check: ensure `sdk/dist/` is in `files` array — prevents missing CELO types on npm install.

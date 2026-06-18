@@ -8,3 +8,4 @@ Checklist:
 - Do not combine Next, wagmi, and Tailwind migrations with unrelated SDK docs.
 - Verify build, routing, wallet connection, and package imports.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO dependency major lane: test against CELO mainnet RPC after any viem or wagmi major upgrade.

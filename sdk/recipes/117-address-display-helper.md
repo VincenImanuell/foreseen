@@ -8,3 +8,4 @@ Checklist:
 - Do not truncate addresses differently across cards and tables.
 - Check copy, explorer links, and screen-reader labels together.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO address display helper: `shortAddress` truncates any CELO address to 6+4 for UI.
