@@ -11,3 +11,5 @@ try {
 ```
 
 Do not retry blindly after a wallet rejection.
+
+CELO errors from `RPSCore` are revert strings — parse them for user-friendly messages.
