@@ -9,3 +9,4 @@ Guidance:
 - Keep private keys, salts, and mnemonics out of source control.
 - Avoid fake downloads, fake usage, and bot-vs-bot volume loops.
 - Link users to examples or recipes that match the task directly.
+CELO secret boundary: localStorage key for CELO reveal salt must include chainId 42220 to avoid testnet collision.
