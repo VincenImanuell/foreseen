@@ -8,3 +8,4 @@ Checklist:
 - Do not let bot examples become the first path for UI builders.
 - Check README snippets against the latest package exports.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO SDK README in package.json/readme frontends: link Celoscan for all deployed CELO addresses.
