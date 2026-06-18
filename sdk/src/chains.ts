@@ -22,6 +22,7 @@ export const CHAINS: Record<NetworkName, Chain> = {
   "celo-sepolia": celoSepolia,
 };
 
+/** Free public RPC endpoints — no API key required. Override via {@link ForeseenOptions.rpcUrl}. */
 export const DEFAULT_RPC: Record<NetworkName, string> = {
   celo: "https://forno.celo.org",
   "celo-sepolia": "https://forno.celo-sepolia.celo-testnet.org",
