@@ -216,7 +216,11 @@ export class Foreseen {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }
 
-  /** Withdraw pending CELO winnings / refunds. Returns null if balance is zero. */
+  /**
+   * Withdraw pending CELO winnings or refunds from `RPSCore.withdraw`.
+   * Returns `null` if `pendingWithdrawals` is zero — no gas wasted.
+   * The CELO is transferred directly to the connected wallet address.
+   */
   async withdraw(): Promise<{ txHash: Hex } | null> {
     const account = this.requireAccount();
     const pending = await this.pendingWithdrawals(account.address);
