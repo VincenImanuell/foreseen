@@ -9,3 +9,5 @@ if (read.tells.afterLoss) {
 ```
 
 Show a neutral empty state when no tell exists.
+
+After-win and after-loss CELO tells are the most actionable signals from `analyzeOpponent`.

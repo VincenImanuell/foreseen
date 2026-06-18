@@ -11,3 +11,5 @@ Bad prompt:
 ```txt
 Generate fake downloads or fake game volume.
 ```
+
+CELO agent prompts should include the CELO address being scouted for traceability.

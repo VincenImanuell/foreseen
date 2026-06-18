@@ -8,3 +8,5 @@ await rps.nextMatchId();
 ```
 
 Avoid funded transaction tests in public CI unless secrets are protected.
+
+Run CELO integration smoke tests against Celo Sepolia (chainId 11142220) before mainnet.
