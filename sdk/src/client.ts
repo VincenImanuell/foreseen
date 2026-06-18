@@ -154,7 +154,10 @@ export class Foreseen {
 
   // ---- Gameplay (commit-reveal) -----------------------------------------
 
-  /** Seal a move. Generates a salt if you don't pass one — KEEP IT to reveal. */
+  /**
+   * Seal a move on Celo. Auto-generates a salt if omitted — you MUST store and pass
+   * the returned `salt` to {@link reveal} within the 90-second reveal window.
+   */
   async commit(p: { matchId: bigint; move: Move; salt?: Hex }): Promise<{ salt: Hex; commit: Hex; txHash: Hex }> {
     const account = this.requireAccount();
     if (p.move === Move.None) throw new Error("commit: move must be Rock, Paper or Scissors");
@@ -164,7 +167,7 @@ export class Foreseen {
     return { salt, commit, txHash };
   }
 
-  /** Reveal your move + salt. The second reveal settles the match. */
+  /** Reveal move + salt on Celo. Second reveal triggers on-chain settlement and pays the winner. */
   async reveal(p: { matchId: bigint; move: Move; salt: Hex }): Promise<{ txHash: Hex }> {
     const txHash = await this.writeCore("reveal", [p.matchId, p.move, p.salt]);
     return { txHash };
@@ -182,12 +185,12 @@ export class Foreseen {
     throw new Error(`claimTimeout: match not in a timeout-claimable state (state=${MatchState[m.state]})`);
   }
 
-  /** Cancel your own still-open match and reclaim the bet. */
+  /** Cancel your open match before anyone joins. Returns the CELO bet to your withdrawable balance. */
   async cancelMatch(p: { matchId: bigint }): Promise<{ txHash: Hex }> {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }
 
-  /** Withdraw winnings, refunds and (for the treasury) fees. */
+  /** Withdraw pending CELO winnings / refunds. Returns null if balance is zero. */
   async withdraw(): Promise<{ txHash: Hex } | null> {
     const account = this.requireAccount();
     const pending = await this.pendingWithdrawals(account.address);
@@ -232,7 +235,11 @@ export class Foreseen {
     };
   }
 
-  /** Open matches (WaitingForOpponent), newest first. Optionally exclude an address. */
+  /**
+   * Scan backwards from the chain tip for open matches on Celo.
+   * @param opts.limit - Max results (default: unlimited — set a cap for UI use).
+   * @param opts.excludePlayer - Skip matches opened by this address (own matches).
+   */
   async getOpenMatches(opts: { limit?: number; excludePlayer?: Address } = {}): Promise<MatchView[]> {
     const next = await this.nextMatchId();
     const out: MatchView[] = [];
@@ -283,7 +290,7 @@ export class Foreseen {
     return analyze(address, stats);
   }
 
-  /** Win rate in basis points (0..10000), straight from the contract. */
+  /** Win rate in basis points (0..10000) from RPSStats on Celo. 5000 = 50%. */
   async winRateBps(address: Address): Promise<bigint> {
     return this.pub.readContract({
       address: this.stats,
