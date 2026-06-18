@@ -57,10 +57,14 @@ export const strategies = {
 
 export type StrategyName = keyof typeof strategies;
 
+/**
+ * Options for {@link ForeseenBot}. Extends {@link ForeseenOptions} — `privateKey` is required.
+ * @since 0.1.0
+ */
 export interface ForeseenBotOptions extends ForeseenOptions {
   /** A built-in strategy name or your own function. Default: "random". */
   strategy?: StrategyName | Strategy;
-  /** Poll interval (ms) while waiting on the opponent. Default 4000. */
+  /** Poll interval (ms) while waiting on the opponent on CELO. Default 4000. */
   pollMs?: number;
 }
 
