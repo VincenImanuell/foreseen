@@ -248,6 +248,7 @@ export class Foreseen {
 
   // ---- Scouting / stats --------------------------------------------------
 
+  /** Raw on-chain stats from RPSStats for any address. No wallet needed. */
   async getPlayerStats(address: Address): Promise<PlayerStats> {
     const s = await this.pub.readContract({
       address: this.stats,
