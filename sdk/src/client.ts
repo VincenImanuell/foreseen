@@ -211,7 +211,11 @@ export class Foreseen {
     throw new Error(`claimTimeout: match not in a timeout-claimable state (state=${MatchState[m.state]})`);
   }
 
-  /** Cancel your open match before anyone joins. Returns the CELO bet to your withdrawable balance. */
+  /**
+   * Cancel your CELO match before any opponent joins.
+   * Returns the CELO bet stake to `pendingWithdrawals` — call {@link withdraw} to retrieve it.
+   * @param p.matchId - The CELO match ID to cancel (must be in WaitingForOpponent state).
+   */
   async cancelMatch(p: { matchId: bigint }): Promise<{ txHash: Hex }> {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }
