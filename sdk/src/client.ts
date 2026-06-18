@@ -30,12 +30,13 @@ import {
 } from "./types.js";
 
 /**
- * Constructor options for {@link Foreseen}.
- * All fields are optional — defaults produce a read-only mainnet client.
+ * Constructor options for the {@link Foreseen} CELO client.
+ * All fields are optional — defaults produce a read-only CELO mainnet client (chainId 42220).
+ * Pass `network: "celo-sepolia"` for testnet (chainId 11142220).
  * @since 0.1.0
  */
 export interface ForeseenOptions {
-  /** "celo" (mainnet, default) or "celo-sepolia" (testnet). */
+  /** "celo" (CELO mainnet chainId 42220, default) or "celo-sepolia" (testnet 11142220). */
   network?: NetworkName;
   /** Override the RPC endpoint. Defaults to the free public RPC for the network. */
   rpcUrl?: string;
@@ -164,8 +165,12 @@ export class Foreseen {
   // ---- Gameplay (commit-reveal) -----------------------------------------
 
   /**
-   * Seal a move on Celo. Auto-generates a salt if omitted — you MUST store and pass
-   * the returned `salt` to {@link reveal} within the 90-second reveal window.
+   * Seal a move on CELO mainnet by calling `RPSCore.commitMove`. Auto-generates a salt if omitted.
+   * You MUST store the returned `salt` and pass it to {@link reveal} within the 90-second CELO window.
+   * Losing the salt = unable to reveal = opponent can claim timeout winnings.
+   * @param p.matchId - The CELO match ID to commit a move in.
+   * @param p.move - Rock, Paper, or Scissors (not None).
+   * @param p.salt - Optional deterministic salt; auto-generated if omitted.
    */
   async commit(p: { matchId: bigint; move: Move; salt?: Hex }): Promise<{ salt: Hex; commit: Hex; txHash: Hex }> {
     const account = this.requireAccount();
@@ -176,7 +181,14 @@ export class Foreseen {
     return { salt, commit, txHash };
   }
 
-  /** Reveal move + salt on Celo. Second reveal triggers on-chain settlement and pays the winner. */
+  /**
+   * Reveal move + salt on CELO by calling `RPSCore.reveal`.
+   * The second reveal triggers on-chain CELO settlement and releases winnings to the winner.
+   * Must be called within the 90-second reveal window, or the opponent can claim timeout.
+   * @param p.matchId - The CELO match ID to reveal in.
+   * @param p.move - Must match the move committed in {@link commit}.
+   * @param p.salt - The salt returned by {@link commit} (or the value you passed in).
+   */
   async reveal(p: { matchId: bigint; move: Move; salt: Hex }): Promise<{ txHash: Hex }> {
     const txHash = await this.writeCore("reveal", [p.matchId, p.move, p.salt]);
     return { txHash };
