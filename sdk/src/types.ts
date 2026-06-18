@@ -32,7 +32,10 @@ export enum MatchState {
   Cancelled = 5,
 }
 
-/** Human-readable names for Move enum values. Key 0 is "None". */
+/**
+ * Human-readable display names for {@link Move} enum values on CELO.
+ * Key 0 is "None" (invalid move). Keys 1–3 map to Rock/Paper/Scissors.
+ */
 export const MOVE_NAME: Record<number, string> = {
   0: "None",
   1: "Rock",
