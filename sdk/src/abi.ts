@@ -1,6 +1,7 @@
 /**
- * Hand-written ABI subset for the deployed Foreseen v2 contracts — only the
- * functions/events the SDK uses. Signatures match RPSCore.sol / RPSStats.sol.
+ * Hand-written ABI subset for the deployed Foreseen v2 contracts on CELO mainnet
+ * and Celo Sepolia — only the functions/events the SDK uses.
+ * Signatures match RPSCore.sol / RPSStats.sol. Verify on Celoscan for CELO mainnet.
  */
 export const rpsCoreAbi = [
   { type: "function", name: "createMatch", stateMutability: "payable", inputs: [{ name: "mode", type: "uint8" }], outputs: [{ name: "matchId", type: "uint256" }] },
