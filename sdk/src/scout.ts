@@ -3,8 +3,10 @@ import { Move, type OpponentRead, type PlayerStats } from "./types.js";
 import { counter } from "./crypto.js";
 
 /**
- * Compute the percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally.
+ * Compute the percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally
+ * sourced from the CELO on-chain `moveCount` field in `RPSStats`.
  * Values sum to ~100 (rounding may cause ±1 difference).
+ * @param counts - `[rock, paper, scissors]` tally from {@link PlayerStats.moveCount}.
  * @since 0.1.0
  */
 export function distributionPct(
@@ -32,7 +34,8 @@ function dominantIndex(counts: [bigint, bigint, bigint]): number {
 
 /**
  * Convert a 3-bucket move-count tally to the most-played {@link Move} (1..3).
- * Returns `null` when the player has no revealed matches yet.
+ * Returns `null` when the player has no revealed CELO matches yet.
+ * @param counts - `[rock, paper, scissors]` tally from `RPSStats.moveCount` on CELO.
  * @since 0.1.0
  */
 export function dominantMove(counts: [bigint, bigint, bigint]): Move | null {

@@ -3,8 +3,8 @@
  *
  *   tsx examples/scout.ts 0xOpponentAddress
  *
- * Prints an opponent's on-chain distribution, contextual tells, and the move
- * that beats their favorite throw. This is the mind-sport's core read.
+ * Prints an opponent's CELO on-chain distribution, contextual tells, and the
+ * move that beats their favorite throw. This is the mind-sport's core read on CELO.
  */
 import { Foreseen, MOVE_NAME } from "@foreseen/sdk";
 import type { Address } from "viem";
