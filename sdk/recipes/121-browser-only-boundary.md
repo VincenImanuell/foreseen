@@ -8,3 +8,4 @@ Checklist:
 - Do not import browser-only code into server-rendered paths.
 - Check Next build output for server-component import errors.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO browser-only boundary: gate wagmi/viem imports with `'use client'` — SSR must not touch CELO wallet.
