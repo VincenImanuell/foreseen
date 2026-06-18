@@ -29,7 +29,7 @@ export const CHAINS: Record<NetworkName, Chain> = {
 /**
  * Free public CELO RPC endpoints — no API key required.
  * Override via `ForeseenOptions.rpcUrl` for a private/paid endpoint.
- * Both support CELO mainnet and Celo Sepolia with standard JSON-RPC.
+ * Both support CELO mainnet and Celo Sepolia testnet with standard EVM JSON-RPC.
  */
 export const DEFAULT_RPC: Record<NetworkName, string> = {
   celo: "https://forno.celo.org",
