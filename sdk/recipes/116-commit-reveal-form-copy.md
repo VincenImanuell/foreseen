@@ -8,3 +8,4 @@ Checklist:
 - Do not ask users to reveal their secret before the reveal step.
 - Verify copy around commit, reveal, timeout, and withdraw states.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO commit-reveal form: label commit CTA 'Lock CELO throw' and reveal CTA 'Reveal on CELO'.
