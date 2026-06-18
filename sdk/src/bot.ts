@@ -64,6 +64,7 @@ export interface ForeseenBotOptions extends ForeseenOptions {
   pollMs?: number;
 }
 
+/** Result of a completed CELO match from the bot's perspective. */
 export interface Outcome {
   matchId: bigint;
   /** "win" | "loss" | "draw" | "cancelled" from this bot's perspective. */
