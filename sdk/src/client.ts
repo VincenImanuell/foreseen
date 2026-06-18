@@ -202,6 +202,7 @@ export class Foreseen {
     return this.readCore<bigint>("nextMatchId");
   }
 
+  /** Claimable balance (wei) for an address. Defaults to the connected account. */
   async pendingWithdrawals(address?: Address): Promise<bigint> {
     const a = address ?? this.address;
     if (!a) throw new Error("pendingWithdrawals: pass an address or use a client with a key");
