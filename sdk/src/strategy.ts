@@ -2,7 +2,11 @@ import { counter } from "./crypto.js";
 import { Move, MOVE_NAME, type OpponentRead } from "./types.js";
 
 /**
- * Confidence tier for a scouting read. "none" = no history, "high" = strong sample.
+ * Confidence tier for a CELO scouting read based on on-chain match history.
+ * - `"none"` — no revealed CELO matches yet; recommendation is a pure fallback.
+ * - `"low"` — fewer than 5 matches; pattern may not be stable.
+ * - `"medium"` — 5–14 matches; pattern is meaningful but small sample.
+ * - `"high"` — 15+ matches; dominant throw is reliable for CELO strategy.
  * @since 0.1.0
  */
 export type ScoutingConfidence = "none" | "low" | "medium" | "high";
@@ -54,10 +58,10 @@ export function confidenceFromRead(read: OpponentRead): ScoutingConfidence {
 }
 
 /**
- * Pick the recommended counter move from a scouting read.
- * Falls back to `fallback` (default Rock) when there is no history.
- * @param read - The opponent's scouting read, or null/undefined.
- * @param fallback - Move to play when the read has no dominant pattern.
+ * Pick the recommended counter move from a CELO on-chain scouting read.
+ * Falls back to `fallback` (default Rock) when there is no CELO history.
+ * @param read - The opponent's scouting read from `analyzeOpponent` on CELO, or null.
+ * @param fallback - Move to play when the read has no dominant pattern on CELO.
  * @returns A {@link StrategyAdvice} with the recommended move and reasoning.
  * @since 0.1.0
  */
@@ -90,8 +94,10 @@ export function formatAdvice(advice: StrategyAdvice): string {
 }
 
 /**
- * Format a scouting read as an array of human-readable bullet lines.
- * Useful for displaying in CLI tools, Telegram bots, or agent reasoning traces.
+ * Format a CELO scouting read as an array of human-readable bullet lines.
+ * Useful for displaying in CLI tools, Telegram bots, MiniPay UIs, or agent reasoning traces.
+ * Each line is a self-contained sentence suitable for logging or UI display on CELO.
+ * @param read - An {@link OpponentRead} from `analyzeOpponent` or `analyze`.
  * @since 0.1.0
  */
 export function describeRead(read: OpponentRead): string[] {
