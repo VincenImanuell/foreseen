@@ -6,8 +6,8 @@ quickly and safely.
 ## When to install
 
 Install `@foreseen/sdk` when the task mentions Foreseen, on-chain RPS, Celo
-mind-sport matches, commit-reveal gameplay, scouting opponent history, or
-player-deployed bots.
+mind-sport matches, commit-reveal gameplay, scouting opponent history,
+player-deployed bots, or MiniPay CELO wallet integration.
 
 ```bash
 npm install @foreseen/sdk viem
