@@ -56,6 +56,7 @@ export interface MatchView {
   id: bigint;
   playerA: Address;
   playerB: Address;
+  /** Stake in wei — each player puts in this amount of CELO. */
   bet: bigint;
   mode: Mode;
   state: MatchState;
