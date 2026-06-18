@@ -293,7 +293,12 @@ export class Foreseen {
     };
   }
 
-  /** Full scouting read for an address: distribution, tells, suggested counter. */
+  /**
+   * Full CELO scouting read for an address: distribution, contextual tells,
+   * and the move that counters their dominant throw.
+   * Reads `RPSStats.getStats` on CELO — no private key required.
+   * @param address - The CELO address of the opponent to scout.
+   */
   async analyzeOpponent(address: Address): Promise<OpponentRead> {
     const stats = await this.getPlayerStats(address);
     return analyze(address, stats);
