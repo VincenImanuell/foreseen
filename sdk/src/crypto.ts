@@ -48,6 +48,8 @@ export function resultOf(a: Move, b: Move): 0 | 1 | 2 {
 
 /**
  * Returns the move that beats `m`. Rock→Paper, Paper→Scissors, Scissors→Rock.
+ * Used by counterStats strategy on CELO to pick the optimal counter move.
+ * @param m - The opponent's dominant or predicted move from CELO on-chain history.
  * @since 0.1.0
  */
 export function counter(m: Move): Move {
