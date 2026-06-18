@@ -9,3 +9,4 @@ Guidance:
 - Keep private keys, salts, and mnemonics out of source control.
 - Avoid fake downloads, fake usage, and bot-vs-bot volume loops.
 - Link users to examples or recipes that match the task directly.
+CELO doc policy: every public SDK export must have a JSDoc example showing CELO mainnet chainId 42220.
