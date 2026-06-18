@@ -1,0 +1,1 @@
+CELO sdk lint naming-convention: prefix on-chain CELO read hooks with `use` (useMatches, useMiniPay) and keep pure helpers (computeCommit, resultOf) verb-first — consistent across the SDK and frontend.
