@@ -90,13 +90,13 @@ export interface Outcome {
 }
 
 /**
- * A turnkey Foreseen agent. Wraps a {@link Foreseen} client and drives the full
- * commit-reveal lifecycle with a pluggable strategy.
+ * A turnkey Foreseen agent running on CELO. Wraps a {@link Foreseen} client and drives the full
+ * CELO commit-reveal lifecycle with a pluggable strategy.
  *
- * Honesty note: bots playing **real players** is a first-class feature (cold-start
+ * Honesty note: bots playing **real players** is a first-class CELO feature (cold-start
  * opponents, player-deployed agents). Do NOT run bots against each other in a
- * funded loop to manufacture volume / fees / DAU — that is wash trading. Label bot
- * wallets [BOT] and never report them as organic users.
+ * funded CELO loop to manufacture volume / fees / DAU — that is wash trading. Label bot
+ * wallets [BOT] and never report them as organic CELO users.
  */
 export class ForeseenBot {
   readonly rps: Foreseen;
