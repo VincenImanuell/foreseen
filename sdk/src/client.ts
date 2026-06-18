@@ -154,7 +154,10 @@ export class Foreseen {
 
   // ---- Gameplay (commit-reveal) -----------------------------------------
 
-  /** Seal a move. Generates a salt if you don't pass one — KEEP IT to reveal. */
+  /**
+   * Seal a move on Celo. Auto-generates a salt if omitted — you MUST store and pass
+   * the returned `salt` to {@link reveal} within the 90-second reveal window.
+   */
   async commit(p: { matchId: bigint; move: Move; salt?: Hex }): Promise<{ salt: Hex; commit: Hex; txHash: Hex }> {
     const account = this.requireAccount();
     if (p.move === Move.None) throw new Error("commit: move must be Rock, Paper or Scissors");
