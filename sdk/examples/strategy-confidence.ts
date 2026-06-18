@@ -1,3 +1,7 @@
+/**
+ * Read an opponent's CELO on-chain history and print the strategy confidence.
+ *   tsx examples/strategy-confidence.ts 0xOpponent
+ */
 import {
   Foreseen,
   describeRead,
