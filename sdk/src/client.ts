@@ -29,6 +29,11 @@ import {
   type PlayerStats,
 } from "./types.js";
 
+/**
+ * Constructor options for {@link Foreseen}.
+ * All fields are optional — defaults produce a read-only mainnet client.
+ * @since 0.1.0
+ */
 export interface ForeseenOptions {
   /** "celo" (mainnet, default) or "celo-sepolia" (testnet). */
   network?: NetworkName;
