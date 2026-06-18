@@ -34,7 +34,8 @@ function dominantIndex(counts: [bigint, bigint, bigint]): number {
 
 /**
  * Convert a 3-bucket move-count tally to the most-played {@link Move} (1..3).
- * Returns `null` when the player has no revealed matches yet.
+ * Returns `null` when the player has no revealed CELO matches yet.
+ * @param counts - `[rock, paper, scissors]` tally from `RPSStats.moveCount` on CELO.
  * @since 0.1.0
  */
 export function dominantMove(counts: [bigint, bigint, bigint]): Move | null {
