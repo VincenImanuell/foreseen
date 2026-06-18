@@ -12,8 +12,8 @@ import { Move, MOVE_NAME, type OpponentRead } from "./types.js";
 export type ScoutingConfidence = "none" | "low" | "medium" | "high";
 
 /**
- * The output of {@link pickCounterFromRead}: the recommended move, how
- * confident the recommendation is, and a human-readable reason string.
+ * The output of {@link pickCounterFromRead}: the recommended move to commit on CELO,
+ * how confident the recommendation is based on CELO history, and a human-readable reason.
  * @since 0.1.0
  */
 export interface StrategyAdvice {
