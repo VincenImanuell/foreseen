@@ -113,6 +113,7 @@ export class ForeseenBot {
     this.pollMs = opts.pollMs ?? 4000;
   }
 
+  /** The CELO address this bot wallet is funded on and commits moves from. */
   get address(): Address {
     return this.rps.address!;
   }
@@ -122,10 +123,10 @@ export class ForeseenBot {
   }
 
   /**
-   * Cold-start OPPONENT mode — JOIN-ONLY on CELO. Waits for matches that real
-   * players create and plays them, so an early player always finds an opponent.
-   * Never creates a match, so two bots can't pair into a fake bot-vs-bot match.
-   * @param opts.maxMatches - Stop after this many matches (default: unlimited).
+   * Cold-start OPPONENT mode — JOIN-ONLY on CELO mainnet. Waits for matches that real
+   * players create and plays them, so an early CELO player always finds an opponent.
+   * Never creates a match itself, so two bots can't pair into a fake bot-vs-bot CELO match.
+   * @param opts.maxMatches - Stop after this many CELO matches (default: unlimited).
    */
   async runOpponent(opts: { maxMatches?: number } = {}): Promise<void> {
     const max = opts.maxMatches ?? Infinity;
@@ -159,8 +160,9 @@ export class ForeseenBot {
   }
 
   /**
-   * Drive commit → reveal → settle for a match this bot is already a player in.
-   * Scouts the opponent first, then asks the strategy for a move.
+   * Drive the full CELO commit → reveal → settle lifecycle for a match this bot is already a player in.
+   * Scouts the opponent's CELO on-chain history first, then asks the strategy for a move.
+   * Returns an {@link Outcome} after the match is settled on CELO.
    */
   async playMatch(matchId: bigint): Promise<Outcome> {
     let m = await this.rps.getMatch(matchId);
