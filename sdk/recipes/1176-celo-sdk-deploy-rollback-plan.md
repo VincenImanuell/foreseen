@@ -1,0 +1,1 @@
+CELO sdk deploy rollback-plan: keep the previous @foreseen/sdk npm version pinned in frontend package.json during a CELO mainnet ABI migration — revert is a one-line package.json change, no redeploy of contracts.
