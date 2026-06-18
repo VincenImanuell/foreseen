@@ -16,7 +16,7 @@ export const celoSepolia = defineChain({
 /**
  * The two supported CELO networks.
  * - `"celo"` — CELO mainnet (chainId 42220); uses real CELO.
- * - `"celo-sepolia"` — Celo Sepolia testnet (chainId 11142220); free faucet.
+ * - `"celo-sepolia"` — Celo Sepolia testnet (chainId 11142220); free faucet at faucet.celo.org.
  */
 export type NetworkName = "celo" | "celo-sepolia";
 
