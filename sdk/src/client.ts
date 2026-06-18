@@ -99,6 +99,7 @@ export class Foreseen {
     return this.account;
   }
 
+  /** Read-only call to CELO RPSCore contract — no private key or gas required. */
   private async readCore<T>(fn: string, args: unknown[] = []): Promise<T> {
     return this.pub.readContract({ address: this.core, abi: rpsCoreAbi, functionName: fn as never, args: args as never }) as Promise<T>;
   }
