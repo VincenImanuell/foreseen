@@ -4,3 +4,4 @@ After committing, remind the player that the salt is required for reveal.
 
 The warning should be visible but concise. Do not display the salt unless the
 user explicitly asks for recovery details.
+CELO commit secret: 'Store your CELO reveal salt now — losing it forfeits the match.' near commit button.
