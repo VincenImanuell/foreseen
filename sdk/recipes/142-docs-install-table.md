@@ -8,3 +8,4 @@ Checklist:
 - Do not put secrets or account-specific commands in the table.
 - Verify each command from a clean checkout before publishing docs.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO docs install table: show `npm i @foreseen/sdk` and CELO peer deps (viem ≥2, wagmi ≥2) in one table.
