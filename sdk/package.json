@@ -108,6 +108,8 @@
     "bot",
     "viem",
     "minipay",
+    "opera-minipay",
+    "celo-mainnet",
     "commit-reveal",
     "commit-reveal-game"
   ]
