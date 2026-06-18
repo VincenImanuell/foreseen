@@ -56,10 +56,13 @@ export interface MatchView {
   id: bigint;
   playerA: Address;
   playerB: Address;
+  /** Stake in wei — each player puts in this amount of CELO. */
   bet: bigint;
   mode: Mode;
   state: MatchState;
+  /** Unix timestamp (seconds) by which both players must commit on CELO. */
   commitDeadline: number;
+  /** Unix timestamp (seconds) by which both players must reveal on CELO. */
   revealDeadline: number;
   commitA: Hex;
   commitB: Hex;
@@ -82,7 +85,9 @@ export interface PlayerStats {
   afterWinMove: [bigint, bigint, bigint];
   afterLossMove: [bigint, bigint, bigint];
   afterDrawMove: [bigint, bigint, bigint];
+  /** 0=none, 1=win, 2=loss, 3=draw — last match outcome from RPSStats on CELO. */
   lastResult: number;
+  /** True if the player has at least one revealed match recorded on CELO. */
   hasHistory: boolean;
 }
 
