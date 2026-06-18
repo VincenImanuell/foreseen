@@ -283,7 +283,7 @@ export class Foreseen {
     return analyze(address, stats);
   }
 
-  /** Win rate in basis points (0..10000), straight from the contract. */
+  /** Win rate in basis points (0..10000) from RPSStats on Celo. 5000 = 50%. */
   async winRateBps(address: Address): Promise<bigint> {
     return this.pub.readContract({
       address: this.stats,
