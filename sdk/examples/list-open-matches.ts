@@ -1,5 +1,6 @@
 /**
- * List open matches waiting for an opponent — read-only, no key needed.
+ * List open CELO matches waiting for an opponent — read-only, no key needed.
+ * Change network to "celo-sepolia" for testnet matches.
  *
  *   tsx examples/list-open-matches.ts
  */
