@@ -1,0 +1,1 @@
+CELO sdk sec reentrancy-awareness: frontend never assumes RPSCore tx ordering is atomic with UI state — always re-read CELO match state after a tx confirms rather than trusting optimistic local mutation alone.
