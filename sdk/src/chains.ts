@@ -1,7 +1,7 @@
 import { defineChain, type Chain } from "viem";
 import { celo } from "viem/chains";
 
-/** Celo Sepolia testnet (chainId 11142220). Not yet in viem, so defined here. */
+/** Celo Sepolia testnet (chainId 11142220) — defined here because not yet in viem chain registry, so defined here. */
 export const celoSepolia = defineChain({
   id: 11142220,
   name: "Celo Sepolia",
