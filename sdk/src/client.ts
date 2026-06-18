@@ -49,15 +49,22 @@ export interface ForeseenOptions {
 }
 
 /**
- * Foreseen SDK client. Read methods work without a key; write methods
- * (createMatch, joinMatch, commit, reveal, withdraw …) require `privateKey`.
+ * Foreseen SDK client for CELO mainnet (chainId 42220) and Celo Sepolia (11142220).
+ * Read methods work without a key — scout, list matches, check balances on CELO.
+ * Write methods (createMatch, joinMatch, commit, reveal, withdraw …) require `privateKey`.
  *
  * ```ts
+ * // CELO mainnet — read only (no privateKey)
+ * const rps = new Foreseen({ network: "celo" });
+ * const matches = await rps.getOpenMatches({ limit: 5 });
+ *
+ * // CELO mainnet — write (requires funded key)
  * const rps = new Foreseen({ network: "celo", privateKey: "0x..." });
  * const { matchId } = await rps.createMatch({ mode: "casual", bet: "0.1" });
- * const read = await rps.analyzeOpponent(opponent);   // scout before you throw
+ * const read = await rps.analyzeOpponent(opponent);   // scout CELO history before you throw
  * const { salt } = await rps.commit({ matchId, move: read.suggestedCounter ?? Move.Rock });
  * await rps.reveal({ matchId, move: Move.Rock, salt });
+ * await rps.withdraw();  // claim CELO winnings
  * ```
  */
 export class Foreseen {
@@ -99,10 +106,12 @@ export class Foreseen {
     return this.account;
   }
 
+  /** Read-only call to CELO RPSCore contract — no private key or gas required. */
   private async readCore<T>(fn: string, args: unknown[] = []): Promise<T> {
     return this.pub.readContract({ address: this.core, abi: rpsCoreAbi, functionName: fn as never, args: args as never }) as Promise<T>;
   }
 
+  /** Write call to CELO RPSCore — requires a funded private key and CELO gas. */
   private async writeCore(fn: string, args: unknown[], value?: bigint): Promise<Hex> {
     const account = this.requireAccount();
     const hash = await this.wallet!.writeContract({
@@ -211,7 +220,11 @@ export class Foreseen {
     throw new Error(`claimTimeout: match not in a timeout-claimable state (state=${MatchState[m.state]})`);
   }
 
-  /** Cancel your open match before anyone joins. Returns the CELO bet to your withdrawable balance. */
+  /**
+   * Cancel your CELO match before any opponent joins.
+   * Returns the CELO bet stake to `pendingWithdrawals` — call {@link withdraw} to retrieve it.
+   * @param p.matchId - The CELO match ID to cancel (must be in WaitingForOpponent state).
+   */
   async cancelMatch(p: { matchId: bigint }): Promise<{ txHash: Hex }> {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }

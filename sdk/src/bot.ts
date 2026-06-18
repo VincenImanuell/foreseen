@@ -151,7 +151,10 @@ export class ForeseenBot {
     }
   }
 
-  /** Open a match and play it through (useful for self-testing your strategy). */
+  /**
+   * Open a CELO match and play it through (useful for self-testing your strategy on testnet).
+   * Do NOT use this against unknown opponents on CELO mainnet — use `runOpponent` (join-only) instead.
+   */
   async createAndPlay(p: { mode: ModeName | Mode; bet: string }): Promise<Outcome> {
     const { matchId } = await this.rps.createMatch(p);
     this.log(`created match #${matchId}, waiting for an opponent`);
