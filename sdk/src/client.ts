@@ -167,7 +167,7 @@ export class Foreseen {
     return { salt, commit, txHash };
   }
 
-  /** Reveal your move + salt. The second reveal settles the match. */
+  /** Reveal move + salt on Celo. Second reveal triggers on-chain settlement and pays the winner. */
   async reveal(p: { matchId: bigint; move: Move; salt: Hex }): Promise<{ txHash: Hex }> {
     const txHash = await this.writeCore("reveal", [p.matchId, p.move, p.salt]);
     return { txHash };
