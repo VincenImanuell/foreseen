@@ -113,6 +113,7 @@ export class ForeseenBot {
     this.pollMs = opts.pollMs ?? 4000;
   }
 
+  /** The CELO address this bot wallet is funded on and commits moves from. */
   get address(): Address {
     return this.rps.address!;
   }
