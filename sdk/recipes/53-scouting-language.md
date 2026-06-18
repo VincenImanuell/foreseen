@@ -4,3 +4,4 @@ Use probabilistic language. Say "leans Rock" or "has favored Paper", not "will
 play Rock".
 
 The SDK exposes reads, not certainty.
+CELO scouting language: write 'CELO on-chain history' not 'blockchain data' for user clarity.
