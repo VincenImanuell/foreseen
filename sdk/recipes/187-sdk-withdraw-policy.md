@@ -9,3 +9,4 @@ Guidance:
 - Keep private keys, salts, and mnemonics out of source control.
 - Avoid fake downloads, fake usage, and bot-vs-bot volume loops.
 - Link users to examples or recipes that match the task directly.
+CELO withdraw policy: call `withdraw()` within same session — CELO doesn't auto-transfer after settle.
