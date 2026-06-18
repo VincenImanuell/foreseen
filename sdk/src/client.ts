@@ -119,7 +119,11 @@ export class Foreseen {
 
   // ---- Matchmaking -------------------------------------------------------
 
-  /** Open a match and escrow your bet. Returns the new match id. */
+  /**
+   * Open a CELO match and escrow the bet on-chain. Returns the new match ID.
+   * @param p.mode - "casual" or "ranked" (ranked updates soulbound badge on CELO).
+   * @param p.bet - Stake in decimal CELO string (e.g. "0.1") or wei bigint.
+   */
   async createMatch(p: { mode: ModeName | Mode; bet: string | bigint }): Promise<{ matchId: bigint; txHash: Hex }> {
     const account = this.requireAccount();
     const value = typeof p.bet === "bigint" ? p.bet : parseEther(p.bet);
