@@ -310,7 +310,11 @@ export class Foreseen {
     return analyze(address, stats);
   }
 
-  /** Win rate in basis points (0..10000) from RPSStats on Celo. 5000 = 50%. */
+  /**
+   * Win rate in basis points (0..10000) from `RPSStats.winRateBps` on CELO.
+   * 5000 = 50% win rate. Returns 0 for addresses with no CELO match history.
+   * @param address - The CELO address to query.
+   */
   async winRateBps(address: Address): Promise<bigint> {
     return this.pub.readContract({
       address: this.stats,
