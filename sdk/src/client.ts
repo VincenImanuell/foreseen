@@ -139,7 +139,12 @@ export class Foreseen {
     return { matchId, txHash: hash };
   }
 
-  /** Join an open match, matching its bet (read automatically if not given). */
+  /**
+   * Join an open CELO match, sending the exact bet amount as `msg.value`.
+   * The bet is read automatically from the chain if not passed explicitly.
+   * @param p.matchId - The match ID to join on CELO.
+   * @param p.bet - Optional bet override (wei bigint or decimal CELO string).
+   */
   async joinMatch(p: { matchId: bigint; bet?: string | bigint }): Promise<{ txHash: Hex }> {
     let value: bigint;
     if (p.bet === undefined) {
