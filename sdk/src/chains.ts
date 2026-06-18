@@ -13,8 +13,10 @@ export const celoSepolia = defineChain({
   testnet: true,
 });
 
+/** The two supported networks: Celo mainnet and Celo Sepolia testnet. */
 export type NetworkName = "celo" | "celo-sepolia";
 
+/** Map of supported networks to their viem Chain objects. */
 export const CHAINS: Record<NetworkName, Chain> = {
   celo,
   "celo-sepolia": celoSepolia,
