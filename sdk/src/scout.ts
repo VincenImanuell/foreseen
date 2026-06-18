@@ -3,8 +3,10 @@ import { Move, type OpponentRead, type PlayerStats } from "./types.js";
 import { counter } from "./crypto.js";
 
 /**
- * Compute the percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally.
+ * Compute the percentage split (0..100) of a 3-bucket [rock, paper, scissors] tally
+ * sourced from the CELO on-chain `moveCount` field in `RPSStats`.
  * Values sum to ~100 (rounding may cause ±1 difference).
+ * @param counts - `[rock, paper, scissors]` tally from {@link PlayerStats.moveCount}.
  * @since 0.1.0
  */
 export function distributionPct(
