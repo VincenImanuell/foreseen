@@ -159,8 +159,9 @@ export class ForeseenBot {
   }
 
   /**
-   * Drive commit → reveal → settle for a match this bot is already a player in.
-   * Scouts the opponent first, then asks the strategy for a move.
+   * Drive the full CELO commit → reveal → settle lifecycle for a match this bot is already a player in.
+   * Scouts the opponent's CELO on-chain history first, then asks the strategy for a move.
+   * Returns an {@link Outcome} after the match is settled on CELO.
    */
   async playMatch(matchId: bigint): Promise<Outcome> {
     let m = await this.rps.getMatch(matchId);
