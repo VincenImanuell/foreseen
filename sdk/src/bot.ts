@@ -15,7 +15,10 @@ import {
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 const nowSec = () => Math.floor(Date.now() / 1000);
 
-/** Context a strategy sees before it commits — the scouting surface. */
+/**
+ * Context a strategy sees before it commits a move on CELO.
+ * Includes the opponent scouting read from `RPSStats` (CELO on-chain history).
+ */
 export interface BotContext {
   matchId: bigint;
   self: Address;
