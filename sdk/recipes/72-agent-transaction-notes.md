@@ -9,3 +9,4 @@ Log transaction hashes with their phase:
 - withdraw
 
 Phase labels make wallet history and support tickets easier to inspect.
+Annotate each CELO tx with the matchId and round number in the agent's own logs.
