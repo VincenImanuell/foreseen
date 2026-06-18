@@ -1,3 +1,4 @@
+// Main CELO client — supports both read-only (no privateKey) and write modes.
 export { Foreseen } from "./client.js";
 export type { ForeseenOptions } from "./client.js";
 
