@@ -14,7 +14,8 @@ if (open.length === 0) {
   process.exit(0);
 }
 
-console.log(`${open.length} open match(es):`);
+const totalCelo = open.reduce((sum, m) => sum + m.bet, 0n);
+console.log(`${open.length} open match(es) — ${formatEther(totalCelo)} CELO total at stake:`);
 for (const m of open) {
   const mode = m.mode === Mode.Ranked ? "ranked" : "casual";
   console.log(`  #${m.id}  ${formatEther(m.bet)} CELO  ${mode}  opened by ${m.playerA}`);
