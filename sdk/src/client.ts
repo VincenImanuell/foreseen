@@ -232,7 +232,11 @@ export class Foreseen {
     };
   }
 
-  /** Open matches (WaitingForOpponent), newest first. Optionally exclude an address. */
+  /**
+   * Scan backwards from the chain tip for open matches on Celo.
+   * @param opts.limit - Max results (default: unlimited — set a cap for UI use).
+   * @param opts.excludePlayer - Skip matches opened by this address (own matches).
+   */
   async getOpenMatches(opts: { limit?: number; excludePlayer?: Address } = {}): Promise<MatchView[]> {
     const next = await this.nextMatchId();
     const out: MatchView[] = [];
