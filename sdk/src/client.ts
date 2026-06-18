@@ -182,7 +182,12 @@ export class Foreseen {
     return { txHash };
   }
 
-  /** Finalize a match whose opponent let the commit or reveal window lapse. */
+  /**
+   * Finalize a CELO match whose opponent let the commit or reveal window lapse.
+   * Automatically picks `claimCommitTimeout` or `claimRevealTimeout` based on state.
+   * The CELO winnings become withdrawable via {@link withdraw} after settlement.
+   * @param p.matchId - The CELO match ID to finalize.
+   */
   async claimTimeout(p: { matchId: bigint }): Promise<{ txHash: Hex }> {
     const m = await this.getMatch(p.matchId);
     if (m.state === MatchState.Scouting) {
