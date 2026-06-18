@@ -10,8 +10,11 @@ export interface Deployment {
 }
 
 /**
- * Known Foreseen v2 (matchmaking-first) deployments. Override per-call via the
- * Foreseen constructor if you redeploy.
+ * Known Foreseen v2 (matchmaking-first) deployments on CELO mainnet and Celo Sepolia.
+ * Override per-call via the Foreseen constructor `coreAddress`/`statsAddress` if you redeploy.
+ * Verify addresses at:
+ * - CELO mainnet: https://celoscan.io
+ * - Celo Sepolia: https://celo-sepolia.blockscout.com
  */
 export const DEPLOYMENTS: Record<NetworkName, Deployment> = {
   celo: {
