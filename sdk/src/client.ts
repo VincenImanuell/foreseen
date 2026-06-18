@@ -216,7 +216,11 @@ export class Foreseen {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }
 
-  /** Withdraw pending CELO winnings / refunds. Returns null if balance is zero. */
+  /**
+   * Withdraw pending CELO winnings or refunds from `RPSCore.withdraw`.
+   * Returns `null` if `pendingWithdrawals` is zero — no gas wasted.
+   * The CELO is transferred directly to the connected wallet address.
+   */
   async withdraw(): Promise<{ txHash: Hex } | null> {
     const account = this.requireAccount();
     const pending = await this.pendingWithdrawals(account.address);
@@ -234,14 +238,22 @@ export class Foreseen {
     return this.readCore<bigint>("nextMatchId");
   }
 
-  /** Claimable balance (wei) for an address. Defaults to the connected account. */
+  /**
+   * Claimable CELO balance in wei from `RPSCore.pendingWithdrawals`.
+   * Defaults to the connected account. Call `withdraw()` to move this to the CELO wallet.
+   * @param address - Optional CELO address to query; defaults to the signed-in account.
+   */
   async pendingWithdrawals(address?: Address): Promise<bigint> {
     const a = address ?? this.address;
     if (!a) throw new Error("pendingWithdrawals: pass an address or use a client with a key");
     return this.readCore<bigint>("pendingWithdrawals", [a]);
   }
 
-  /** Fetch a fully-decoded match by id. Throws if the id is out of range. */
+  /**
+   * Fetch a fully-decoded CELO match by ID from `RPSCore.getMatch`.
+   * Read-only — no private key required. Throws if the match ID is out of range.
+   * @param matchId - The CELO match ID to fetch.
+   */
   async getMatch(matchId: bigint): Promise<MatchView> {
     const m = await this.readCore<{
       playerA: Address; bet: bigint; playerB: Address;
