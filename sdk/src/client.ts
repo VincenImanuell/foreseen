@@ -197,6 +197,7 @@ export class Foreseen {
 
   // ---- Reads -------------------------------------------------------------
 
+  /** The next unallocated match id — useful for paginating backwards from the tip. */
   async nextMatchId(): Promise<bigint> {
     return this.readCore<bigint>("nextMatchId");
   }
