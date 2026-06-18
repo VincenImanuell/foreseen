@@ -234,7 +234,11 @@ export class Foreseen {
     return this.readCore<bigint>("nextMatchId");
   }
 
-  /** Claimable balance (wei) for an address. Defaults to the connected account. */
+  /**
+   * Claimable CELO balance in wei from `RPSCore.pendingWithdrawals`.
+   * Defaults to the connected account. Call `withdraw()` to move this to the CELO wallet.
+   * @param address - Optional CELO address to query; defaults to the signed-in account.
+   */
   async pendingWithdrawals(address?: Address): Promise<bigint> {
     const a = address ?? this.address;
     if (!a) throw new Error("pendingWithdrawals: pass an address or use a client with a key");
