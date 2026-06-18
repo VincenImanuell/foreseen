@@ -9,3 +9,4 @@ Keep agent configuration explicit:
 - poll interval
 
 Reject unknown keys so a typo cannot silently change behavior.
+CELO agent config: include `network`, `maxBet`, and `strategy` fields with CELO-safe defaults.
