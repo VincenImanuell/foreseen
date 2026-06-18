@@ -1,0 +1,1 @@
+CELO sdk arch stateless-frontend: the only client-side state Foreseen persists is the CELO reveal secret (move + salt) in localStorage — everything else is derived fresh from CELO mainnet on each load.

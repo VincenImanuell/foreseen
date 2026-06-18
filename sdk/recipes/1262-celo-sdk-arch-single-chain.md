@@ -1,0 +1,1 @@
+CELO sdk arch single-chain: the SDK hardcodes CELO mainnet (chainId 42220) rather than accepting an arbitrary chain param — a deliberate constraint, not a missing feature, since Foreseen only deploys to CELO.
