@@ -91,18 +91,22 @@ export interface PlayerStats {
   hasHistory: boolean;
 }
 
-/** The scouting read: what you study before committing. */
+/**
+ * The scouting read: what you study before committing on CELO.
+ * Derived from on-chain `RPSStats` data — tamper-proof and public.
+ * @since 0.1.0
+ */
 export interface OpponentRead {
   address: Address;
   stats: PlayerStats;
   /** Win rate over decided (non-draw) matches, in the range 0..1. */
   winRate: number;
-  /** Percentage split (0..100) over rock/paper/scissors. */
+  /** Percentage split (0..100) over rock/paper/scissors from CELO history. */
   distribution: { rock: number; paper: number; scissors: number };
-  /** Most-played move overall, or null if no history. */
+  /** Most-played move overall, or null if no CELO history. */
   dominantMove: Move | null;
-  /** What they most often throw after a win / loss / draw. */
+  /** What they most often throw after a win / loss / draw on CELO. */
   tells: { afterWin: Move | null; afterLoss: Move | null; afterDraw: Move | null };
-  /** The move that beats their dominant throw, or null if no history. */
+  /** The move that beats their dominant throw, or null if no CELO history. */
   suggestedCounter: Move | null;
 }
