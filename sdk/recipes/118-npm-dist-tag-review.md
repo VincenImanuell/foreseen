@@ -8,3 +8,4 @@ Checklist:
 - Do not point production docs at prerelease tags by accident.
 - Verify the tag on npm before updating install examples.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO npm dist-tag review: before tagging `latest`, verify CI passes against CELO mainnet 42220 block.
