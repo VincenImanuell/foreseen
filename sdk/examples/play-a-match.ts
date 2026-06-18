@@ -54,4 +54,4 @@ if (m.state === MatchState.Revealing) {
 
 // 4) Pull any winnings (no-op if there are none).
 const w = await rps.withdraw();
-console.log(w ? `Withdrew winnings (tx ${w.txHash})` : "Nothing to withdraw.");
+console.log(w ? `Withdrew CELO winnings (tx ${w.txHash})` : "No CELO to withdraw.");
