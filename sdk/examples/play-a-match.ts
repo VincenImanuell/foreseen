@@ -4,8 +4,8 @@
  *   PRIVATE_KEY=0x... tsx examples/play-a-match.ts
  *
  * Defaults to Celo Sepolia (free testnet gas). Switch network to "celo" for
- * mainnet. Keep the salt that `commit()` returns — it is the blind you need to
- * reveal.
+ * CELO mainnet (real CELO). Keep the salt that `commit()` returns — it is the
+ * blind you must provide to reveal on CELO.
  */
 import { Foreseen, Move, MatchState, MOVE_NAME } from "@foreseen/sdk";
 import type { Hex } from "viem";
@@ -54,4 +54,4 @@ if (m.state === MatchState.Revealing) {
 
 // 4) Pull any winnings (no-op if there are none).
 const w = await rps.withdraw();
-console.log(w ? `Withdrew winnings (tx ${w.txHash})` : "Nothing to withdraw.");
+console.log(w ? `Withdrew CELO winnings (tx ${w.txHash})` : "No CELO to withdraw.");
