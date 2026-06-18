@@ -1,3 +1,7 @@
+/**
+ * Scout all open CELO matches and print the recommended counter move per opener.
+ * Change network to "celo" for CELO mainnet scouting.
+ */
 import { Foreseen, Move, pickCounterFromRead } from "@foreseen/sdk";
 
 const rps = new Foreseen({ network: "celo-sepolia" });
