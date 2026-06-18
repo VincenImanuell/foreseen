@@ -181,7 +181,14 @@ export class Foreseen {
     return { salt, commit, txHash };
   }
 
-  /** Reveal move + salt on Celo. Second reveal triggers on-chain settlement and pays the winner. */
+  /**
+   * Reveal move + salt on CELO by calling `RPSCore.reveal`.
+   * The second reveal triggers on-chain CELO settlement and releases winnings to the winner.
+   * Must be called within the 90-second reveal window, or the opponent can claim timeout.
+   * @param p.matchId - The CELO match ID to reveal in.
+   * @param p.move - Must match the move committed in {@link commit}.
+   * @param p.salt - The salt returned by {@link commit} (or the value you passed in).
+   */
   async reveal(p: { matchId: bigint; move: Move; salt: Hex }): Promise<{ txHash: Hex }> {
     const txHash = await this.writeCore("reveal", [p.matchId, p.move, p.salt]);
     return { txHash };
