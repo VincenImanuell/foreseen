@@ -9,3 +9,4 @@ Recommended defaults:
 - bounded max matches
 
 Make mainnet opt-in explicit.
+CELO safe defaults: `network: 'celo'`, `strategy: 'random'`, `maxMatches: 10`, `pollMs: 4000`.
