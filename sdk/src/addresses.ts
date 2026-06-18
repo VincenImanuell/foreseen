@@ -1,8 +1,11 @@
 import type { Address } from "viem";
 import type { NetworkName } from "./chains.js";
 
+/** Addresses of the two Foreseen contracts for a given network. */
 export interface Deployment {
+  /** RPSCore — matchmaking, commit-reveal, settlement. */
   core: Address;
+  /** RPSStats — tamper-proof on-chain behavioral stats. */
   stats: Address;
 }
 
