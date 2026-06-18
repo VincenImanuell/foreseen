@@ -12,3 +12,4 @@ Guidance:
 - Use `@foreseen/sdk/addresses` when tooling needs the built-in deployment map.
 - Use `@foreseen/sdk/types` for type-only imports in apps that provide their own clients.
 - Keep examples tree-shake friendly and avoid importing bot helpers into read-only UI code.
+CELO npm subpath imports: use `@foreseen/sdk/abi` if available — avoids bundling entire CELO client on read-only pages.

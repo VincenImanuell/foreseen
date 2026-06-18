@@ -10,3 +10,4 @@ Guidance:
 - Verify `window.ethereum.isMiniPay` detection path works in MiniPay for CELO read-only flows.
 - Do not trigger settlement, joins, reveals, or withdrawals just to create activity.
 - Link to examples that explain the read path without asking for private keys.
+CELO mainnet readonly: `new Foreseen({ network: 'celo' })` is read-only — subscribe to CELO stats without gas.
