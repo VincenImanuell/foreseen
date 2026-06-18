@@ -30,12 +30,13 @@ import {
 } from "./types.js";
 
 /**
- * Constructor options for {@link Foreseen}.
- * All fields are optional — defaults produce a read-only mainnet client.
+ * Constructor options for the {@link Foreseen} CELO client.
+ * All fields are optional — defaults produce a read-only CELO mainnet client (chainId 42220).
+ * Pass `network: "celo-sepolia"` for testnet (chainId 11142220).
  * @since 0.1.0
  */
 export interface ForeseenOptions {
-  /** "celo" (mainnet, default) or "celo-sepolia" (testnet). */
+  /** "celo" (CELO mainnet chainId 42220, default) or "celo-sepolia" (testnet 11142220). */
   network?: NetworkName;
   /** Override the RPC endpoint. Defaults to the free public RPC for the network. */
   rpcUrl?: string;
