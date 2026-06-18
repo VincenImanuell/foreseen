@@ -2,7 +2,11 @@ import { counter } from "./crypto.js";
 import { Move, MOVE_NAME, type OpponentRead } from "./types.js";
 
 /**
- * Confidence tier for a scouting read. "none" = no history, "high" = strong sample.
+ * Confidence tier for a CELO scouting read based on on-chain match history.
+ * - `"none"` — no revealed CELO matches yet; recommendation is a pure fallback.
+ * - `"low"` — fewer than 5 matches; pattern may not be stable.
+ * - `"medium"` — 5–14 matches; pattern is meaningful but small sample.
+ * - `"high"` — 15+ matches; dominant throw is reliable for CELO strategy.
  * @since 0.1.0
  */
 export type ScoutingConfidence = "none" | "low" | "medium" | "high";
