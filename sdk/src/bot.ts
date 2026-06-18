@@ -110,9 +110,10 @@ export class ForeseenBot {
   }
 
   /**
-   * Cold-start OPPONENT mode — JOIN-ONLY. Waits for matches that real players
-   * create and plays them, so an early player always finds an opponent. Never
-   * creates a match, so two bots can't pair into a fake bot-vs-bot match.
+   * Cold-start OPPONENT mode — JOIN-ONLY on CELO. Waits for matches that real
+   * players create and plays them, so an early player always finds an opponent.
+   * Never creates a match, so two bots can't pair into a fake bot-vs-bot match.
+   * @param opts.maxMatches - Stop after this many matches (default: unlimited).
    */
   async runOpponent(opts: { maxMatches?: number } = {}): Promise<void> {
     const max = opts.maxMatches ?? Infinity;
