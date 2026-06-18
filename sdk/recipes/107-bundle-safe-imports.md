@@ -8,3 +8,4 @@ Checklist:
 - Do not import bot helpers into player routes.
 - Inspect the build when adding new exports to consumer docs.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO bundle safe imports: prefer named imports from `@foreseen/sdk` — avoids bundling unused CELO client code.

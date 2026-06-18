@@ -8,3 +8,4 @@ Checklist:
 - Do not request wallet connection for package reads that only need a public client.
 - Check the route in a clean browser profile without an injected wallet.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO read-only client: `new Foreseen({ network: 'celo' })` — no key, no gas, all CELO stats available.
