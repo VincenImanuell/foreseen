@@ -190,7 +190,7 @@ export class Foreseen {
     return { txHash: await this.writeCore("cancelMatch", [p.matchId]) };
   }
 
-  /** Withdraw winnings, refunds and (for the treasury) fees. */
+  /** Withdraw pending CELO winnings / refunds. Returns null if balance is zero. */
   async withdraw(): Promise<{ txHash: Hex } | null> {
     const account = this.requireAccount();
     const pending = await this.pendingWithdrawals(account.address);
