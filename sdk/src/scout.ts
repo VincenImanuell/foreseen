@@ -41,12 +41,12 @@ export function dominantMove(counts: [bigint, bigint, bigint]): Move | null {
 }
 
 /**
- * Turn raw on-chain stats into a full scouting read: distribution, contextual
+ * Turn raw CELO on-chain stats into a full scouting read: distribution, contextual
  * tells (win-stay / lose-shift), and the move that beats their dominant throw.
- * This is the same call `Foreseen.analyzeOpponent` makes internally.
- * @param address - The player's on-chain address.
+ * This is the same call `Foreseen.analyzeOpponent` makes internally on CELO.
+ * @param address - The player's CELO address (from `RPSStats.getStats`).
  * @param stats - Raw stats from {@link PlayerStats} (e.g. from `getPlayerStats`).
- * @returns A fully-computed {@link OpponentRead} ready to display or act on.
+ * @returns A fully-computed {@link OpponentRead} ready to display or act on CELO.
  * @since 0.1.0
  */
 export function analyze(address: Address, stats: PlayerStats): OpponentRead {
