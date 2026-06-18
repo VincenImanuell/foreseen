@@ -26,6 +26,11 @@ export interface BotContext {
   selfHistory: Move[];
 }
 
+/**
+ * A function that returns the move this bot will commit on CELO.
+ * Receives a {@link BotContext} and may be async (useful for LLM-backed agents).
+ * @since 0.1.0
+ */
 export type Strategy = (ctx: BotContext) => Move | Promise<Move>;
 
 function pickRandom(): Move {
