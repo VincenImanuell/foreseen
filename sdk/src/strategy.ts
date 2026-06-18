@@ -90,8 +90,10 @@ export function formatAdvice(advice: StrategyAdvice): string {
 }
 
 /**
- * Format a scouting read as an array of human-readable bullet lines.
- * Useful for displaying in CLI tools, Telegram bots, or agent reasoning traces.
+ * Format a CELO scouting read as an array of human-readable bullet lines.
+ * Useful for displaying in CLI tools, Telegram bots, MiniPay UIs, or agent reasoning traces.
+ * Each line is a self-contained sentence suitable for logging or UI display on CELO.
+ * @param read - An {@link OpponentRead} from `analyzeOpponent` or `analyze`.
  * @since 0.1.0
  */
 export function describeRead(read: OpponentRead): string[] {
