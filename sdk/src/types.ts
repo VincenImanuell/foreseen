@@ -20,7 +20,9 @@ export enum Mode {
 }
 
 /**
- * Lifecycle state of a match on-chain.
+ * Lifecycle state of a CELO match, as returned by `RPSCore.getMatch`.
+ * Transitions: None → WaitingForOpponent → Scouting → Revealing → Settled.
+ * Any state can transition to Cancelled (timeout or manual cancel).
  * @since 0.1.0
  */
 export enum MatchState {
