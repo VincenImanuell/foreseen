@@ -30,3 +30,4 @@ console.log(
   `  tells   : afterWin ${name(read.tells.afterWin)}  afterLoss ${name(read.tells.afterLoss)}  afterDraw ${name(read.tells.afterDraw)}`,
 );
 console.log(`  counter : throw ${name(read.suggestedCounter)} to beat their favorite`);
+console.log(`  celoscan: https://celoscan.io/address/${target}`);
