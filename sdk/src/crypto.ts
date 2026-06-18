@@ -3,10 +3,12 @@ import { generatePrivateKey } from "viem/accounts";
 import { Move } from "./types.js";
 
 /**
- * Fresh, cryptographically-random 32-byte salt. (We borrow viem's CSPRNG-backed
- * key generator — it returns exactly a random 0x-prefixed 32-byte hex.) Keep the
- * salt secret until reveal; it is the blind in commit-reveal.
- * @returns A 0x-prefixed 32-byte hex string suitable as a commit salt.
+ * Fresh, cryptographically-random 32-byte salt. Borrows viem's CSPRNG-backed
+ * key generator — returns exactly a random 0x-prefixed 32-byte hex.
+ *
+ * **Keep this secret until reveal.** It is the blind in the CELO commit-reveal
+ * scheme: losing the salt before reveal forfeits your ability to reveal on time.
+ * @returns A 0x-prefixed 32-byte hex string suitable as a commit salt on CELO.
  * @since 0.1.0
  */
 export function randomSalt(): Hex {
@@ -14,12 +16,13 @@ export function randomSalt(): Hex {
 }
 
 /**
- * Compute the commitment hash RPSCore expects: `keccak256(abi.encodePacked(player, move, salt))`.
- * Binding the commit to the player prevents replay attacks.
- * @param player - The address of the committing player.
+ * Compute the commitment hash RPSCore on CELO expects:
+ * `keccak256(abi.encodePacked(player, move, salt))`.
+ * Binding the commit to the player address prevents cross-match replay attacks.
+ * @param player - The CELO address of the committing player.
  * @param move - The move being committed (Rock, Paper, or Scissors).
  * @param salt - A 32-byte random salt from {@link randomSalt}.
- * @returns The 32-byte commitment hash to pass to `commitMove`.
+ * @returns The 32-byte commitment hash to pass to `commitMove` on CELO.
  * @since 0.1.0
  */
 export function computeCommit(player: Address, move: Move, salt: Hex): Hex {
@@ -45,6 +48,8 @@ export function resultOf(a: Move, b: Move): 0 | 1 | 2 {
 
 /**
  * Returns the move that beats `m`. Rock→Paper, Paper→Scissors, Scissors→Rock.
+ * Used by counterStats strategy on CELO to pick the optimal counter move.
+ * @param m - The opponent's dominant or predicted move from CELO on-chain history.
  * @since 0.1.0
  */
 export function counter(m: Move): Move {
