@@ -15,7 +15,10 @@ import {
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 const nowSec = () => Math.floor(Date.now() / 1000);
 
-/** Context a strategy sees before it commits — the scouting surface. */
+/**
+ * Context a strategy sees before it commits a move on CELO.
+ * Includes the opponent scouting read from `RPSStats` (CELO on-chain history).
+ */
 export interface BotContext {
   matchId: bigint;
   self: Address;
@@ -68,7 +71,11 @@ export interface ForeseenBotOptions extends ForeseenOptions {
   pollMs?: number;
 }
 
-/** Result of a completed CELO match from the bot's perspective. */
+/**
+ * Result of a completed CELO match from the bot's perspective after reveal.
+ * The `result` is determined by the contract settlement on CELO mainnet.
+ * @since 0.1.0
+ */
 export interface Outcome {
   matchId: bigint;
   /** "win" | "loss" | "draw" | "cancelled" from this bot's perspective. */
