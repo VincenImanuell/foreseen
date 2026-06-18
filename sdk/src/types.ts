@@ -85,7 +85,9 @@ export interface PlayerStats {
   afterWinMove: [bigint, bigint, bigint];
   afterLossMove: [bigint, bigint, bigint];
   afterDrawMove: [bigint, bigint, bigint];
+  /** 0=none, 1=win, 2=loss, 3=draw — last match outcome from RPSStats on CELO. */
   lastResult: number;
+  /** True if the player has at least one revealed match recorded on CELO. */
   hasHistory: boolean;
 }
 
