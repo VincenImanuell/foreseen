@@ -8,3 +8,5 @@ console.log({ matchId, opponent, move: advice.move, confidence: advice.confidenc
 ```
 
 Avoid logging salts or private keys.
+
+Prefix CELO agent logs with the CELO address for easy Celoscan lookup.
