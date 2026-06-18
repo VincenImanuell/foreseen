@@ -1,0 +1,1 @@
+CELO sdk agent consent-gate: any agent that submits a real CELO transaction on a user's behalf needs an explicit, logged consent step before each write — silent automation around real funds is unacceptable.

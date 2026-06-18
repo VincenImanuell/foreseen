@@ -1,0 +1,1 @@
+CELO sdk agent honest-liquidity: an agent that opens real CELO matches with real stakes is fine; an agent farming fake CELO match volume to inflate metrics is not — Foreseen draws this line explicitly.

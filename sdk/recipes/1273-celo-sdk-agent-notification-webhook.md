@@ -1,0 +1,1 @@
+CELO sdk agent notification-webhook: poll RPSCore.getMatch() and fire a webhook when a watched CELO match enters Revealing state — lets a Discord/Telegram bot notify players their reveal window opened.
