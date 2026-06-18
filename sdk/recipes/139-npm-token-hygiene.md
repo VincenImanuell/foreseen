@@ -8,3 +8,4 @@ Checklist:
 - Do not paste tokens into docs, commits, issue comments, or terminal transcripts that will be shared.
 - Verify revoked tokens are replaced before the next release attempt.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO npm token hygiene: rotate publish token after each CELO SDK release — leaked tokens expose mainnet ABI.

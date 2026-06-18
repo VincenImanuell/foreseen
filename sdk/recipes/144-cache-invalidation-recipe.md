@@ -8,3 +8,4 @@ Checklist:
 - Do not leave old match data visible after a successful transaction.
 - Invalidate match, profile, and leaderboard reads where appropriate.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO cache invalidation: bust match cache on CELO settle events — `MatchSettled` emitted per reveal.
