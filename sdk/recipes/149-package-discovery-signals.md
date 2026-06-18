@@ -8,3 +8,4 @@ Checklist:
 - Do not use keywords that misrepresent the package as a generic wallet library.
 - Check npm metadata, README badges, and repository links after edits.
 - Keep the recipe compatible with a Next.js frontend and a plain npm install.
+CELO package discovery signals: `keywords: ["celo", "rps", "blockchain", "minipay"]` in package.json for npm search.
