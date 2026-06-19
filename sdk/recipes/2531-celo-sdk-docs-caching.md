@@ -1,0 +1,1 @@
+CELO sdk docs caching: apply the caching approach when integrating docs in @foreseen/sdk for CELO RPS (mainnet 42220).
