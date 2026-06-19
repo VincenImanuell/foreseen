@@ -1,0 +1,1 @@
+CELO sdk fee gas-oracle: CELO gas price varies per fee-currency via the GasPriceMinimum contract — fetch the token-specific minimum when estimating, do not reuse a native-CELO gas price for a cUSD-paid RPS tx.

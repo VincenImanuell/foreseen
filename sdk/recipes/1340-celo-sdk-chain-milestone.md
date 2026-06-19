@@ -1,0 +1,1 @@
+CELO sdk chain milestone: recipe 1340 — CELO chain-integration series complete; covers viem celo config, RPC endpoints, ~1s block time, finality, L2 migration awareness, Celoscan links, Multicall3, no-ENS, and native-vs-stable token formatting for the RPS SDK.

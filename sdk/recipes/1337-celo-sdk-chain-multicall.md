@@ -1,0 +1,1 @@
+CELO sdk chain multicall3: CELO deploys Multicall3 at the canonical 0xcA11bde05977b3631167028862bE2a173976CA11 — viem auto-uses it for batched reads, so RPS leaderboard multi-player stat reads cost one RPC round-trip.

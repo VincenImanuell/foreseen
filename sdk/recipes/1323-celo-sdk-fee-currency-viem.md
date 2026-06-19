@@ -1,0 +1,1 @@
+CELO sdk fee viem-feecurrency: viem's celo chain serializer supports the feeCurrency field — set it in writeContract's request when paying RPS gas in cUSD; the celo formatter handles the CIP-64 typed-tx encoding automatically.

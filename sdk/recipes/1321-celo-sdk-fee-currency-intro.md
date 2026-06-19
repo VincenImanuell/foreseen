@@ -1,0 +1,1 @@
+CELO sdk fee fee-currency: CELO lets users pay gas in ERC20 stablecoins (cUSD, cEUR, USDC) via the feeCurrency tx field — a @foreseen/sdk write helper could expose feeCurrency so RPS players pay match gas without holding native CELO.

@@ -1,0 +1,1 @@
+CELO sdk fee balance-precheck: before an RPS write paying gas in cUSD, check the player's cUSD balance covers stake + estimated gas-in-cUSD — surface a single clear shortfall error instead of a raw RPC revert.

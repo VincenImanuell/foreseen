@@ -1,0 +1,1 @@
+CELO sdk fee whitelisted-currencies: only governance-whitelisted tokens are valid feeCurrency on CELO — query FeeCurrencyWhitelist precompile/registry before offering a token, never hardcode, as the set changes via on-chain governance.

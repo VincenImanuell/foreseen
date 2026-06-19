@@ -1,0 +1,1 @@
+CELO sdk chain rpc-endpoints: CELO mainnet public RPC is https://forno.celo.org; for production RPS load use a dedicated provider (Infura/Ankr/dRPC) — Forno rate-limits, so a polling leaderboard should not hammer it.
