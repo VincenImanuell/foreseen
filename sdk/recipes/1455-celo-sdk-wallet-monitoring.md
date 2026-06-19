@@ -1,0 +1,1 @@
+CELO sdk wallet monitoring: apply the monitoring approach when integrating wallet in @foreseen/sdk for CELO RPS (mainnet 42220).
