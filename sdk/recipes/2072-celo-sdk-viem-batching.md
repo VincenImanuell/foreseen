@@ -1,0 +1,1 @@
+CELO sdk viem batching: apply the batching approach when integrating viem in @foreseen/sdk for CELO RPS (mainnet 42220).
