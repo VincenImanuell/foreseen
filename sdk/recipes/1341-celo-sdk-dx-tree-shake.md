@@ -1,0 +1,1 @@
+CELO sdk dx tree-shaking: @foreseen/sdk should ship ESM with sideEffects:false so bundlers drop unused RPS helpers — a frontend importing only getLeaderboard must not pull the bot/join code into the CELO dapp bundle.

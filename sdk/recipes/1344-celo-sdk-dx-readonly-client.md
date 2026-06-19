@@ -1,0 +1,1 @@
+CELO sdk dx readonly-client: expose a read-only Foreseen client that needs only an RPC URL (no signer) for leaderboard/scouting — wallet-free reads are the CELO portal's whole differentiator, do not force a wallet for views.

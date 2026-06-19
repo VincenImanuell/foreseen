@@ -1,0 +1,1 @@
+CELO sdk wallet minipay-detect: MiniPay sets window.ethereum.isMiniPay — branch UX on it (hide connect button, default cUSD fee, single-account) since MiniPay auto-connects and has no account picker for the RPS flow.

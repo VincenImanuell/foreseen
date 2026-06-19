@@ -1,0 +1,1 @@
+CELO sdk wallet add-chain: if a wallet lacks CELO, wallet_addEthereumChain with chainId 0xa4ec (42220), Forno RPC, CELO native currency, and celoscan.io explorer so RPS users can add the chain in one click.

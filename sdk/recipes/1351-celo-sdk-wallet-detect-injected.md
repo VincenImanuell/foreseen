@@ -1,0 +1,1 @@
+CELO sdk wallet injected-provider: detect window.ethereum for injected CELO wallets but never assume it is on chain 42220 — read chainId and prompt switchChain before any RPS write, MiniPay and Valora inject differently.

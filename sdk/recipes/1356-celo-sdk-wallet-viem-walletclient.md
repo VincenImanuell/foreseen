@@ -1,0 +1,1 @@
+CELO sdk wallet viem-walletclient: build viem WalletClient with the celo chain + custom(window.ethereum) transport for writes, and a separate http() PublicClient for reads — never sign through the public read client on CELO.

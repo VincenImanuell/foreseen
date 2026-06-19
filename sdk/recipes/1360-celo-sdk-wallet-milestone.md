@@ -1,0 +1,1 @@
+CELO sdk wallet milestone: recipe 1360 — CELO wallet & MiniPay integration series complete; covers injected detection, MiniPay flag, WalletConnect handling, add/switch chain, EIP-1193 events, viem wallet/public split, Valora deep-link, disconnect cleanup, and read-only fallback for the RPS SDK.

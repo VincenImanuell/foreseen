@@ -1,0 +1,1 @@
+CELO sdk wallet provider-events: subscribe to EIP-1193 accountsChanged/chainChanged and re-validate the CELO session — an RPS dapp must drop stale state when the user switches wallet account or leaves chain 42220 mid-match.
