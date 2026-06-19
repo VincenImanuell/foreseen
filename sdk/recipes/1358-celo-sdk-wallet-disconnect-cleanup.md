@@ -1,0 +1,1 @@
+CELO sdk wallet disconnect-cleanup: on disconnect, clear cached CELO address/match state and remove EIP-1193 listeners — leftover listeners after an RPS session double-fire on the next connect and corrupt UI state.

@@ -1,0 +1,1 @@
+CELO sdk wallet valora-deeplink: outside an in-app browser, support Valora via WalletConnect v2 deep-link; Valora is CELO-native and many RPS players hold cUSD there, so it is a first-class connect path, not a fallback.

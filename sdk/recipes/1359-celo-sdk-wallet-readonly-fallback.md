@@ -1,0 +1,1 @@
+CELO sdk wallet readonly-fallback: if no wallet is present, still render the CELO leaderboard/scouting via the read-only http client — never gate public RPS rankings behind a wallet connect just because write paths need one.
