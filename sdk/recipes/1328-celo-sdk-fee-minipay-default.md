@@ -1,0 +1,1 @@
+CELO sdk fee minipay-cusd: MiniPay users hold cUSD by default and little native CELO — defaulting feeCurrency to cUSD for MiniPay-detected sessions removes the 'need CELO for gas' friction in the RPS flow.

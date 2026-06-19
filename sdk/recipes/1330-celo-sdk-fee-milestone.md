@@ -1,0 +1,1 @@
+CELO sdk fee milestone: recipe 1330 — CELO fee-currency series complete; covers CIP-64 tx type, whitelist lookup, viem feeCurrency, token gas estimation, balance precheck, native fallback, and MiniPay cUSD defaulting for the RPS SDK.

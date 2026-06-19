@@ -1,0 +1,1 @@
+CELO sdk fee estimate-in-token: gas estimation differs when feeCurrency is set — the node returns gas priced in the ERC20; estimate with the same feeCurrency you will submit, or the estimate undershoots and the RPS tx reverts on intrinsic gas.

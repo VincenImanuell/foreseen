@@ -1,0 +1,1 @@
+CELO sdk fee fallback-native: if feeCurrency balance is insufficient or token de-whitelisted, fall back to native CELO gas — a robust SDK write path tries ERC20 fee first, then native, never strands the RPS player mid-match.
