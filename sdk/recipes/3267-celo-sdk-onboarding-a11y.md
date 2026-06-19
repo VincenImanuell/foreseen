@@ -1,0 +1,1 @@
+CELO sdk onboarding a11y: apply the a11y approach when integrating onboarding in @foreseen/sdk for CELO RPS (mainnet 42220).
