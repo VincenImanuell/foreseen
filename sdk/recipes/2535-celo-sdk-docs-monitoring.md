@@ -1,0 +1,1 @@
+CELO sdk docs monitoring: apply the monitoring approach when integrating docs in @foreseen/sdk for CELO RPS (mainnet 42220).
