@@ -1,0 +1,1 @@
+CELO sdk dx milestone: recipe 1350 — SDK developer-experience series complete; covers tree-shaking, named exports, typed errors, read-only client, input validation, JSDoc examples, semver, bigint serialization, and AbortSignal for the CELO RPS SDK.

@@ -1,0 +1,1 @@
+CELO sdk dx bigint-serialize: bigint match stakes/timestamps do not JSON.stringify — SDK should expose a safe serializer (bigint→string) so CELO API responses and localStorage caching of RPS data do not throw.

@@ -1,0 +1,1 @@
+CELO sdk dx semver: bump @foreseen/sdk per semver — ABI/return-shape changes are breaking (major), new read helpers are minor; CELO consumers pin ranges and a silent breaking patch strands live RPS dapps.

@@ -1,0 +1,1 @@
+CELO sdk dx named-exports: prefer named exports over a default export barrel so CELO consumers get autocomplete + tree-shaking; export Foreseen, ForeseenBot, and read helpers individually, not one giant object.
