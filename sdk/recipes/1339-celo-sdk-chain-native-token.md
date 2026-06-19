@@ -1,0 +1,1 @@
+CELO sdk chain native-celo: native token is CELO (18 decimals), distinct from the cUSD/cEUR stable assets — format RPS stakes with the correct symbol/decimals per asset; do not label a cUSD stake as 'CELO'.

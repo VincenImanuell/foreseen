@@ -1,0 +1,1 @@
+CELO sdk chain l2-aware: CELO migrated to an Ethereum L2 (OP Stack) — chainId 42220 unchanged, but RPC behavior and some opcodes shifted; pin SDK against current Forno and test RPS writes post-migration, do not assume legacy L1 semantics.

@@ -1,0 +1,1 @@
+CELO sdk chain no-ens: CELO has no native ENS — disable viem ENS resolution for RPS address inputs (resolve via Celo's own name services or raw addresses) to avoid wasted mainnet ENS lookups that always fail.

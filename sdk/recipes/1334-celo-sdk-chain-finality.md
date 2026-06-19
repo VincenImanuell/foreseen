@@ -1,0 +1,1 @@
+CELO sdk chain finality: CELO offers fast/near-instant finality — an RPS SDK can treat a 1-2 block confirmation as settled for UX, but still wait for receipt status===1 before declaring a match move final.

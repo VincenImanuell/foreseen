@@ -1,0 +1,1 @@
+CELO sdk chain viem-celo: import { celo, celoAlfajores } from 'viem/chains' for @foreseen/sdk clients — CELO Sepolia (11142220) may need a custom defineChain until viem ships it; never hand-roll the celo chain object when the export exists.
