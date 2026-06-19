@@ -26,7 +26,7 @@ Package: `@foreseen/sdk` (npm)
 16. [UI Theme](#ui-theme)
 17. [Logo](#logo)
 18. [Taglines](#taglines)
-19. [Claude Code Workflow & Rules](#claude-code-workflow--rules)
+19. [Dev Workflow & Rules](#dev-workflow--rules)
 20. [Development Checklist](#development-checklist)
 21. [Open Questions](#open-questions)
 22. [Recommended Development Order](#recommended-development-order)
@@ -706,36 +706,24 @@ Mood: mystical oracle meets cyberpunk terminal. Serious and cinematic.
 
 ---
 
-## Claude Code Workflow & Rules
+## Dev Workflow & Rules
 
 > READ THIS BEFORE EVERY SESSION. Non-negotiable.
 
-### Budget
-- Plan: Claude Code Max — $200/month flat
-- Use **ultrathink** for: contract architecture, security review, game theory, SDK API design, UI final polish
-
-### Zero Claude Footprint
+### Git Identity
 
 ```bash
 # Run at START of every session
 git config --global user.name "VincenImanuell"
 git config --global user.email "vincenimanuel13@gmail.com"
-claude config set includeCoAuthoredBy false
 
 # Verify
 git config --global user.name   # → VincenImanuell
-claude config get includeCoAuthoredBy  # → false
-```
-
-Create in every repo:
-```bash
-mkdir -p .claude && echo '{"includeCoAuthoredBy": false}' > .claude/settings.json
 ```
 
 ### Rules
-- Never mention Claude/AI in any comment, commit message, or doc
 - All commits: `VincenImanuell` / `vincenimanuel13@gmail.com`
-- Pre-push check: `git log --format="%an | %s | %b" -5` → must show no Claude trace
+- Pre-push check: `git log --format="%an | %s | %b" -5`
 
 ### Branching
 ```
@@ -780,8 +768,7 @@ Setup: Vercel dashboard → Import repo → set main=production, develop=preview
 
 ### 🏗️ Setup
 - [ ] Create repo: `github.com/VincenImanuell/foreseen`
-- [ ] Set git config + claude config (no co-author)
-- [ ] Create `.claude/settings.json`
+- [ ] Set git config (no co-author)
 - [ ] Create milestones: `v1-pos-launch`, `v2-expansion`
 - [ ] Branch protection on `main`
 - [ ] Connect Vercel auto-deploy
