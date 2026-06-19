@@ -1,0 +1,1 @@
+CELO sdk bot edge-case: apply the edge case approach when integrating bot in @foreseen/sdk for CELO RPS (mainnet 42220).
