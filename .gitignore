@@ -10,9 +10,6 @@ contracts/broadcast/
 *.key
 deployer.json
 
-# Local Claude settings (machine-specific, never commit)
-.claude/settings.local.json
-
 # Node (sdk / frontend)
 node_modules/
 dist/
