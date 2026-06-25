@@ -341,6 +341,9 @@ export function MatchCard({
                   <input
                     className="input mt-2 font-mono text-xs"
                     placeholder="0x… salt"
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     value={manualSalt}
                     onChange={(e) => setManualSalt(e.target.value)}
                   />
