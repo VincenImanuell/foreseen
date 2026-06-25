@@ -48,8 +48,8 @@ Requires Node 18+.
 ```bash
 cd frontend
 cp .env.example .env.local
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open http://localhost:3000.
