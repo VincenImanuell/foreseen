@@ -68,7 +68,7 @@ A mind sport needs a single source of truth. If a server could fake or hide stat
 ```
 contracts/   # Foundry smart contracts (RPSCore, RPSStats, RPSRanked, RPSSoulbound, RPSTreasury)
 frontend/    # Next.js + wagmi + MiniPay dapp (live on Celo mainnet)
-sdk/         # @foreseen/sdk — TypeScript SDK + bot module  (coming soon)
+sdk/         # @foreseen/sdk — TypeScript SDK + bot module (published on npm)
 ```
 
 ## Getting started (contracts)
