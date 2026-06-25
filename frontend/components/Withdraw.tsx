@@ -61,6 +61,7 @@ export function Withdraw({ onChanged }: { onChanged?: () => void }) {
         <button
           className="btn-gold"
           disabled={amount === 0n || busy}
+          title={amount === 0n ? "Nothing to withdraw yet" : undefined}
           onClick={handleWithdraw}
         >
           {busy ? "Working…" : "Withdraw"}
