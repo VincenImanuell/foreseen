@@ -47,7 +47,7 @@ double-check before broadcasting any.
 
 - [ ] `forge test` passes if you touched contracts.
 - [ ] `npm test` and `npm run build` pass in `sdk/` if you touched the SDK.
-- [ ] `pnpm lint` and `pnpm build` pass in `frontend/` if you touched the frontend.
+- [ ] `pnpm lint`, `pnpm typecheck`, and `pnpm build` pass in `frontend/` if you touched the frontend.
 - [ ] No secrets or `.env` values are staged.
 - [ ] The change is limited to one concern.
 
