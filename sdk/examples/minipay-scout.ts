@@ -8,8 +8,7 @@
  *
  *   tsx examples/minipay-scout.ts 0xOpponentAddress
  */
-import { Foreseen } from "@foreseen/sdk";
-import { describeRead } from "@foreseen/sdk";
+import { Foreseen, describeRead } from "@foreseen/sdk";
 import type { Address } from "viem";
 
 const target = process.argv[2] as Address | undefined;
