@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description:
     "A skill-based mind-sport on Celo. Matchmake, scout your opponent's on-chain history, then commit blind. A game of reading, not luck — not gambling.",
   icons: { icon: "/foreseen-eye.svg" },
+  manifest: "/manifest.webmanifest",
   themeColor: "#05030a",
   openGraph: {
     title: "Foreseen — the Rock Paper Scissors mind-sport on Celo",
