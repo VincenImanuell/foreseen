@@ -56,7 +56,10 @@ export default function Landing() {
   return (
     <main className="overflow-x-hidden">
       {/* ---- Nav ---- */}
-      <nav className="sticky top-0 z-30 border-b border-white/5 bg-void/60 backdrop-blur">
+      <nav
+        aria-label="Primary"
+        className="sticky top-0 z-30 border-b border-white/5 bg-void/60 backdrop-blur"
+      >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2.5">
             <Logo size={32} glow={false} />
