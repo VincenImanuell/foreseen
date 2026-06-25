@@ -2,6 +2,15 @@
   "name": "foreseen-frontend",
   "version": "0.1.0",
   "private": true,
+  "description": "Next.js dapp for Foreseen, the on-chain Rock Paper Scissors mind-sport on Celo.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VincenImanuell/foreseen.git",
+    "directory": "frontend"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
