@@ -32,6 +32,9 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
     );
     obs.observe(el);
     return () => obs.disconnect();
+    // One-shot by design — only the initial `opts` matters, so it's
+    // intentionally left out of the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { ref, inView };
