@@ -28,6 +28,8 @@ export function Logo({
         alt="Foreseen"
         width={size}
         height={size}
+        loading="eager"
+        decoding="async"
         className="relative rounded-full object-cover ring-1 ring-white/15"
         style={{ width: size, height: size }}
       />
