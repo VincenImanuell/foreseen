@@ -35,6 +35,7 @@ export function Header() {
             href={`${CELO_EXPLORER_URL}/address/${RPS_CORE_ADDRESS}`}
             target="_blank"
             rel="noreferrer"
+            aria-label="View the Foreseen contract on the CELO explorer"
             className="hidden font-mono text-[11px] text-slate-500 hover:text-oracle-cyan sm:block"
           >
             {shortAddress(RPS_CORE_ADDRESS)} ↗
