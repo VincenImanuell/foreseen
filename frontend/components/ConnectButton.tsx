@@ -15,7 +15,7 @@ export function ConnectButton() {
   const { isMiniPay, isConnectingMiniPay } = useMiniPay();
 
   if (!mounted) {
-    return <div className="h-10 w-36 rounded-xl bg-white/5" />;
+    return <div aria-hidden className="h-10 w-36 rounded-xl bg-white/5" />;
   }
 
   if (!isConnected) {
@@ -32,6 +32,7 @@ export function ConnectButton() {
       <button
         className="btn-primary"
         disabled={!injected || isPending}
+        aria-busy={isPending}
         onClick={() => injected && connect({ connector: injected })}
       >
         {isPending ? "Connecting…" : "Connect Wallet"}
