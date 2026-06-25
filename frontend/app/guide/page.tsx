@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+
+export const metadata: Metadata = {
+  title: "Guide — Foreseen",
+  description:
+    "Player, builder, and safety flows for Foreseen, the on-chain Rock Paper Scissors mind-sport on Celo.",
+};
 
 const SECTIONS = [
   {
