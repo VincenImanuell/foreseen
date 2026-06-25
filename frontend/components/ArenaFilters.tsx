@@ -23,11 +23,17 @@ export function ArenaFilters({
   onChange: (filter: ArenaFilter) => void;
 }) {
   return (
-    <div className="inline-flex rounded-xl border border-white/10 bg-white/[0.035] p-1">
+    <div
+      role="tablist"
+      aria-label="Filter matches"
+      className="inline-flex rounded-xl border border-white/10 bg-white/[0.035] p-1"
+    >
       {FILTERS.map(([filter, label]) => (
         <button
           key={filter}
           type="button"
+          role="tab"
+          aria-selected={value === filter}
           onClick={() => onChange(filter)}
           className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
             value === filter
