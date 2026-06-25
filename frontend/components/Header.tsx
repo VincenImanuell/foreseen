@@ -10,6 +10,12 @@ import { Logo } from "./Logo";
 export function Header() {
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-void/75 shadow-[0_18px_60px_-45px_rgba(55,230,255,0.45)] backdrop-blur-xl">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-30 focus:rounded-lg focus:bg-oracle-cyan focus:px-3 focus:py-1.5 focus:text-sm focus:text-void"
+      >
+        Skip to the CELO arena
+      </a>
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="group flex items-center gap-3 rounded-xl focus-ring">
           <Logo size={36} />

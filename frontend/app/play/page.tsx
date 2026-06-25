@@ -36,7 +36,7 @@ export default function Play() {
   const { entries, refetch, isLoading } = useMatches();
 
   return (
-    <main>
+    <main id="main-content">
       <Header />
 
       <div className="mx-auto max-w-5xl px-4 py-8">
