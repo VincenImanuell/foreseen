@@ -389,6 +389,7 @@ export default function Landing() {
                 href={`${CELO_EXPLORER_URL}/address/${c.address}`}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={`View ${c.name} on the CELO explorer`}
                 className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs hover:border-oracle-cyan/40"
               >
                 <span className="font-medium text-slate-300">{c.name}</span>
