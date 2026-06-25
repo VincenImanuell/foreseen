@@ -74,7 +74,7 @@ export function ScoutPanel({ opponent }: { opponent: Address }) {
       </div>
 
       {isLoading && (
-        <div className="space-y-2">
+        <div aria-hidden className="space-y-2">
           <div className="h-3 w-2/3 animate-pulse rounded-full bg-white/10" />
           <div className="h-2 animate-pulse rounded-full bg-white/10" />
           <div className="h-2 w-4/5 animate-pulse rounded-full bg-white/10" />
