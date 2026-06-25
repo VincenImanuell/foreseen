@@ -367,6 +367,7 @@ export default function Landing() {
                 href={`${CELO_EXPLORER_URL}/address/${RPS_CORE_ADDRESS}`}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="View RPSCore on the CELO explorer"
                 className="font-mono text-slate-400 hover:text-oracle-cyan"
               >
                 {shortAddress(RPS_CORE_ADDRESS)} ↗
