@@ -8,6 +8,9 @@
     "url": "git+https://github.com/VincenImanuell/foreseen.git",
     "directory": "frontend"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
