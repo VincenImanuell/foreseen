@@ -63,6 +63,7 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
           <input
             className="input mt-1"
             type="number"
+            inputMode="decimal"
             min="0"
             step="0.001"
             value={bet}

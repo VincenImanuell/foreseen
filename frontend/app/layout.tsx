@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+
+export const viewport: Viewport = {
+  themeColor: "#05030a",
+};
 
 export const metadata: Metadata = {
   title: "Foreseen — the Rock Paper Scissors mind-sport",
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
     "A skill-based mind-sport on Celo. Matchmake, scout your opponent's on-chain history, then commit blind. A game of reading, not luck — not gambling.",
   icons: { icon: "/foreseen-eye.svg", apple: "/foreseen-eye.jpg" },
   manifest: "/manifest.webmanifest",
-  themeColor: "#05030a",
   openGraph: {
     title: "Foreseen — the Rock Paper Scissors mind-sport on Celo",
     description:
