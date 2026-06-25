@@ -15,7 +15,7 @@
 ## Checklist
 
 - [ ] `forge test` passes (if contracts changed)
-- [ ] `pnpm build` passes in `frontend/` (if frontend changed)
+- [ ] `pnpm lint` and `pnpm build` pass in `frontend/` (if frontend changed)
 - [ ] `npm test` passes in `sdk/` (if SDK changed)
 - [ ] No secrets, private keys, or `.env` values committed
 - [ ] Scope is limited to a single concern
