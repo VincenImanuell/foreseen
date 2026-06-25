@@ -16,7 +16,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@foreseen/sdk": "^0.1.0",
