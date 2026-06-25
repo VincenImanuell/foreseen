@@ -17,6 +17,8 @@ export function Countdown({
   const s = Math.max(0, left % 60);
   return (
     <span
+      role="timer"
+      aria-live="off"
       className={`font-mono tabular-nums ${over ? "text-rose-300" : "text-oracle-cyan"} ${className}`}
     >
       {over ? "00:00" : `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`}
