@@ -27,6 +27,6 @@ Run frontend locally:
 
 ```bash
 cd frontend
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
