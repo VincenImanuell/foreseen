@@ -106,7 +106,7 @@ Both verified on Blockscout. `RPSCore` feeds `RPSStats` on settlement and the st
 
 ## Status
 
-The full v1 contract system (Core, Stats, Ranked, Soulbound, Treasury) is **live on Celo mainnet** and the Next.js dapp is wired to it. SDK + bot ecosystem next. See the design doc in `Foreseen_Brainstorm.md`.
+The full v1 contract system (Core, Stats, Ranked, Soulbound, Treasury) is **live on Celo mainnet**, the Next.js dapp is wired to it, and `@foreseen/sdk` is published on npm with a bot module. See the design doc in `Foreseen_Brainstorm.md`.
 
 ---
 
