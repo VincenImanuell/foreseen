@@ -13,7 +13,7 @@ export function ArenaSummary({ entries }: { entries: MatchEntry[] }) {
   const pot = entries.reduce((sum, e) => sum + e.match.bet * 2n, 0n);
 
   return (
-    <div className="grid gap-3 sm:grid-cols-3">
+    <div role="group" aria-label="CELO arena summary" className="grid gap-3 sm:grid-cols-3">
       <div className="stat-card">
         <div className="text-[11px] uppercase tracking-wide text-slate-500">
           Open lobbies
