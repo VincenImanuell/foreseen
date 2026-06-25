@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   // wagmi/viem pull in optional deps used only for fancy logging; silence the
   // bundler warning so `next build` stays clean.
   webpack: (config) => {
