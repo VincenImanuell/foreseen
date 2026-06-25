@@ -73,6 +73,7 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
               <button
                 key={preset}
                 type="button"
+                aria-pressed={bet === preset}
                 onClick={() => setBet(preset)}
                 className={`rounded-full border px-2 py-1 text-[11px] transition ${
                   bet === preset
