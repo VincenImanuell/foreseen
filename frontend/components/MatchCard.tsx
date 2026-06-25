@@ -69,6 +69,7 @@ function MovePicker({
         <button
           key={m.value}
           disabled={disabled}
+          aria-pressed={value === m.value}
           onClick={() => onPick(m.value)}
           className={`flex flex-col items-center gap-1 rounded-xl border py-3 text-sm transition disabled:opacity-40 ${
             value === m.value
