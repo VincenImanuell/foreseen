@@ -404,6 +404,37 @@ export class Foreseen {
     return out;
   }
 
+  /**
+   * Return the most recent CELO matches across all states — useful for activity
+   * feeds, leaderboard scanners, and analytics that need a broad view of the
+   * contract without filtering by state or player. Uses multicall batching.
+   * No private key required.
+   * @param opts.limit - Max matches to return (default: `scanWindow`).
+   * @param opts.scanWindow - How many recent matches to fetch (default: 50).
+   * @param opts.batchSize - Multicall batch size (default: 20).
+   * @since 0.2.0
+   */
+  async getRecentMatches(opts: {
+    limit?: number;
+    scanWindow?: number;
+    batchSize?: number;
+  } = {}): Promise<MatchView[]> {
+    const next = await this.nextMatchId();
+    const scanWindow = opts.scanWindow ?? 50;
+    const batchSize = opts.batchSize ?? 20;
+    const total = Number(next < BigInt(scanWindow) ? next : BigInt(scanWindow));
+
+    const out: MatchView[] = [];
+    for (let offset = 0; offset < total; offset += batchSize) {
+      const end = Math.min(offset + batchSize, total);
+      const ids = Array.from({ length: end - offset }, (_, i) => next - 1n - BigInt(offset + i));
+      const matches = await this.getMatchesBatch(ids);
+      out.push(...matches);
+      if (opts.limit && out.length >= opts.limit) return out.slice(0, opts.limit);
+    }
+    return out;
+  }
+
   // ---- Scouting / stats --------------------------------------------------
 
   /** Raw on-chain stats from RPSStats for any address. No wallet needed. */
