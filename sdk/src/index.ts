@@ -24,6 +24,9 @@ export type { Deployment } from "./addresses.js";
 
 export { rpsCoreAbi, rpsStatsAbi } from "./abi.js";
 
+export { isRetryableError, classifyError, withRetry } from "./errors.js";
+export type { CeloErrorKind } from "./errors.js";
+
 // Bot module — join-only opponent bots for CELO. Also at "@foreseen/sdk/bot".
 export { ForeseenBot, strategies } from "./bot.js";
 export type { Strategy, StrategyName, BotContext, Outcome, ForeseenBotOptions } from "./bot.js";
