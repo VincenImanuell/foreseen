@@ -99,6 +99,93 @@ export interface PlayerStats {
   hasHistory: boolean;
 }
 
+// ---------------------------------------------------------------------------
+// Type guards and state helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Returns true when `m` is a playable move (Rock, Paper, or Scissors).
+ * Excludes `Move.None` (value 0) which is never a valid committed throw on CELO.
+ * @since 0.2.0
+ */
+export function isPlayableMove(m: number): m is Move.Rock | Move.Paper | Move.Scissors {
+  return m === Move.Rock || m === Move.Paper || m === Move.Scissors;
+}
+
+/**
+ * Returns true when `m` is exactly `Move.None` (the zero/uncommitted sentinel on CELO).
+ * Useful for checking whether a reveal slot is still empty after settlement.
+ * @since 0.2.0
+ */
+export function isMoveNone(m: number): m is Move.None {
+  return m === Move.None;
+}
+
+/**
+ * Returns true when the match is open for a second player to join on CELO.
+ * @since 0.2.0
+ */
+export function matchIsOpen(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.WaitingForOpponent;
+}
+
+/**
+ * Returns true when the match is in the commit (scouting) window on CELO.
+ * Both players have joined; neither has committed a move yet.
+ * @since 0.2.0
+ */
+export function matchIsCommitting(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.Scouting;
+}
+
+/**
+ * Returns true when the match is in the reveal window on CELO.
+ * At least one player has committed; both must reveal before the deadline.
+ * @since 0.2.0
+ */
+export function matchIsRevealing(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.Revealing;
+}
+
+/**
+ * Returns true when the CELO match has settled — pot has been distributed.
+ * @since 0.2.0
+ */
+export function matchIsSettled(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.Settled;
+}
+
+/**
+ * Returns true when the CELO match was cancelled (no opponent joined, or
+ * the opener cancelled before anyone joined).
+ * @since 0.2.0
+ */
+export function matchIsCancelled(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.Cancelled;
+}
+
+/**
+ * Returns true when the CELO match is still ongoing (not settled or cancelled).
+ * Covers WaitingForOpponent, Scouting, and Revealing states.
+ * @since 0.2.0
+ */
+export function matchIsActive(m: Pick<MatchView, "state">): boolean {
+  return (
+    m.state === MatchState.WaitingForOpponent ||
+    m.state === MatchState.Scouting ||
+    m.state === MatchState.Revealing
+  );
+}
+
+/**
+ * Returns true when the CELO match has reached a terminal state
+ * (Settled or Cancelled) and no further on-chain moves are possible.
+ * @since 0.2.0
+ */
+export function matchIsFinal(m: Pick<MatchView, "state">): boolean {
+  return m.state === MatchState.Settled || m.state === MatchState.Cancelled;
+}
+
 /**
  * The scouting read: what you study before committing on CELO.
  * Derived from on-chain `RPSStats` data — tamper-proof and public.
