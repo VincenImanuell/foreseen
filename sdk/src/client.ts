@@ -290,21 +290,81 @@ export class Foreseen {
   }
 
   /**
-   * Scan backwards from the chain tip for open CELO matches waiting for an opponent.
-   * No private key required — uses the public client to read RPSCore on CELO.
-   * @param opts.limit - Max results (default: unlimited — set a cap for UI/MiniPay use).
-   * @param opts.excludePlayer - Skip matches opened by this CELO address (own matches).
+   * Fetch a window of matches in a single multicall, decoding raw tuples into
+   * {@link MatchView} objects. Failed individual slots are silently dropped.
+   * No private key required.
+   * @param ids - The match IDs to fetch in one round-trip.
+   * @since 0.2.0
    */
-  async getOpenMatches(opts: { limit?: number; excludePlayer?: Address } = {}): Promise<MatchView[]> {
+  async getMatchesBatch(ids: bigint[]): Promise<MatchView[]> {
+    if (ids.length === 0) return [];
+    type RawMatch = {
+      playerA: Address; bet: bigint; playerB: Address;
+      commitDeadline: number | bigint; revealDeadline: number | bigint;
+      mode: number; state: number; commitA: Hex; commitB: Hex;
+      revealA: number; revealB: number;
+    };
+    const results = await this.pub.multicall({
+      contracts: ids.map((id) => ({
+        address: this.core,
+        abi: rpsCoreAbi,
+        functionName: "getMatch" as const,
+        args: [id] as const,
+      })),
+    });
+    return results.flatMap((res, i) => {
+      if (res.status !== "success") return [];
+      const m = res.result as RawMatch;
+      const view: MatchView = {
+        id: ids[i]!,
+        playerA: m.playerA,
+        playerB: m.playerB,
+        bet: m.bet,
+        mode: Number(m.mode) as Mode,
+        state: Number(m.state) as MatchState,
+        commitDeadline: Number(m.commitDeadline),
+        revealDeadline: Number(m.revealDeadline),
+        commitA: m.commitA,
+        commitB: m.commitB,
+        revealA: Number(m.revealA) as Move,
+        revealB: Number(m.revealB) as Move,
+      };
+      return [view];
+    });
+  }
+
+  /**
+   * Scan backwards from the chain tip for open CELO matches waiting for an opponent.
+   * Uses multicall batching to cut RPC round-trips — previously one call per match.
+   * No private key required — reads RPSCore on CELO.
+   * @param opts.limit - Max open matches to return (default: unlimited).
+   * @param opts.excludePlayer - Skip matches opened by this CELO address (own matches).
+   * @param opts.scanWindow - How many recent matches to look through (default: 100).
+   * @param opts.batchSize - Multicall batch size per round-trip (default: 20).
+   */
+  async getOpenMatches(opts: {
+    limit?: number;
+    excludePlayer?: Address;
+    scanWindow?: number;
+    batchSize?: number;
+  } = {}): Promise<MatchView[]> {
     const next = await this.nextMatchId();
-    const out: MatchView[] = [];
+    const scanWindow = opts.scanWindow ?? 100;
+    const batchSize = opts.batchSize ?? 20;
     const exclude = opts.excludePlayer ? getAddress(opts.excludePlayer) : undefined;
-    for (let id = next - 1n; id >= 0n; id--) {
-      const m = await this.getMatch(id);
-      if (m.state !== MatchState.WaitingForOpponent) continue;
-      if (exclude && getAddress(m.playerA) === exclude) continue;
-      out.push(m);
-      if (opts.limit && out.length >= opts.limit) break;
+    const total = Number(next < BigInt(scanWindow) ? next : BigInt(scanWindow));
+
+    const out: MatchView[] = [];
+    for (let offset = 0; offset < total; offset += batchSize) {
+      const end = Math.min(offset + batchSize, total);
+      const ids = Array.from({ length: end - offset }, (_, i) => next - 1n - BigInt(offset + i));
+      const matches = await this.getMatchesBatch(ids);
+      for (const m of matches) {
+        if (m.state !== MatchState.WaitingForOpponent) continue;
+        if (exclude && getAddress(m.playerA) === exclude) continue;
+        out.push(m);
+        if (opts.limit && out.length >= opts.limit) return out;
+      }
     }
     return out;
   }
