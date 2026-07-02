@@ -1,6 +1,7 @@
 import type { Address, Hex } from "viem";
 import { Foreseen, type ForeseenOptions } from "./client.js";
 import { counter } from "./crypto.js";
+import { withRetry } from "./errors.js";
 import { pickCounterFromRead } from "./strategy.js";
 import {
   MatchState,
@@ -239,9 +240,36 @@ export class ForeseenBot {
     return { matchId, result, myMove, theirMove: theirs };
   }
 
+  /**
+   * Snapshot of this bot's current runtime state.
+   * Useful for monitoring dashboards and CLI status displays on CELO.
+   * @since 0.2.0
+   */
+  status(): {
+    address: Address;
+    network: string;
+    strategy: string;
+    matchesPlayed: number;
+  } {
+    return {
+      address: this.address,
+      network: this.rps.network,
+      strategy:
+        typeof (this as unknown as { _strategyName?: string })._strategyName === "string"
+          ? (this as unknown as { _strategyName: string })._strategyName
+          : "custom",
+      matchesPlayed: this.history.length,
+    };
+  }
+
   private async waitForState(matchId: bigint, states: MatchState[]): Promise<MatchView> {
     while (true) {
-      const m = await this.rps.getMatch(matchId);
+      // Retry transient RPC errors on the poll call — a temporary CELO RPC
+      // outage should not abort a match that's already in-flight.
+      const m = await withRetry(() => this.rps.getMatch(matchId), {
+        onRetry: (n, e) =>
+          this.log(`poll #${matchId} retry ${n}: ${e instanceof Error ? e.message : String(e)}`),
+      });
       if (states.includes(m.state)) return m;
       await sleep(this.pollMs);
     }
