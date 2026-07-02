@@ -369,6 +369,41 @@ export class Foreseen {
     return out;
   }
 
+  /**
+   * Scan recent CELO matches and return those where `address` is playerA or playerB.
+   * Useful for building a player's match history view without an indexer on CELO.
+   * Uses the same multicall batching as {@link getOpenMatches}.
+   * No private key required.
+   * @param address - The CELO address to look up.
+   * @param opts.limit - Stop after collecting this many matches (default: unlimited).
+   * @param opts.scanWindow - How many recent matches to scan (default: 100).
+   * @param opts.batchSize - Multicall batch size per round-trip (default: 20).
+   * @since 0.2.0
+   */
+  async getMatchesByPlayer(
+    address: Address,
+    opts: { limit?: number; scanWindow?: number; batchSize?: number } = {},
+  ): Promise<MatchView[]> {
+    const next = await this.nextMatchId();
+    const scanWindow = opts.scanWindow ?? 100;
+    const batchSize = opts.batchSize ?? 20;
+    const player = getAddress(address);
+    const total = Number(next < BigInt(scanWindow) ? next : BigInt(scanWindow));
+
+    const out: MatchView[] = [];
+    for (let offset = 0; offset < total; offset += batchSize) {
+      const end = Math.min(offset + batchSize, total);
+      const ids = Array.from({ length: end - offset }, (_, i) => next - 1n - BigInt(offset + i));
+      const matches = await this.getMatchesBatch(ids);
+      for (const m of matches) {
+        if (getAddress(m.playerA) !== player && getAddress(m.playerB) !== player) continue;
+        out.push(m);
+        if (opts.limit && out.length >= opts.limit) return out;
+      }
+    }
+    return out;
+  }
+
   // ---- Scouting / stats --------------------------------------------------
 
   /** Raw on-chain stats from RPSStats for any address. No wallet needed. */
