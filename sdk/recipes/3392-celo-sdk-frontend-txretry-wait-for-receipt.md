@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-wait-for-receipt: `waitForReceipt(publicClient, hash)` retries only `publicClient.waitForTransactionReceipt`, never the write itself — a flaky CELO RPC blip during confirmation no longer surfaces as a failed tx the user already paid gas for.

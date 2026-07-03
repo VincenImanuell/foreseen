@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-create-match: `CreateMatch.tsx` waits on `waitForReceipt` after `createMatch` — an RPC blip while polling for the escrow-open receipt now retries instead of showing a false failure on a match that actually opened.

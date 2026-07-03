@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-no-double-send: retrying a receipt poll is safe because the transaction was already broadcast once — retrying the *write* call instead would risk two signed CELO txs for one user action, which `txRetry.ts` deliberately avoids.

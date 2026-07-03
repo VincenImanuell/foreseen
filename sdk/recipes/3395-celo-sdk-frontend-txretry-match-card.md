@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-match-card: `MatchCard.tsx`'s shared `run()` helper (join/commit/reveal/claim/cancel) wraps its post-write receipt wait in `waitForReceipt` — one retry path covers every action a player can take mid-match.

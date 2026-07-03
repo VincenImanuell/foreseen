@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-withdraw: `Withdraw.tsx` retries its receipt wait the same way — a claimable-balance withdrawal shouldn't read as failed just because a public CELO RPC endpoint hiccupped mid-poll.

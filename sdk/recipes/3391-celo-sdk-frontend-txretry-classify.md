@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-classify: Foreseen's dapp keeps a local `classifyTxError` (`frontend/lib/txRetry.ts`) mirroring the SDK's `classifyError` shape (network/wallet/revert/unknown) — kept local until `@foreseen/sdk` publishes past 0.1.0 with the `errors` module.
