@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis format-advice: `formatAdvice(advice)` turns a `StrategyAdvice` into a single display string — useful for a compact scouting-report line without hand-rolling the move-name + confidence formatting each time.

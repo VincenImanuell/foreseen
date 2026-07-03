@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis analyzeOpponent: `rps.analyzeOpponent(address)` composes `getPlayerStats` + the SDK's `analyze()` in one call, returning a full `OpponentRead` (distribution, tells, suggested counter) from a single CELO address.
