@@ -1,0 +1,1 @@
+CELO sdk player-stats leaderboard-batch: a leaderboard that calls `getPlayerStats` once per address in a loop is still N serial RPC calls — batching those into one multicall (the same pattern `getMatchesBatch` uses for matches) is the next resilience win once player-count grows.

@@ -1,0 +1,1 @@
+CELO sdk player-stats no-wallet: every `getPlayerStats`/`analyzeOpponent`/`winRateBps` call only needs a `publicClient` — none of them require the viewer to connect a wallet, so a scouting report works for anonymous visitors too.

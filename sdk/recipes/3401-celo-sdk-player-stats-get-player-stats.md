@@ -1,0 +1,1 @@
+CELO sdk player-stats getPlayerStats: `rps.getPlayerStats(address)` reads `RPSStats.getStats` directly — no wallet or private key needed, just a CELO address, so a leaderboard or profile page can render anyone's history read-only.
