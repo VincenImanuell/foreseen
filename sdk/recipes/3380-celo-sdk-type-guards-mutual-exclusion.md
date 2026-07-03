@@ -1,0 +1,1 @@
+CELO sdk type-guards mutual-exclusion: the `matchIs*` guards are mutually exclusive across every `MatchState` enum value — exactly one returns true for a given match, which is what the SDK's exhaustive test suite asserts.
