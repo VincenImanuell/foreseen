@@ -1,0 +1,1 @@
+CELO sdk player-stats after-win-loss: `afterWinMove`/`afterLossMove`/`afterDrawMove` are the same 3-tuple shape but conditioned on the previous match's outcome — this is the CELO SDK's behavioral "tell" data, not just aggregate frequency.

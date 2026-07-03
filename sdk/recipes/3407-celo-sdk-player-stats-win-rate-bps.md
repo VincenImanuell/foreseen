@@ -1,0 +1,1 @@
+CELO sdk player-stats win-rate-bps: `rps.winRateBps(address)` reads `RPSStats.winRateBps` directly and returns basis points (5000 = 50%) — cheaper than computing a ratio client-side from `wins`/`totalMatches` when you only need the single number.

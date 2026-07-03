@@ -1,0 +1,1 @@
+CELO sdk player-stats stats-vs-match: `RPSStats` (behavioral aggregates: wins/losses/move tendencies) and `RPSCore`'s `MatchView` (single-match state machine) are separate contracts read through separate SDK calls — don't conflate "stats for an address" with "state of a match".

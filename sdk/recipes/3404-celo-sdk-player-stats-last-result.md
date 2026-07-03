@@ -1,0 +1,1 @@
+CELO sdk player-stats last-result: `PlayerStats.lastResult` records the outcome of the address's most recent revealed match — a quick single-field way to show "on a hot streak" or "just lost" without refetching full history.

@@ -1,0 +1,1 @@
+CELO sdk player-stats has-history: `PlayerStats.hasHistory` is false for an address with zero revealed matches — check it before rendering distribution bars, since an all-zero tuple and "no data" look identical numerically otherwise.

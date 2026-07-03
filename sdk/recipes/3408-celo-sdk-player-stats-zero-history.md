@@ -1,0 +1,1 @@
+CELO sdk player-stats zero-history: `winRateBps` returns `0n` for an address with no CELO match history — same convention as `hasHistory: false` on `PlayerStats`, so both reads agree on what "no data yet" means.

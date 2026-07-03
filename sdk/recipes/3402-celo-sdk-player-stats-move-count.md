@@ -1,0 +1,1 @@
+CELO sdk player-stats move-count: `PlayerStats.moveCount` is a `[rock, paper, scissors]` tuple of on-chain reveal counts — feed it to `distributionPct` for a percentage breakdown, or `dominantMove` for the single most-played throw.
