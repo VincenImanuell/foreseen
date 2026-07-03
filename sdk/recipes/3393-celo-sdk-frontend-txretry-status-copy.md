@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-status-copy: `Status.tsx`'s `shortError` branches on `classifyTxError` to give tailored copy per kind — "RPC hiccup, try again" for network, "rejected in wallet" for wallet, "match state may have changed" for revert — instead of dumping the raw viem message.

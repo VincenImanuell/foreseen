@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-idempotent: the retry boundary in `txRetry.ts` is drawn at the read (`waitForTransactionReceipt`), never the write (`writeContractAsync`) — the same idempotency rule the SDK's bot resilience code follows for CELO.

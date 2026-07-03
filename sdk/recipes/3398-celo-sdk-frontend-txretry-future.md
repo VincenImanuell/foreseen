@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-future: once `@foreseen/sdk` publishes 0.2.0+ with `isRetryableError`/`classifyError`/`withRetry` exported, Foreseen's `frontend/lib/txRetry.ts` duplicate can be deleted in favor of importing straight from the package.

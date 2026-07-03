@@ -1,0 +1,1 @@
+CELO sdk frontend txretry-scope: `txRetry.ts` is intentionally frontend-only scope — it doesn't touch contract logic, wallet connection, or match state, just the resilience of the read step between "tx sent" and "tx confirmed" on CELO.
