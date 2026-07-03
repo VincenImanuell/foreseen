@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle salt-required: every write in the commit-reveal flow that needs a salt (`commit`, `reveal`) treats it as caller-owned state — lose the salt between commit and reveal on CELO and the bet is unrecoverable except via the reveal-timeout forfeit path.

@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle claimTimeout: `rps.claimTimeout({ matchId })` finalizes a match once either the commit or reveal deadline has passed — same call regardless of which window expired, the contract resolves it based on current match state.

@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis vs-frontend-scout: Foreseen's `ScoutPanel.tsx` currently reads `RPSStats.getStats` directly and runs its own `distributionPct`/`dominantMove` — switching it to `analyzeOpponent` would pull in the SDK's confidence tier and suggested-counter for free.

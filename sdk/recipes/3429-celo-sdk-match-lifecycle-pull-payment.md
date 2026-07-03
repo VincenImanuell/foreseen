@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle pull-payment: winnings, draw refunds, and cancelled-match refunds all land in `pendingWithdrawals` rather than being pushed automatically — `withdraw()` is a separate, explicit CELO tx by design (the standard pull-over-push safety pattern).

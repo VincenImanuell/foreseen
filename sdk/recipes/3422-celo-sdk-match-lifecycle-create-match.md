@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle createMatch: `rps.createMatch({ mode, bet })` opens an escrowed match on CELO and returns `{ matchId, txHash }` — no move is committed yet, matching `RPSCore`'s design of matchmake-then-scout-then-commit.

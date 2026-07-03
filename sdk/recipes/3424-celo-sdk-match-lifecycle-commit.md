@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle commit: `rps.commit({ matchId, move, salt? })` computes (or accepts) a salt, hashes the sealed move, and returns `{ salt, txHash }` — the caller must persist the returned `salt` themselves, the SDK doesn't store it.

@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle cancelMatch: `rps.cancelMatch({ matchId })` is only legal for the opener while the match is still `WaitingForOpponent` — once a second player joins, cancellation is no longer available, only timeout-based finalization.
