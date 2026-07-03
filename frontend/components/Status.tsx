@@ -1,5 +1,7 @@
 "use client";
 
+import { classifyTxError } from "@/lib/txRetry";
+
 export type TxStatus =
   | { kind: "idle" }
   | { kind: "pending"; msg: string }
@@ -8,9 +10,20 @@ export type TxStatus =
 
 export function shortError(e: unknown): string {
   const raw = e instanceof Error ? e.message : String(e);
-  // viem errors are verbose; surface the first meaningful line.
-  if (/User rejected|rejected the request/i.test(raw)) return "Rejected in wallet.";
-  if (/insufficient funds/i.test(raw)) return "Insufficient CELO for bet + gas.";
+
+  // Wallet + network cases get a tailored message; reverts + unknowns fall
+  // through to the raw viem message (still the most useful signal there).
+  switch (classifyTxError(e)) {
+    case "wallet":
+      if (/insufficient funds|insufficient CELO/i.test(raw))
+        return "Insufficient CELO for bet + gas.";
+      return "Rejected in wallet.";
+    case "network":
+      return "CELO RPC hiccup — please try again.";
+    case "revert":
+      return "Transaction reverted — match state may have changed. Refresh and retry.";
+  }
+
   const firstLine = raw.split("\n")[0];
   return firstLine.length > 140 ? firstLine.slice(0, 140) + "…" : firstLine;
 }

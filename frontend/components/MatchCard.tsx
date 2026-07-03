@@ -25,6 +25,7 @@ import {
   shortAddress,
   ZERO_ADDRESS,
 } from "@/lib/rps";
+import { waitForReceipt } from "@/lib/txRetry";
 import { Countdown } from "./Countdown";
 import { ScoutPanel } from "./ScoutPanel";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
@@ -141,7 +142,7 @@ export function MatchCard({
       setStatus({ kind: "pending", msg: `Confirm: ${label}…` });
       const hash = await fn();
       setStatus({ kind: "pending", msg: "Waiting for confirmation…" });
-      await publicClient.waitForTransactionReceipt({ hash });
+      await waitForReceipt(publicClient, hash);
       setStatus({ kind: "success", msg: `${label} ✓` });
       onChanged?.();
     } catch (e) {

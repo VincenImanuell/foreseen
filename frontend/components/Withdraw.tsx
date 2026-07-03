@@ -9,6 +9,7 @@ import {
   useWriteContract,
 } from "wagmi";
 import { rpsCore } from "@/lib/contracts";
+import { waitForReceipt } from "@/lib/txRetry";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
 
 export function Withdraw({ onChanged }: { onChanged?: () => void }) {
@@ -35,7 +36,7 @@ export function Withdraw({ onChanged }: { onChanged?: () => void }) {
         ...rpsCore,
         functionName: "withdraw",
       });
-      await publicClient.waitForTransactionReceipt({ hash });
+      await waitForReceipt(publicClient, hash);
       setStatus({ kind: "success", msg: "Withdrawn to your wallet." });
       refetch();
       onChanged?.();

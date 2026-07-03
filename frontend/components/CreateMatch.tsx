@@ -5,6 +5,7 @@ import { parseEther } from "viem";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { rpsCore } from "@/lib/contracts";
 import { Mode } from "@/lib/rps";
+import { waitForReceipt } from "@/lib/txRetry";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
 
 const BET_PRESETS = ["0.01", "0.05", "0.1"];
@@ -37,7 +38,7 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
         value: parseEther(bet),
       });
       setStatus({ kind: "pending", msg: "Opening your match on-chain…" });
-      await publicClient.waitForTransactionReceipt({ hash });
+      await waitForReceipt(publicClient, hash);
       setStatus({
         kind: "success",
         msg: "Match opened. When someone joins, scout them — then commit your move.",
