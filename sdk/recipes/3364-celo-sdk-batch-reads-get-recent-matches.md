@@ -1,0 +1,1 @@
+CELO sdk batch-reads getRecentMatches: `rps.getRecentMatches({ limit })` returns an all-state activity feed (open/committing/revealing/settled/cancelled) in one batch — good source for a live "recent activity" strip on CELO.

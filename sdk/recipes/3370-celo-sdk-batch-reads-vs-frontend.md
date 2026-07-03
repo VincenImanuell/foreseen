@@ -1,0 +1,1 @@
+CELO sdk batch-reads vs-frontend: a raw `useReadContracts` multicall in a dapp (like Foreseen's `useMatches.ts`) duplicates what `getMatchesBatch` already does server-side in the SDK — worth switching to the SDK call once the dapp is ready to drop its own multicall wiring.
