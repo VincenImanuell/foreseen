@@ -1,0 +1,1 @@
+CELO sdk resilience isRetryableError: `isRetryableError(e)` flags timeouts, connection resets, rate limits (429), and generic fetch failures against public CELO RPC — the class of error where retrying is safe.

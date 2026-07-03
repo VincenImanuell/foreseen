@@ -1,0 +1,1 @@
+CELO sdk resilience dont-retry-writes: never wrap a `writeContractAsync`/tx-submit call in `withRetry` — retrying a *send* can double-submit; only wrap read-only polling (receipt waits, state reads) where re-running is idempotent.

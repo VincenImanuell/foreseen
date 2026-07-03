@@ -1,0 +1,1 @@
+CELO sdk resilience classify-network: `classifyError(e)` returns `"network"` for the same transient conditions `isRetryableError` matches — callers can branch on the category instead of re-testing regexes.

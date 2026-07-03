@@ -1,0 +1,1 @@
+CELO sdk resilience classify-revert: `classifyError(e)` returns `"revert"` when the message matches `execution reverted` — usually a stale match state (someone else already joined/committed/revealed first).

@@ -1,0 +1,1 @@
+CELO sdk resilience bot-wait-for-state: `ForeseenBot`'s `waitForState` polling loop wraps its `getMatch` call in `withRetry`, so a bot mid-match survives a brief RPC outage instead of crashing the run.
