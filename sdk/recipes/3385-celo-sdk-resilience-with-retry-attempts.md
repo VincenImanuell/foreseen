@@ -1,0 +1,1 @@
+CELO sdk resilience withRetry-attempts: `withRetry(fn, { maxAttempts })` defaults to 3 total tries; non-retryable errors (wallet, revert) still propagate on the first failure — only network-classified errors consume a retry.

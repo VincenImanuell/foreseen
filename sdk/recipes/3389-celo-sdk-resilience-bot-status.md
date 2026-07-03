@@ -1,0 +1,1 @@
+CELO sdk resilience bot-status: `ForeseenBot.status()` returns a snapshot (address, network, strategy, matchesPlayed) — poll it from an operator dashboard without touching the bot's internal state directly.

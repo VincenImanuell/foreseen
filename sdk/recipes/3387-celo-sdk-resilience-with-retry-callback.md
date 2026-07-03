@@ -1,0 +1,1 @@
+CELO sdk resilience withRetry-callback: `withRetry(fn, { onRetry })` fires `onRetry(attempt, error)` before each backoff sleep — wire it to a logger or a bot's status snapshot instead of swallowing retries silently.

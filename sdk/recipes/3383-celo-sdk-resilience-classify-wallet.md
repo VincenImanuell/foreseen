@@ -1,0 +1,1 @@
+CELO sdk resilience classify-wallet: `classifyError(e)` returns `"wallet"` for user rejections and insufficient-CELO-funds errors — surfacing these immediately (no retry) is correct since the user, not the RPC, needs to act.
