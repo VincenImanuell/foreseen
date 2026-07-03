@@ -1,0 +1,1 @@
+CELO sdk batch-reads getOpenMatches: `rps.getOpenMatches({ limit })` scans recent match IDs then resolves them via `getMatchesBatch` internally, so the lobby view stays a single multicall even as `nextMatchId` grows.

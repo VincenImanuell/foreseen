@@ -1,0 +1,1 @@
+CELO sdk batch-reads reuse: `getOpenMatches`, `getMatchesByPlayer`, and `getRecentMatches` all delegate to `getMatchesBatch` — one multicall implementation, three read patterns, no drift between them.

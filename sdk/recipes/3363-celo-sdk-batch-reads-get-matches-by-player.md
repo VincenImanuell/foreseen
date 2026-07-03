@@ -1,0 +1,1 @@
+CELO sdk batch-reads getMatchesByPlayer: `rps.getMatchesByPlayer(address, opts)` walks match history for one player without a subgraph/indexer, reusing the same batched `getMatchesBatch` under the hood.

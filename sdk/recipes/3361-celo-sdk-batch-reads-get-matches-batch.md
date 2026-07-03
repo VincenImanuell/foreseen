@@ -1,0 +1,1 @@
+CELO sdk batch-reads getMatchesBatch: `rps.getMatchesBatch(ids: bigint[])` runs one multicall round-trip for N match IDs instead of N serial `getMatch` calls — use it any time you need more than one match at a time on CELO.
