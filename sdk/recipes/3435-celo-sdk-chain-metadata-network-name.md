@@ -1,0 +1,1 @@
+CELO sdk chain-metadata NetworkName: the `NetworkName` union (`"celo" | "celo-sepolia"`) is the single string every chain-aware SDK call keys off — `CHAINS`, `DEFAULT_RPC`, and `DEPLOYMENTS` all index by the same type, so a typo network name fails to typecheck rather than silently misrouting.

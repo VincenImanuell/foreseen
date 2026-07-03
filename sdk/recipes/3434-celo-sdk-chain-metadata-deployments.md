@@ -1,0 +1,1 @@
+CELO sdk chain-metadata DEPLOYMENTS: `DEPLOYMENTS` maps each `NetworkName` to its `RPSCore`/`RPSStats` contract addresses — the SDK resolves these internally from `network`, so callers never hardcode a CELO contract address themselves.

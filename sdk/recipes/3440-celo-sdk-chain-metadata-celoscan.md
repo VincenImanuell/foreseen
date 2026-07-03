@@ -1,0 +1,1 @@
+CELO sdk chain-metadata Celoscan: `DEPLOYMENTS` addresses are what a footer or "view contract" link should point Celoscan at — Foreseen's `SiteFooter.tsx` already does this for RPSCore/RPSStats so a wallet holder can verify the contract before betting real CELO.

@@ -1,0 +1,1 @@
+CELO sdk chain-metadata read-only-client: every scouting/stats/batch-read call only needs a `publicClient` built from `CHAINS`+`DEFAULT_RPC` — none of them require a wallet client, so a CELO leaderboard or scouting page can be fully static/server-rendered with no wallet connection at all.

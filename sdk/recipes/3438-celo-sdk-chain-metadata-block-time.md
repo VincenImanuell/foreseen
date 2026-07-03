@@ -1,0 +1,1 @@
+CELO sdk chain-metadata block-time: CELO's ~1s block time means a `refetchInterval` tuned for Ethereum mainnet (12s blocks) is unnecessarily slow for a live match feed — an 8s poll (as Foreseen's `useMatches.ts` already uses) is closer to the chain's actual cadence.

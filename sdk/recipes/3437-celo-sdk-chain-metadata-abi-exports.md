@@ -1,0 +1,1 @@
+CELO sdk chain-metadata abi-exports: `rpsCoreAbi`/`rpsStatsAbi` are exported straight from the SDK — a frontend building its own `useReadContract` calls (like Foreseen's `lib/contracts.ts`) can import the ABI from `@foreseen/sdk` instead of maintaining a second copy that can drift from the deployed CELO contract.
