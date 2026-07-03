@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis strategy-advice: `adviseStrategy(read)` in `strategy.ts` returns a `StrategyAdvice` object (recommended move + reasoning + confidence) — the same building block the bot's `counterStats` strategy and a human-facing scouting panel can both consume.

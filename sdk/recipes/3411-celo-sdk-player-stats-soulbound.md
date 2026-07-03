@@ -1,0 +1,1 @@
+CELO sdk player-stats soulbound: `getPlayerStats` reads the same on-chain history that ranked play can move a soulbound rank against — Casual-mode matches still count toward `moveCount`/win-loss tallies even though only Ranked mode affects rank.

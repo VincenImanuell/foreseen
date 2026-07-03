@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis no-data: with zero revealed CELO matches, `analyzeOpponent` still returns a well-formed `OpponentRead` — confidence "none", no suggested counter — rather than throwing, so a fresh opponent renders a blank-slate scouting panel, not an error state.

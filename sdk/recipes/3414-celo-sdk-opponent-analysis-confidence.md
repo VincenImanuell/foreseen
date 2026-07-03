@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis confidence: `confidenceFromRead(read)` returns a `ScoutingConfidence` tier ("none"/"low"/"medium"/"high") — gate how strongly a UI recommends a move on this, so a 2-match sample isn't presented with the same certainty as a 200-match one.

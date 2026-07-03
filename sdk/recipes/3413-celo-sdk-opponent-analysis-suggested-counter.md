@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis suggested-counter: `OpponentRead.suggestedCounter` is precomputed from the opponent's dominant move via `counter()` — the scouting UI doesn't need to re-derive rock beats scissors beats paper beats rock itself.

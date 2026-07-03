@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis describe-read: `describeRead(read)` returns an array of human-readable sentences describing an `OpponentRead` — the SDK-level equivalent of the "after a win, tends to throw X" tell copy a CELO scouting panel renders.

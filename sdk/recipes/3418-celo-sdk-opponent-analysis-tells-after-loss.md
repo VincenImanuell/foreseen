@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis tells-after-loss: the `counterStats` bot strategy falls back to `tells.afterLoss` (lose-shift pattern) when there's no strong dominant-move signal yet — a second-order read for thin scouting samples.
