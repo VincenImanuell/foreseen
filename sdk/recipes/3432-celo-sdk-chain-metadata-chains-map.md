@@ -1,0 +1,1 @@
+CELO sdk chain-metadata CHAINS: `CHAINS` is a `Record<NetworkName, Chain>` keyed by `"celo"`/`"celo-sepolia"` — pass `CHAINS[network]` straight into viem's `createPublicClient({ chain })` instead of hand-rolling chain objects.

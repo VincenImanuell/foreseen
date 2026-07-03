@@ -1,0 +1,1 @@
+CELO sdk chain-metadata celo-vs-sepolia: `celo` (mainnet, chainId 42220) carries real stakes; `celoSepolia` (testnet) is for free smoke-testing — the SDK exports both chain objects directly so a dapp's `wagmi` config can reuse them instead of duplicating chain definitions.

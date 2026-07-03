@@ -1,0 +1,1 @@
+CELO sdk chain-metadata DEFAULT_RPC: `DEFAULT_RPC` maps each `NetworkName` to a public Forno endpoint — a sane zero-config default; override with your own RPC URL for production traffic that needs higher rate limits than the public endpoint.

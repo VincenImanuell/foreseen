@@ -1,0 +1,1 @@
+CELO sdk chain-metadata Multicall3: every batched read (`getMatchesBatch` and everything built on it) relies on Multicall3 being deployed at its canonical address on CELO — true for both mainnet and Sepolia, which is what makes `useReadContracts`-style batching work out of the box with viem.
