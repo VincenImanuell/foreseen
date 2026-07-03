@@ -1,0 +1,1 @@
+CELO sdk type-guards isPlayableMove: `isPlayableMove(m)` narrows a raw `number` to `Move.Rock | Move.Paper | Move.Scissors`, excluding `Move.None` — use before computing a commit hash so you never seal an empty move.

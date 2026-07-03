@@ -1,0 +1,1 @@
+CELO sdk type-guards matchIsCancelled: `matchIsCancelled(match)` covers matches refunded before a second player joined or before both committed — distinct from a forfeit settle, which still goes through `Settled`.
