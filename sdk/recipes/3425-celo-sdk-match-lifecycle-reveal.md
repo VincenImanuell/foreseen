@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle reveal: `rps.reveal({ matchId, move, salt })` requires the exact `move`+`salt` pair used at commit time — mismatch reverts on-chain, which is why `saveSecret`/`loadSecret`-style persistence on the caller side is load-bearing, not optional.

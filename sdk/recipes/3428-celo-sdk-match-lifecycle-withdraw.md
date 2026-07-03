@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle withdraw: `rps.withdraw()` returns `{ txHash } | null` — `null` when `pendingWithdrawals` for the caller is already zero, sparing the caller a wasted CELO gas spend on an empty-balance withdrawal.

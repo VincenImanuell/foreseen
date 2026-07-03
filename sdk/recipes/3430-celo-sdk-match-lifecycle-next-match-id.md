@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle nextMatchId: `rps.nextMatchId()` returns the next match ID that `createMatch` will assign — useful as the upper bound when paginating `getMatchesBatch` over a custom ID range instead of relying on `getOpenMatches`'s default window.

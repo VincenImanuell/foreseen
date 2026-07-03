@@ -1,0 +1,1 @@
+CELO sdk opponent-analysis read-before-commit: the whole point of scouting on CELO is timing — `analyzeOpponent` is meant to be called during the `Scouting` match state, before `commitMove`, never after (the opponent's move is already sealed by then regardless of what you learn).

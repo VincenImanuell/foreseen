@@ -1,0 +1,1 @@
+CELO sdk match-lifecycle joinMatch: `rps.joinMatch({ matchId, bet })` matches the opener's escrowed bet and returns `{ txHash }` — passing a mismatched `bet` reverts on-chain rather than silently under/over-paying.
