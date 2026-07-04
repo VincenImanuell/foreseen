@@ -1,0 +1,1 @@
+CELO sdk ranked-mode create-match-picker: `CreateMatch.tsx`'s mode selector shows contextual copy per option (`MODE_HELP`) — "keeps the pressure low" for Casual vs "can move your soulbound rank" for Ranked — so the bet-stakes-vs-rank-stakes distinction is visible before a player commits CELO.

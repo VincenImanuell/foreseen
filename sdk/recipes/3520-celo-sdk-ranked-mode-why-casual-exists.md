@@ -1,0 +1,1 @@
+CELO sdk ranked-mode why-casual-exists: Casual mode exists so new players (or anyone testing an opponent's patterns) can play real CELO-staked matches without rank risk — rank only tracks the matches a player explicitly opted into via Mode.Ranked.

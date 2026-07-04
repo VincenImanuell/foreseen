@@ -1,0 +1,1 @@
+CELO sdk ranked-mode scouting-same-both-modes: `ScoutPanel`'s tells (after-win/after-loss dominant move) read identically whether the upcoming match is Casual or Ranked — an opponent's behavioral patterns don't change meaning by mode, only the downstream rank consequence of this particular match does.

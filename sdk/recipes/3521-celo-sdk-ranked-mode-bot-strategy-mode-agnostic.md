@@ -1,0 +1,1 @@
+CELO sdk ranked-mode bot-strategy-mode-agnostic: the SDK's built-in bot strategies (`random`/`biasRock`/`counterStats`) don't branch on match mode at all — a bot reads `opponentRead` the same way whether the match it's playing is Casual or Ranked, since the strategic problem (guess the next throw) is identical either way.

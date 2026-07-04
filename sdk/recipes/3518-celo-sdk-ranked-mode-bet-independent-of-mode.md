@@ -1,0 +1,1 @@
+CELO sdk ranked-mode bet-independent-of-mode: the CELO bet amount and the game mode are orthogonal on `RPSCore` — a Ranked match can be opened with any stake a Casual one could, mode only gates whether the outcome touches the soulbound rank contract, not the escrow logic.
