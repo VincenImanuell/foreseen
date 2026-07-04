@@ -1,0 +1,1 @@
+CELO sdk ranked-mode frontend-badge: `MatchCard.tsx` renders a distinct gold "Ranked" badge only when `match.mode === Mode.Ranked` — Casual matches show no mode badge at all, keeping the visual signal reserved for the stakes that actually matter for rank progression.

@@ -1,0 +1,1 @@
+CELO sdk ranked-mode soulbound-erc5192: Foreseen's rank badges follow ERC-5192 (soulbound/non-transferable) — the landing page's "can't be bought, sold or transferred" claim is a token-standard guarantee, not just a UI convention, so a purchased-badge exploit isn't a client-side concern to defend against.

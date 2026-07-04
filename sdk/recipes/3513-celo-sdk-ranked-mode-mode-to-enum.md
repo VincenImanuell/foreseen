@@ -1,0 +1,1 @@
+CELO sdk ranked-mode modeToEnum: `modeToEnum("ranked" | "casual")` maps the human-readable string to the on-chain `Mode` enum — `"ranked"` is the only string that maps to `Mode.Ranked`, everything else (including typos, since it's a plain equality check) falls back to `Mode.Casual`.

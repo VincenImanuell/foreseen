@@ -1,0 +1,1 @@
+CELO sdk ranked-mode casual-vs-ranked: `Mode.Casual` (0) carries no rank stakes — only `Mode.Ranked` (1) updates a player's soulbound badge on CELO, per the SDK's own `createMatch` JSDoc ("ranked updates soulbound badge on CELO").

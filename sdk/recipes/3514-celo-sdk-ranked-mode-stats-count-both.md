@@ -1,0 +1,1 @@
+CELO sdk ranked-mode stats-count-both: `RPSStats` move/win/loss tallies accumulate from both Casual and Ranked matches — scouting an opponent via `getPlayerStats`/`analyzeOpponent` sees their full behavioral history regardless of mode, even though only Ranked play moves their rank.
