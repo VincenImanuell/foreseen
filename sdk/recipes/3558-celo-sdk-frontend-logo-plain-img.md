@@ -1,0 +1,1 @@
+CELO sdk frontend logo-plain-img: `Logo` uses a plain `<img>` (with an eslint-disable for `next/no-img-element`) rather than `next/image` — a deliberate opt-out for a small, fixed-size decorative mark where `next/image`'s optimization pipeline isn't worth the extra config.

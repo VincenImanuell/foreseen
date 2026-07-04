@@ -1,0 +1,1 @@
+CELO sdk frontend header-back-to-home: the arena's `Header` logo links to `/` with visible "back to home" copy next to the network indicator — the only nav affordance back to the landing page once a player is inside `/play`, since that page has no separate nav bar of its own.

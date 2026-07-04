@@ -1,0 +1,1 @@
+CELO sdk frontend header-network-dot: a small emerald dot next to `CELO_NETWORK_LABEL` in the header is a static "live" indicator, not a real connectivity check — it communicates "this deployment targets mainnet/Sepolia", not "your RPC is currently reachable".
