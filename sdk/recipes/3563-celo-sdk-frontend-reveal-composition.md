@@ -1,0 +1,1 @@
+CELO sdk frontend reveal-composition: `Reveal` is a thin wrapper composing `useInView` with a CSS class toggle (`in-view`) — all the actual fade/slide styling lives in `globals.css`, the component itself only decides *when* to add the class, not *how* the transition looks.

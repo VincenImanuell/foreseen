@@ -1,0 +1,1 @@
+CELO sdk frontend reveal-walrus-style: `Reveal.tsx`'s own comment calls its fade+slide-up pattern "Walrus-style" — a named reference point for anyone extending the landing page's scroll animations, not just "some CSS transition".

@@ -1,0 +1,1 @@
+CELO sdk frontend logo-ring-treatment: the logo image gets a subtle `ring-1 ring-white/15` — enough definition to separate the eye mark from a busy gradient background without a hard border that would fight the glow effect around it.
