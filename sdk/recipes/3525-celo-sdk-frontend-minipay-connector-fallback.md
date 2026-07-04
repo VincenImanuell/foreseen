@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-connector-fallback: the auto-connect logic picks `connectors.find(id === "injected")` first, falling back to `connectors[0]` — defensive against a wagmi config where the injected connector isn't registered under that exact id string.

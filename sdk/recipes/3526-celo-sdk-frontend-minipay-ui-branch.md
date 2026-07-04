@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-ui-branch: `ConnectButton.tsx` renders a plain "MiniPay wallet" chip instead of a clickable connect button whenever `isMiniPay` is true — the button only makes sense for wallets the user has to actively choose to connect.

@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-attempt-once: a `useRef` (`attemptedAutoConnect`) stops the MiniPay auto-connect effect from retrying every re-render — without it, a rejected or slow connect attempt could refire in a loop instead of settling into a stable "not connected" state.

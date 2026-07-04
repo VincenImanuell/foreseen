@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-auto-connect: `useMiniPay()` auto-connects the injected connector the moment MiniPay is detected and no wallet is connected yet — MiniPay users never see a "Connect Wallet" button at all, since the wallet *is* the browser context they're already in.

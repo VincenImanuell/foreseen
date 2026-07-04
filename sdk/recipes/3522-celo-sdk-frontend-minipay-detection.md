@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-detection: `isMiniPayProvider()` checks `window.ethereum.isMiniPay` — a flag Opera's MiniPay wallet sets on its injected provider, the same detection pattern MiniPay's own docs recommend for CELO dapps.
