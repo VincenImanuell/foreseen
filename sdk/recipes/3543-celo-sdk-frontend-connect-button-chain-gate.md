@@ -1,0 +1,1 @@
+CELO sdk frontend connect-button-chain-gate: once connected, `ConnectButton` checks `chainId !== celo.id` before showing the normal connected state — a wallet connected to the wrong network sees a "Switch to Celo" button instead of a false-looking "connected" badge that would actually fail on write.

@@ -1,0 +1,1 @@
+CELO sdk frontend connect-button-disconnect-scope: clicking the connected-address badge calls `disconnect()` for non-MiniPay wallets only — this matches `useMiniPay`'s earlier design choice that disconnecting doesn't make sense inside MiniPay's own embedded wallet context.

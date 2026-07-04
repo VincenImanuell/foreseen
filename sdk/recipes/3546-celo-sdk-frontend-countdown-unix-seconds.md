@@ -1,0 +1,1 @@
+CELO sdk frontend countdown-unix-seconds: `Countdown`'s `deadline` prop is a unix-seconds `bigint` straight from `MatchView.commitDeadline`/`revealDeadline` — no client-side date math beyond subtracting `useNow()`'s own unix-seconds clock, so there's no timezone conversion to get wrong.

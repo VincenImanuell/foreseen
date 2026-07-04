@@ -1,0 +1,1 @@
+CELO sdk frontend connect-button-mounted-guard: `ConnectButton` renders a skeleton placeholder (`aria-hidden` gray box) until `useMounted()` flips true — wallet connection state differs between server and first client paint, so rendering the real button too early would flash the wrong state during hydration.

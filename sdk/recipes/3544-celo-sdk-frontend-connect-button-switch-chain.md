@@ -1,0 +1,1 @@
+CELO sdk frontend connect-button-switch-chain: the network-switch button calls wagmi's `switchChain({ chainId: celo.id })` directly — no manual `wallet_addEthereumChain` RPC call needed, wagmi handles prompting the wallet and, for chains it doesn't know yet, adding them first.
