@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-serve-endpoint: `GET /api/serve?siteId=…&kind=BANNER` is what `Banner.render()` calls under the hood — hitting it directly with curl is the fastest way to confirm a real campaign is being matched to a siteId before assuming the SDK integration itself is broken.

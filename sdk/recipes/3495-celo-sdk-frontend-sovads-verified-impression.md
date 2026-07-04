@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-verified-impression: an impression only counts once the SDK POSTs `/api/track` with `type: "IMPRESSION"` after the creative actually renders — deduped server-side by fingerprint + campaign, 1-hour window, so refreshing the same page repeatedly doesn't inflate real payouts.

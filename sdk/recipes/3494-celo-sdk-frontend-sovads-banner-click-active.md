@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-banner-click-active: `bannerClickActive` drops to `false` once a campaign's budget is spent, but the creative stays visible — a Foreseen visitor can still see an ad with a dead click-through, which is intentional so attached CTA chips keep paying out as a fallback.

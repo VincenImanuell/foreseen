@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-balance-needs-wallet: `GET /api/publishers/balance` requires a `wallet` query param (ownership-based auth, no API key) — checking earnings for a registered site has to go through the publisher's own connected wallet, not something a deploy script or CI job can query anonymously.

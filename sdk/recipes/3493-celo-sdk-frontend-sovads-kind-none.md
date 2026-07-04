@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-kind-none: the serve endpoint's discriminated union includes `{ kind: "NONE" }` — an empty-looking banner container on a live CELO page can mean either a wiring bug or, just as often, that there's simply no matching active campaign right now; check the raw API response before debugging the component.
