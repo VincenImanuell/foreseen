@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-treasury-not-frontend-facing: `RPSTreasury`'s address is listed in the mainnet footer for transparency, but no frontend component reads or writes to it directly — fee routing from settled matches is entirely internal contract-to-contract logic on CELO.

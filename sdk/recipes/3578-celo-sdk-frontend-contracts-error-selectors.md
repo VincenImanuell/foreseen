@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-error-selectors: `rpsCoreAbi`'s custom errors (`WrongState`, `TooEarly`, `TooLate`, `BetMismatch`, …) are what a revert's `shortError`/`classifyTxError` message actually decodes from on CELO — matching one of these names in the raw viem error is more precise than pattern-matching generic "execution reverted" text.

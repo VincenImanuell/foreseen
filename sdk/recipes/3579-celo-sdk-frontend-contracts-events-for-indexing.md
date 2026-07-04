@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-events-for-indexing: `rpsCoreAbi` events (`MatchCreated`, `MatchJoined`, `Revealed`, `Settled`, …) exist for anyone building an indexer/subgraph on CELO — the frontend itself doesn't watch them, it polls `getMatch` directly instead, since the SDK's batch reads make an indexer unnecessary for this scale.

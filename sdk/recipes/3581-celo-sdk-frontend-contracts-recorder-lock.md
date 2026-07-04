@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-recorder-lock: `rpsStatsAbi`'s `recorderLocked`/`setRecorder` exist so `RPSStats` can permanently lock which contract is allowed to call `recordMatch` — a one-way admin action visible in the ABI that the frontend never calls, but worth knowing when auditing what could still change post-deploy.
