@@ -1,0 +1,1 @@
+CELO sdk npm-publish exports-map: the package's `exports` field maps `.` to typed ESM output (`dist/index.d.ts` + `dist/index.js`) — no CJS build, so a consumer stuck on `require()` needs their own bundler/interop, not a concern the SDK itself works around.

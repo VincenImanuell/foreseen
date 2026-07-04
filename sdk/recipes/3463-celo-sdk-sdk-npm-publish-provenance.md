@@ -1,0 +1,1 @@
+CELO sdk npm-publish provenance: `publishConfig.provenance: true` in `sdk/package.json` requires the publish to run through CI's OIDC flow (GitHub Actions) — a local `npm publish` needs `--no-provenance` or it fails with `EUSAGE provider: null`.

@@ -1,0 +1,1 @@
+CELO sdk npm-publish semver: `@foreseen/sdk` is still `0.1.0` on the npm registry — the batch-reads/type-guards/resilience modules exist in the repo's `sdk/src/` but aren't in a published release yet, so consumers importing from `node_modules` won't see them until a version bump ships.

@@ -1,0 +1,1 @@
+CELO sdk npm-publish frontend-lag: Foreseen's own frontend depends on `@foreseen/sdk@^0.1.0` from the registry — the same lag applies to its own consumer, which is why `frontend/lib/txRetry.ts` duplicates error-classification logic instead of importing the newer `errors` module.

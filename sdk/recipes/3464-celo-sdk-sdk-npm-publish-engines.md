@@ -1,0 +1,1 @@
+CELO sdk npm-publish engines: `sdk/package.json`'s `engines.node >=18` documents the minimum runtime for consumers — viem's ESM-only build and the SDK's own `async`/multicall usage assume a reasonably modern Node.
