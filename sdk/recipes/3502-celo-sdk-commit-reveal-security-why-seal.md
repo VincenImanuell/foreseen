@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security why-seal: sealing a move as `keccak256(player, move, salt)` before the opponent's move is visible is the entire point of the two-phase flow — without it, whoever commits second could just look at the first commit's move (if unsealed) and always win.

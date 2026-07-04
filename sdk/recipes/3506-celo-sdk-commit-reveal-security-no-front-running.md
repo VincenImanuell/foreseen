@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security no-front-running: because a commit only reveals a hash, not a move, watching the CELO mempool for a pending `commitMove` tx gives an attacker nothing actionable — the move itself only becomes visible at `reveal`, by which point the opponent has already committed too.

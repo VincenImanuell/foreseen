@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security lost-salt: losing the salt between commit and reveal is unrecoverable on-chain by design — `RPSCore` has no admin override to accept a move without its matching salt, which is also why `saveSecret`/`loadSecret` persistence on the client is load-bearing, not a convenience.

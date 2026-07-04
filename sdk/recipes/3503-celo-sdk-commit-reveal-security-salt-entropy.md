@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security salt-entropy: `randomSalt()` must produce enough entropy that a committed hash can't be brute-forced across only 3 possible moves — a weak or reused salt turns commit-reveal into security theater, since an attacker only needs to guess (move, salt) pairs, not the hash itself.

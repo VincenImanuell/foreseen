@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security timeout-as-safety-valve: `claimCommitTimeout`/`claimRevealTimeout` exist so a match can't get stuck forever if one side goes silent (lost salt, closed tab, bad-faith stall) — the forfeiting side loses the pot instead of both bets being frozen indefinitely.
