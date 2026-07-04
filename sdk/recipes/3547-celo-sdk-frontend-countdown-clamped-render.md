@@ -1,0 +1,1 @@
+CELO sdk frontend countdown-clamped-render: once `left <= 0`, `Countdown` renders a fixed `00:00` in red rather than a negative time string — the deadline having passed is itself meaningful UI state (commit/reveal window closed), not just a number going negative.

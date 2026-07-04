@@ -1,0 +1,1 @@
+CELO sdk frontend countdown-tabular-nums: the `tabular-nums` font-variant class keeps each digit the same width as it ticks — without it, `09:59 → 10:00` would visibly reflow/jitter as a proportional font's digit widths differ.

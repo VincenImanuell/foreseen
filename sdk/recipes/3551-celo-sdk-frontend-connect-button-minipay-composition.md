@@ -1,0 +1,1 @@
+CELO sdk frontend connect-button-minipay-composition: `ConnectButton` composes `useMounted`, `useMiniPay`, wagmi's `useAccount`/`useConnect`/`useDisconnect`/`useSwitchChain` into one component — every hook in this session's frontend-hook-patterns and minipay-wallet recipe categories converges here.

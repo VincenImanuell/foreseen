@@ -1,0 +1,1 @@
+CELO sdk frontend countdown-timer-role: `Countdown` uses `role="timer" aria-live="off"` — deliberately silent to assistive tech on every tick, since announcing a live per-second countdown would be unusably noisy; the `role="timer"` semantic is enough without the live announcements.

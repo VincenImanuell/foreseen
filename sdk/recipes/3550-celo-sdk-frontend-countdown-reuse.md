@@ -1,0 +1,1 @@
+CELO sdk frontend countdown-reuse: `MatchCard` reuses the same `<Countdown>` component for both the commit window and the reveal window, just swapping the `deadline` prop — one countdown implementation for both CELO time-boxed phases of a match.
