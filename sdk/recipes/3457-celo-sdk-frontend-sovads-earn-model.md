@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-earn-model: SovAds pays G$ (GoodDollar, also settled on Celo) per verified impression — separate reward currency from the CELO match bets themselves, tracked entirely off the RPS contracts.

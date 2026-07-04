@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-no-wallet-coupling: the SovAds SDK's own fingerprint/wallet-identify flow is independent of Foreseen's `wagmi` connection — a visitor can earn ad impressions without ever connecting the wallet they'd use to play a CELO match.

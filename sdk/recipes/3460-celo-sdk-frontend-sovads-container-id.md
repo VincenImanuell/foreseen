@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-container-id: `Banner(ads, containerId)` takes a DOM element id string, not a ref — `SovAdsBanner` hardcodes a stable `sovads-banner` id on its container div to match what the SDK looks up.

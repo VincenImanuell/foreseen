@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-placement: the banner is mounted at the bottom of `/play`, after the match grid and before the footer — a deliberately low-attention slot so it doesn't compete with the scouting/commit/reveal flow that's the actual point of the page.

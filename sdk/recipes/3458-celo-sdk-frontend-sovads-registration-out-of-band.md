@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-registration-out-of-band: getting a real `siteId` requires registering a publisher site at sovads.org/publisher (wallet + domain ownership) — an account-creation step outside the codebase, so the env var stays a placeholder until that's done manually.
