@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security reveal-must-match: `reveal(matchId, move, salt)` reverts unless the hash of the supplied move+salt equals the stored commit — a player can't change their mind after seeing the opponent's committed hash, since they never learn the opponent's actual move until both reveal.

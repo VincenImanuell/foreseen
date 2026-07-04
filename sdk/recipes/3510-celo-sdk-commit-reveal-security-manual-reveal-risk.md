@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security manual-reveal-risk: Foreseen's fallback manual-entry reveal UI (move + salt typed by hand when `localStorage` has no saved secret) is a deliberate escape hatch, not the primary path — it exists so a player who cleared browser storage isn't stuck forfeiting a match they actually committed to.

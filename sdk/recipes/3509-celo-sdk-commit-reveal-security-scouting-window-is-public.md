@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security scouting-window-is-public: the scouting data both players read before committing (win/loss history, move distribution) is itself on-chain and public — the fairness guarantee isn't secrecy of history, it's that neither side can react to the *other's move in this specific match* before committing their own.

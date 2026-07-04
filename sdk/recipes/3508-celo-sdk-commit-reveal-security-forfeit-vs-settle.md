@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security forfeit-vs-settle: a match settled by timeout forfeit (both `revealA`/`revealB` still `Move.None`) is distinguishable on-chain from a normal settle where both moves are visible — Foreseen's frontend checks exactly this to render "forfeit" vs a real win/loss/draw summary.

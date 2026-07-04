@@ -1,0 +1,1 @@
+CELO sdk commit-reveal-security vs-vrf-rng: RPS's commit-reveal needs no oracle or VRF at all — unlike a dice-roll or lottery contract, the "randomness" being protected is just each player's own choice, so a simple hash-commitment scheme is sufficient and cheaper than importing a randomness beacon.
