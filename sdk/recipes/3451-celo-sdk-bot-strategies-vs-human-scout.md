@@ -1,0 +1,1 @@
+CELO sdk bot-strategies vs-human-scout: `counterStats` automates exactly the read a human does in the Foreseen `ScoutPanel` (dominant move → counter) — same on-chain data, same strategy, just executed by code instead of a player's judgement.

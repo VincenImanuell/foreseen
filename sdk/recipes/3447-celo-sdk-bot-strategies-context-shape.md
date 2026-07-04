@@ -1,0 +1,1 @@
+CELO sdk bot-strategies context-shape: a `Strategy` function receives a `BotContext` with `opponentRead` pre-populated — the bot runner does the `analyzeOpponent` call once per match, strategies stay pure functions over that read.

@@ -1,0 +1,1 @@
+CELO sdk bot-strategies testing-with-vi-fn: the SDK's bot resilience tests mock strategies and `opponentRead` with `vi.fn()` rather than hitting live CELO RPC — a bot's move-selection logic is fully unit-testable offline.

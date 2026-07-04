@@ -1,0 +1,1 @@
+CELO sdk bot-strategies custom: `ForeseenBotOptions.strategy` accepts any `Strategy` function, not just the three built-ins — write your own `(ctx) => Move` and pass it straight in, same interface the SDK's own strategies satisfy.

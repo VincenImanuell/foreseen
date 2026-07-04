@@ -1,0 +1,1 @@
+CELO sdk bot-strategies pick-random-fallback: every built-in strategy bottoms out at `pickRandom()` in the worst case — a CELO bot with zero opponent history still commits a legal move instead of stalling past the commit deadline.
