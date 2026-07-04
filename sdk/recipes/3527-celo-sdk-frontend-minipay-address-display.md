@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-address-display: a connected MiniPay address renders as a static badge, not a disconnect button — disconnecting isn't a meaningful action inside MiniPay's own webview, unlike a browser-extension wallet where the user picked to connect in the first place.

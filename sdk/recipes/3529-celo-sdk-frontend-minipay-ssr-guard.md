@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-ssr-guard: `getInjectedProvider()` returns `undefined` when `window` doesn't exist — guards `isMiniPayProvider` against running during Next.js server rendering, where there's no browser `ethereum` object to inspect at all.

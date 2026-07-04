@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-chain-mismatch: `ConnectButton` still shows the "Switch to Celo" prompt for a MiniPay session on the wrong `chainId` — MiniPay defaults to CELO but a dev testing on Sepolia can still hit this branch.

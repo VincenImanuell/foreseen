@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-cusd-default: MiniPay wallets default gas payment to cUSD rather than native CELO — a detail that matters for `createMatch`/`joinMatch` fee estimation even though Foreseen's bets themselves are always denominated in CELO, not cUSD.

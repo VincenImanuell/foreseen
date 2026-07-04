@@ -1,0 +1,1 @@
+CELO sdk frontend minipay-vs-injected-wallets: MiniPay and a browser extension wallet both arrive through the same wagmi `injected` connector — the SDK/dapp only tells them apart via the `isMiniPay` provider flag, not a separate connection path.
