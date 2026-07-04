@@ -1,0 +1,1 @@
+CELO sdk npm-publish otp-gate: npm's registry requires 2FA on publish for this package, so a version bump needs either CI OIDC trusted publishing or an interactive local `npm publish --otp=CODE` — no way to script past that gate, by design.

@@ -1,0 +1,1 @@
+CELO sdk npm-publish workflow: `.github/workflows/npm-publish.yml` fires on a GitHub Release event, not on every push to main — merging SDK feature PRs doesn't auto-publish; cutting a release still needs an explicit step.

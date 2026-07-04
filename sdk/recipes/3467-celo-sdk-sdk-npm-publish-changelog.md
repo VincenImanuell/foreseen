@@ -1,0 +1,1 @@
+CELO sdk npm-publish changelog: new exports get an `@since` JSDoc tag (e.g. `@since 0.2.0` on `isRetryableError`) before they're actually published at that version — a marker for the next release, not a claim about what's live on npm today.

@@ -1,0 +1,1 @@
+CELO sdk npm-publish smoke-test: `sdk-smoke.yml` installs the *published* package fresh into a clean directory and import-checks its exports — a release-safety net that would have caught if a version bump forgot to include a new module in the build.

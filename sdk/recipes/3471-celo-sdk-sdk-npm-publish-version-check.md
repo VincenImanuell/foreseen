@@ -1,0 +1,1 @@
+CELO sdk npm-publish version-check: `npm view @foreseen/sdk version` is the fast way to check what's actually live before assuming a recipe or frontend import can use a given export — the repo's `sdk/package.json` version and the registry's published version can and do drift.
