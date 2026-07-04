@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
+import { SovAdsBanner } from "@/components/SovAdsBanner";
 import { CELO_EXPLORER_URL, CELO_NETWORK_LABEL } from "@/lib/chain";
 import { RPS_CORE_ADDRESS, CELO_CONTRACTS } from "@/lib/contracts";
 import { BUILDER_POINTS, SAFETY_NOTES, TRUST_SIGNALS } from "@/lib/landingContent";
@@ -376,6 +377,8 @@ export default function Landing() {
           </Reveal>
         </div>
       </section>
+
+      <SovAdsBanner />
 
       <footer className="border-t border-white/10 px-4 py-10 text-center">
         <div className="mx-auto max-w-3xl">
