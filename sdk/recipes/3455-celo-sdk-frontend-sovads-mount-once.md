@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-mount-once: a `useRef` guard (`rendered.current`) stops `SovAdsBanner` from calling `Banner.render()` twice under React 18 strict-mode's double-invoked effects in development.

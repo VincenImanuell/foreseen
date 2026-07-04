@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-disabled-by-default: `SovAdsBanner` renders `null` whenever the site ID env var is unset — the ad banner is opt-in per deployment, never accidentally live on a fork or preview build.

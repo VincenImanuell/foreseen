@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-fail-silent: the SovAds `Banner.render()` call is wrapped in try/catch with no rethrow — a third-party ad network outage degrades to "no banner shown", never to a broken CELO arena page.

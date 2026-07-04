@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-sdk-client-only: `sovads-sdk` is dynamically `import()`ed inside a `useEffect`, gated by the repo's existing `useMounted()` hook — same SSR-hydration guard pattern already used for wallet-dependent UI.

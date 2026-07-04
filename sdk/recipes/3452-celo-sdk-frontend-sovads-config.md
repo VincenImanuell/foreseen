@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-config: Foreseen's `SovAdsBanner.tsx` builds `new SovAds({ siteId })` from `NEXT_PUBLIC_SOVADS_SITE_ID` — a third-party ad SDK unrelated to CELO's own RPC, kept isolated to one component so it can't touch match/wallet state.
