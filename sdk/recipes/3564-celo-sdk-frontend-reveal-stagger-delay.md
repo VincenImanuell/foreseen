@@ -1,0 +1,1 @@
+CELO sdk frontend reveal-stagger-delay: the landing page staggers `Reveal delay={i * 90}` across a card grid — each card's CSS `transition-delay` is set inline per index, producing a cascading reveal effect from a single reusable component with no per-section custom code.

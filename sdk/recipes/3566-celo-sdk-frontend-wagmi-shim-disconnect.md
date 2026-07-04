@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-shim-disconnect: `injected({ shimDisconnect: true })` makes wagmi remember a manual disconnect even though the underlying injected provider (MetaMask, etc.) has no real disconnect RPC method of its own — without the shim, a "disconnected" wallet would silently reconnect on next page load.

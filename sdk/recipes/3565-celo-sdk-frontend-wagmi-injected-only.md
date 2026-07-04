@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-injected-only: `wagmiConfig` registers only the `injected` connector — deliberately no WalletConnect project ID or external account needed, keeping the CELO demo signup-less; MetaMask and MiniPay both connect through this same single connector.
