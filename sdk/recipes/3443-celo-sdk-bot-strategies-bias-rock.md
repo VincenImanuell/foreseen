@@ -1,0 +1,1 @@
+CELO sdk bot-strategies biasRock: `strategies.biasRock` always throws Rock — deliberately exploitable, exported only for testing a counter-strategy bot against a known-predictable opponent on CELO Sepolia.

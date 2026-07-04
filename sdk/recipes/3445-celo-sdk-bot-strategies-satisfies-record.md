@@ -1,0 +1,1 @@
+CELO sdk bot-strategies satisfies-record: `strategies` is typed `satisfies Record<string, Strategy>`, so `StrategyName` (`keyof typeof strategies`) stays in sync automatically — adding a new named strategy widens the type with zero extra bookkeeping.

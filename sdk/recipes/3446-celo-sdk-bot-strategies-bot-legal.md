@@ -1,0 +1,1 @@
+CELO sdk bot-strategies bot-legal: built-in strategies are "bot-legal by design" — they only read public on-chain CELO state (`RPSStats`) already available to any human scout, no private-mempool or off-chain-only signal.

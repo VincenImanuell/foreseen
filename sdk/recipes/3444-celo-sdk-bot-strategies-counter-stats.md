@@ -1,0 +1,1 @@
+CELO sdk bot-strategies counterStats: `strategies.counterStats` reads `ctx.opponentRead.suggestedCounter` first; if that's unset it falls back to countering the opponent's after-loss tell, then to `random` — a three-tier fallback so the bot never has "no move" to make.
