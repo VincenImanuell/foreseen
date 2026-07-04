@@ -1,0 +1,1 @@
+CELO sdk frontend arena-filters-tablist-a11y: `ArenaFilters` uses `role="tablist"`/`role="tab"`/`aria-selected` — screen readers announce it as a tab group even though visually it's just three pill buttons, giving assistive tech the same mental model sighted users get from the highlight state.

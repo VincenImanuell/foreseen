@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-live-aria: `ArenaSummary` wraps its three stat tiles in `role="group" aria-label="CELO arena summary"` — a single labeled region instead of three unrelated numbers, so a screen reader user gets the summary's context in one pass.

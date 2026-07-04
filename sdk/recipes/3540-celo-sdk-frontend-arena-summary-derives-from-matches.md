@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-derives-from-matches: none of `ArenaSummary`'s three numbers come from a separate contract read — they're all derived client-side from the same `entries` array `useMatches` already fetched, so the summary tiles never drift out of sync with the match list below them.

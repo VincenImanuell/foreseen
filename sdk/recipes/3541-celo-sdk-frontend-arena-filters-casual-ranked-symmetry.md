@@ -1,0 +1,1 @@
+CELO sdk frontend arena-filters-casual-ranked-symmetry: `matchesFilter` treats `casual`/`ranked` as mutually exclusive against the same `Mode` enum `MODE_HELP` in `CreateMatch.tsx` explains to a player before they open a match — the filter and the mode picker share one source of truth for what the two modes mean.

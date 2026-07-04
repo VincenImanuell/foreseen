@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-decimal-formatting: the pot total uses `Number(formatEther(pot)).toFixed(3)` rather than displaying viem's full-precision string — three decimal places is enough resolution for a CELO bet display, and avoids a wall of trailing zeros/precision digits users don't need.
