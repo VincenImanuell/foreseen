@@ -1,0 +1,1 @@
+CELO sdk frontend header-skip-link: `Header.tsx`'s first element is a `sr-only focus:not-sr-only` skip-to-content link — invisible until keyboard-focused, then it jumps straight to `#main-content`, letting a screen-reader or keyboard user bypass the nav on every single CELO page load.

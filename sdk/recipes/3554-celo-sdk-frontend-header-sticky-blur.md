@@ -1,0 +1,1 @@
+CELO sdk frontend header-sticky-blur: the header is `sticky top-0` with a blur backdrop — stays visible (and the wallet/connect state with it) while scrolling a long match list, instead of scrolling out of reach.

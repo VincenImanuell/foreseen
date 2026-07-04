@@ -1,0 +1,1 @@
+CELO sdk frontend header-contract-link: `Header.tsx` links `shortAddress(RPS_CORE_ADDRESS)` straight to Celoscan — a player can verify the exact contract they're about to bet CELO against without leaving the arena page or trusting the frontend's word for it.
