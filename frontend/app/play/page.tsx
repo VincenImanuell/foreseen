@@ -5,6 +5,7 @@ import { CreateMatch } from "@/components/CreateMatch";
 import { ArenaSummary } from "@/components/ArenaSummary";
 import { Header } from "@/components/Header";
 import { MatchList } from "@/components/MatchList";
+import { SovAdsBanner } from "@/components/SovAdsBanner";
 import { Withdraw } from "@/components/Withdraw";
 import { useMatches } from "@/components/useMatches";
 import { useMounted } from "@/components/useMounted";
@@ -115,6 +116,8 @@ export default function Play() {
           </div>
           <MatchList entries={entries} onChanged={refetch} isLoading={isLoading} />
         </div>
+
+        <SovAdsBanner />
       </div>
 
       <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
