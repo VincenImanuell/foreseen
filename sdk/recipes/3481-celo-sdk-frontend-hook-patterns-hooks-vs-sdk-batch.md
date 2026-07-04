@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns hooks-vs-sdk-batch: none of `useMounted`/`useNow`/`useInView` touch chain state at all — they're pure UI-timing hooks, kept fully separate from the wagmi/viem read hooks (`useMatches`, `Withdraw`'s balance read) that do the actual CELO RPC work.

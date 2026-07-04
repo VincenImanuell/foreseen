@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns refetch-identity: `useMatches`' `refetch` combines `refetchNext`+`refetchMatches` into one stable-shaped function — components pass it down as `onChanged` without needing to know it's actually two underlying wagmi refetches.

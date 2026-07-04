@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns window-bound-ids: `useMatches`' `WINDOW = 50` caps how many match IDs get multicalled per poll — the same unbounded-vs-windowed tradeoff the SDK's own `getOpenMatches`/`getRecentMatches` limit options exist to solve, just implemented ad hoc here instead of via the SDK.

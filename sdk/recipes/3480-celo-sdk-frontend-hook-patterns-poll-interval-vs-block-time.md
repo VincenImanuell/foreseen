@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns poll-interval-vs-block-time: Foreseen's 8s `refetchInterval` on match/withdrawal reads is roughly 8x CELO's ~1s block time — frequent enough that a countdown or claim button feels live without polling every single block.

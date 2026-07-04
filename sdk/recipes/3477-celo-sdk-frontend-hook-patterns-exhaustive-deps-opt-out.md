@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns exhaustive-deps-opt-out: `useInView`'s effect intentionally excludes `opts` from its dependency array with a documented eslint-disable — the one-shot contract means only the *initial* options matter, re-running on every options object identity change would be the actual bug.
