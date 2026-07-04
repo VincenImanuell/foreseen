@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-open-count: `ArenaSummary`'s "Open lobbies" tile counts entries where `state === MatchState.WaitingForOpponent` — the same guard `MatchList` uses to build its own open-lobbies section, kept in sync by filtering the identical `MatchEntry[]` array.

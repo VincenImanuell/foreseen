@@ -1,0 +1,1 @@
+CELO sdk frontend arena-filters-pure-function: `matchesFilter(mode, filter)` is a plain, exported pure function — testable without rendering `ArenaFilters` at all, and reused directly inside `MatchList`'s `entries.filter(...)` call.

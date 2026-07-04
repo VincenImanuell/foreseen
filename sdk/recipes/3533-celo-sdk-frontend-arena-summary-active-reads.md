@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-active-reads: "Active reads" counts `Scouting` + `Revealing` together — the two states where scouting/committing/revealing is actually happening, distinct from settled/cancelled history sitting in the same loaded window.

@@ -1,0 +1,1 @@
+CELO sdk frontend arena-filters-mode-only: `ArenaFilters`'s `all`/`casual`/`ranked` filter only ever narrows by `Mode`, never by `MatchState` — state-based grouping (open vs yours) is a separate, always-on split inside `MatchList`, not something the filter tabs touch.

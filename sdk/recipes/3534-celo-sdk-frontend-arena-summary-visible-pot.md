@@ -1,0 +1,1 @@
+CELO sdk frontend arena-summary-visible-pot: the "Visible pot" tile sums `bet * 2n` across every loaded match, not just open ones — it's explicitly a *visible* total bounded by `useMatches`' windowed fetch, not a claim about the CELO contract's true all-time volume.
