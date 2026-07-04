@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy root-directory: Foreseen's frontend deploys from a Root Directory setting of `frontend/` in the Vercel project — the repo root has no top-level package.json/vercel.json, the monorepo layout (contracts/sdk/frontend) only works because Vercel is told which subdir is the app.

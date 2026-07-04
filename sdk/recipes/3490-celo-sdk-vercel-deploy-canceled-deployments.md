@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy canceled-deployments: `vercel ls` showing several `Canceled` Production deployments in a row is normal when pushes land close together — Vercel cancels a superseded in-flight build rather than wasting compute finishing an already-outdated one.

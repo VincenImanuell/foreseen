@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy verify-with-curl: `curl -s <url> | grep <marker>` against server-rendered markup is a quick way to confirm a feature actually shipped to production CELO frontend — works for anything present in the initial HTML (a container div, a copy string), not for state that only exists after client JS runs.

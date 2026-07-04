@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy env-ls-audit: `vercel env ls` lists every configured env var and which environments (Production/Preview/Development) it applies to — the fastest way to confirm a value is actually set before chasing a "why isn't this live" bug in the running app.

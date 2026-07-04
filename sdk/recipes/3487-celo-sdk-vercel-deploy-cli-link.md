@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy cli-link: `vercel link --project <name> --scope <team>` connects a local checkout to an existing Vercel project without creating a new one — needed once per machine/session before `vercel env ls`/`vercel ls` can see that project's data.

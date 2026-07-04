@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy cache-headers: a `200` response with `x-vercel-cache: HIT` and a low `age` doesn't mean stale content — Vercel's edge cache revalidates against the current deployment quickly, so a missing feature after a real push usually means the build hadn't finished yet, not a cache problem.

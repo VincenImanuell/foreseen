@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy auto-deploy-on-push: pushing to `main` on the linked GitHub repo triggers a new Production deployment automatically — no manual "Redeploy" click needed once the git integration is set up, which is how each of this session's frontend commits went live.

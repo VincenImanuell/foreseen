@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy inline-at-build: Next.js bakes `NEXT_PUBLIC_*` values into the client bundle at build time, not read at request time — adding or changing one in the dashboard requires a fresh deployment before it takes effect, existing deployments keep the old (or missing) value.

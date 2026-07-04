@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy alias-promotion: the live domain (`foreseen-mindgame.vercel.app`) is an alias that Vercel repoints to whichever Production deployment is newest and Ready — `vercel inspect <url>` shows a deployment's aliases directly, the fastest way to confirm what's actually serving traffic.

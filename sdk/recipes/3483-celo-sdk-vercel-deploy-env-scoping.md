@@ -1,0 +1,1 @@
+CELO sdk vercel-deploy env-scoping: a `NEXT_PUBLIC_*` env var added in the Vercel dashboard must have the Production checkbox ticked, or it never reaches the live domain — Preview/Development-only scoping is the most common reason a feature works locally but not on the deployed CELO arena.
