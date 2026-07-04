@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-not-on-chain: SovAds impressions/rewards settle through its own off-chain API + a separate `SovAdsStreaming` claim contract paid in G$ — entirely independent of `RPSCore`/`RPSStats`; a CELO match bet and an ad impression never touch the same contract.

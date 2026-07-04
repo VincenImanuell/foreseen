@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-registration-domain-match: `POST /api/publishers/register` binds a `siteId` to a specific domain — the domain registered at sovads.org/publisher has to match wherever the CELO frontend is actually deployed (e.g. `foreseen-mindgame.vercel.app`), or impression verification can reject the traffic.

@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-two-surfaces: Foreseen mounts `SovAdsBanner` on both `/` (landing) and `/play` (arena) — two independent impression surfaces sharing the same component and siteId, doubling the pages a real visitor's session can generate a verified impression on.

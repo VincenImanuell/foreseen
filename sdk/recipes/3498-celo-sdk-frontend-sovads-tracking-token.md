@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-tracking-token: each `/api/serve` response includes a per-ad `trackingToken` — a short-lived, server-issued credential that authenticates the impression/click events for that specific ad, separate from the viewer's own `fingerprint`.

@@ -1,0 +1,1 @@
+CELO sdk frontend sovads-fingerprint-storage: the SDK stores an anonymous `sovads_fingerprint_v1` key in `localStorage` to identify a viewer before any wallet is connected — worth knowing when someone asks why the ad SDK touches browser storage on a wallet-first CELO dapp.
