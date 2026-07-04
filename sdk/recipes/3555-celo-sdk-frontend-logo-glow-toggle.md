@@ -1,0 +1,1 @@
+CELO sdk frontend logo-glow-toggle: `Logo`'s `glow` prop defaults true but the landing page's small nav logo passes `glow={false}` — the animated purple halo is reserved for the larger hero/CTA placements where it reads as an accent, not a distraction in a compact nav bar.

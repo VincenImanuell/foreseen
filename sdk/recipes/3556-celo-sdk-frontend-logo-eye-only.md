@@ -1,0 +1,1 @@
+CELO sdk frontend logo-eye-only: `eyeOnly` swaps to `/foreseen-eye.svg` (no "FORESEEN" wordmark baked into the image) — used only for the large floating hero logos, where the wordmark already exists as separate text nearby and repeating it in the image would be redundant.

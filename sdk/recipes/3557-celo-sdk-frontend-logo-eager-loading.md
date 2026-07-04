@@ -1,0 +1,1 @@
+CELO sdk frontend logo-eager-loading: `Logo` sets `loading="eager"` on its `<img>` — deliberately opting out of native lazy-loading, since the logo is always above the fold and lazy-loading it would just add a visible pop-in delay for zero scroll-performance benefit.
