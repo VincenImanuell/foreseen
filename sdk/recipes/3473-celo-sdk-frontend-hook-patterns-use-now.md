@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns useNow: `useNow(intervalMs)` is a ticking Unix-seconds clock that re-syncs immediately on `visibilitychange` — without that resync, a CELO match countdown would visibly jump when a backgrounded tab regains focus, since `setInterval` drifts while hidden.

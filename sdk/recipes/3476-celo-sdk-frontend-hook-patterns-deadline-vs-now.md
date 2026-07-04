@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns deadline-vs-now: `MatchCard`'s `commitOver`/`revealOver` flags compare a live `useNow()` tick against the on-chain `commitDeadline`/`revealDeadline` — the deadline itself is CELO block-timestamp truth, `useNow` just drives when the UI re-renders to notice it passed.

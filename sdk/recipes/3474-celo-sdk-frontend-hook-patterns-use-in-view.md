@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns useInView: `useInView()` is a one-shot scroll-reveal — once `inView` flips true it disconnects the `IntersectionObserver` and never flips back, so revealed landing-page content can't flicker out on a fast scroll-up.

@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns ssr-fallback: `useInView` treats a missing `IntersectionObserver` (old browser, or a non-DOM test environment) as already-in-view rather than stuck hidden — content degrades to "always shown", never to "never shown".

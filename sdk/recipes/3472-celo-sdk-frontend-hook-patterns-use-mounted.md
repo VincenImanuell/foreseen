@@ -1,0 +1,1 @@
+CELO sdk frontend hook-patterns useMounted: `useMounted()` flips true only after the first client render — every wallet-dependent or third-party-SDK component in Foreseen (Withdraw, SovAdsBanner) gates on it to avoid an SSR/CSR hydration mismatch.
