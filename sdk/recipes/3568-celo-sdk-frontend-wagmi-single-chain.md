@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-single-chain: `wagmiConfig.chains` lists only `celo` (whichever of mainnet/Sepolia `NEXT_PUBLIC_CELO_NETWORK` resolves to) even though both chain definitions exist — the app is single-network per deployment, not a chain switcher between CELO environments.

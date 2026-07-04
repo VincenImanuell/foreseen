@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-ssr-flag: `wagmiConfig`'s `ssr: true` tells wagmi to defer reading persisted connection state until after hydration — paired with this repo's own `useMounted()` pattern everywhere wallet state renders, both exist to solve the same server/client mismatch problem.

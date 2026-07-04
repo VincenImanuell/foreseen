@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-http-transport: `transports` maps both `celoMainnet.id` and `celoSepolia.id` to plain `http()` with no explicit URL override — falls through to each chain definition's own `rpcUrls.default`, which is where `NEXT_PUBLIC_CELO_RPC`/`NEXT_PUBLIC_CELO_SEPOLIA_RPC` actually get read.
