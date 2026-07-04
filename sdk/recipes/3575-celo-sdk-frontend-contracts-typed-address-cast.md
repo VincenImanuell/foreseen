@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-typed-address-cast: both address constants are cast `as Address` from a plain env-var string — viem's `Address` type expects a checksummed-format `0x`-prefixed string, and the cast is a compile-time assertion, not a runtime checksum validation.

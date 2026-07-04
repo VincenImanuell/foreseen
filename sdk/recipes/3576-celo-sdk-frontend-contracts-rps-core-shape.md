@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-rps-core-shape: `rpsCore`/`rpsStats` bundle `{ address, abi }` together as `const` objects — every wagmi `useReadContract`/`useWriteContract` call in the frontend spreads one of these (`...rpsCore`) instead of repeating the address+ABI pair at each call site.

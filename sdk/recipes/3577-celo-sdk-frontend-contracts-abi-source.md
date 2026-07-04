@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-abi-source: `lib/abi.ts` is explicitly commented "auto-generated from compiled artifacts — do not edit by hand" — the ABI is a Foundry/forge build output, so any contract function signature change means regenerating this file, not hand-patching the JSON.
