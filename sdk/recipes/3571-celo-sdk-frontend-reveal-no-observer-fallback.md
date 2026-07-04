@@ -1,0 +1,1 @@
+CELO sdk frontend reveal-no-observer-fallback: because `useInView` treats a missing `IntersectionObserver` as already-in-view, `Reveal`-wrapped landing content degrades gracefully in that edge case to "visible immediately", never to permanently hidden content.

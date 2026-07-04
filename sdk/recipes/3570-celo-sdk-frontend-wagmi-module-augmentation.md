@@ -1,0 +1,1 @@
+CELO sdk frontend wagmi-module-augmentation: the `declare module "wagmi" { interface Register { config: typeof wagmiConfig } }` block is what gives every `useAccount`/`useReadContract` call in the app fully-typed chain IDs and addresses — without it, wagmi's hooks fall back to loosely-typed generics.
