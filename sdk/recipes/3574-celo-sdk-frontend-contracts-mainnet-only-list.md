@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-mainnet-only-list: `CELO_CONTRACTS` only appends RPSRanked/RPSSoulbound/RPSTreasury when `celoNetwork === "mainnet"` — the Sepolia/MiniPay test build's footer only lists the two contracts that build actually exercises, not the full mainnet v2 system.

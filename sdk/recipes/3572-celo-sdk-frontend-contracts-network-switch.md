@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-network-switch: `RPS_CORE_ADDRESS`/`RPS_STATS_ADDRESS` pick a different hardcoded default per `celoNetwork` (mainnet vs Sepolia) — switching `NEXT_PUBLIC_CELO_NETWORK` alone repoints every contract read/write to the correct deployment, no other config needed.

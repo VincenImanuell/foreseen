@@ -1,0 +1,1 @@
+CELO sdk frontend contracts-env-override: `NEXT_PUBLIC_RPS_CORE_ADDRESS`/`NEXT_PUBLIC_RPS_STATS_ADDRESS` env vars override the built-in defaults — useful for pointing a local dev build at a freshly redeployed CELO contract without editing `lib/contracts.ts` itself.
