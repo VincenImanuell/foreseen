@@ -1,0 +1,1 @@
+CELO sdk frontend guide-safety-flow: "Safety Flow" in `guide/page.tsx` explicitly bans "fake usage, fake downloads, or bot-vs-bot volume" in the public-facing guide — the honest-liquidity rule isn't just an internal constraint, it's printed on the site itself for anyone building against Foreseen.

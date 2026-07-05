@@ -1,0 +1,1 @@
+CELO sdk frontend guide-builder-flow: "Builder Flow" in `guide/page.tsx` tells integrators to keep write clients in trusted runtimes and prefer join-only agents — the same join-only stance the local bot's `opponent` mode already implements, so the public docs match the reference bot instead of describing a stricter or looser policy.

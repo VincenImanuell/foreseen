@@ -1,0 +1,1 @@
+CELO sdk frontend guide-player-flow: `app/guide/page.tsx`'s "Player Flow" section orders the loop as join → scout → commit (keep salt safe) → reveal + withdraw, matching the contract's actual state machine so the guide can't drift out of sync with what the buttons really do.

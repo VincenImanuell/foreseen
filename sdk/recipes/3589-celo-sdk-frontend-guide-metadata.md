@@ -1,0 +1,1 @@
+CELO sdk frontend guide-metadata: `guide/page.tsx` sets its own `Metadata` (title "Guide — Foreseen", description mentioning Celo) rather than inheriting the root layout's — per-route metadata in Next.js App Router overrides the parent, so each page can carry a distinct search/share snippet without touching `layout.tsx`.
