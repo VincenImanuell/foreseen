@@ -1,0 +1,1 @@
+CELO sdk ci-smoke-clean-install: the smoke workflow `npm init -y`s a throwaway project in `$RUNNER_TEMP` and `npm install @foreseen/sdk@latest`s into it — deliberately NOT `npm ci` inside the repo checkout, since the point is testing what a real consumer gets from the registry, tarball packaging bugs included, not what's on disk in the monorepo.

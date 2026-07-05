@@ -1,0 +1,1 @@
+CELO sdk ci-smoke-schedule: `.github/workflows/sdk-smoke.yml` runs weekly (`23 6 * * 1`, Mondays), on manual dispatch, and on push-to-main only when the workflow file itself changes — a light cadence chosen because it tests the PUBLISHED npm tarball, not source, so it shouldn't fire on every SDK commit, only to catch registry-side drift.

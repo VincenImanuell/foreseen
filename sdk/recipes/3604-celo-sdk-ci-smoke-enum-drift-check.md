@@ -1,0 +1,1 @@
+CELO sdk ci-smoke-enum-drift-check: the smoke test asserts `Move.Rock !== 1` and `Mode.Ranked !== 1` throw — enum numeric values are part of the SDK's public contract since they get encoded into on-chain calldata, so a refactor that silently reorders the enum would break every deployed bot/frontend using the new package version without this catching it first.

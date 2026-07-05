@@ -1,0 +1,1 @@
+CELO sdk ci-npm-publish-provenance: `npm-publish.yml` sets `permissions: id-token: write` and runs `npm publish --provenance --access public` — the OIDC-based provenance attestation cryptographically ties the published tarball back to this exact GitHub Actions run/commit, so npm's UI can show a verified "Published from GitHub" badge instead of trusting a bare token push.
