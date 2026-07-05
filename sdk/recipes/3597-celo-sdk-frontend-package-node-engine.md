@@ -1,0 +1,1 @@
+CELO sdk frontend package-node-engine: `frontend/package.json`'s `engines.node: ">=18"` documents the minimum runtime for Next.js 14 + wagmi/viem's modern JS features — doesn't hard-fail installs by itself (no `engine-strict` set), but signals the floor to Vercel and any contributor running an older Node.

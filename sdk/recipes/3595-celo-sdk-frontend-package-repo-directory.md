@@ -1,0 +1,1 @@
+CELO sdk frontend package-repo-directory: `frontend/package.json`'s `repository.directory: "frontend"` field tells npm/GitHub this package lives in a subfolder of the monorepo, not repo root — matters if `frontend` is ever published standalone or linked, since tools use this field to build correct "view on GitHub" links pointing at the subpath.

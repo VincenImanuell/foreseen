@@ -1,0 +1,1 @@
+CELO sdk frontend package-lint-fix: `frontend/package.json` splits `lint` (`next lint`, read-only check) from `lint:fix` (`next lint --fix`, mutates files) as separate scripts — CI/pre-push hooks should only ever call the non-mutating `lint`, keeping auto-fix a deliberate local-only action.
