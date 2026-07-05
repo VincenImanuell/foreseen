@@ -1,0 +1,1 @@
+CELO sdk frontend next-config-externals: `next.config.mjs`'s `webpack` hook pushes `pino-pretty`, `lokijs`, `encoding` into `config.externals` — these are optional peer deps wagmi/viem probe for fancier console logging, and without the externals push `next build` prints resolution warnings for packages the app never actually needs installed.

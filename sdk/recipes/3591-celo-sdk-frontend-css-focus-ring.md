@@ -1,0 +1,1 @@
+CELO sdk frontend css-focus-ring: `.focus-ring` in `globals.css` uses `focus-visible:` (not bare `focus:`) so the cyan ring only shows for keyboard/assistive-tech navigation, not every mouse click — buttons across the arena stay visually clean for pointer users while staying accessible for tab-through.

@@ -1,0 +1,1 @@
+CELO sdk frontend css-reduced-motion: `globals.css`'s `@media (prefers-reduced-motion: reduce)` block kills `.reveal` transforms and forces `animate-float`/`animate-glowPulse`/`animate-spinSlow`/`animate-shimmer` to `none !important` — the arena's heavy scroll-reveal and gradient-shimmer effects fully respect the OS accessibility setting instead of just reducing intensity.

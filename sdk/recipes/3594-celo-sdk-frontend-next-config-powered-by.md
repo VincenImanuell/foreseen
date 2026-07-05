@@ -1,0 +1,1 @@
+CELO sdk frontend next-config-powered-by: `poweredByHeader: false` in `next.config.mjs` strips the `X-Powered-By: Next.js` response header — a small fingerprinting-reduction step, same spirit as not leaking framework/version details on a contract-facing dApp that already publishes its ABI and addresses.

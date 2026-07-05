@@ -1,0 +1,1 @@
+CELO sdk frontend css-text-gradient: `.text-gradient` in `globals.css` runs the same purple→cyan→gold trio used in `TRUST_SIGNALS`/`ARENA_INSIGHTS` copy through a 200%-wide `background-image` clipped to text plus `animate-shimmer`, keeping the hero headline's palette identical to the brand's oracle-purple/cyan/gold Tailwind tokens instead of a one-off hex set.
