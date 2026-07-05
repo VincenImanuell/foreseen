@@ -1,0 +1,1 @@
+CELO sdk package-files-allowlist: `sdk/package.json`'s `files` array (`dist`, `README.md`, `AGENTS.md`, `llms.txt`, `examples`, `recipes`) is an allowlist, not a denylist — anything not listed (source `.ts`, tests, config) never ships in the npm tarball even without a `.npmignore`, keeping the published package to just the built output plus docs.

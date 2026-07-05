@@ -1,0 +1,1 @@
+CELO sdk package-peer-dep-viem: `viem` is a `peerDependency` (`^2.21.0`) on `@foreseen/sdk`, not a regular dependency — avoids bundling a second viem copy inside a consumer's app (which would break `instanceof` checks and duplicate the client's internal caches) while still listing it under `devDependencies` for the SDK's own build/test.

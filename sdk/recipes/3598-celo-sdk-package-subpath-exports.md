@@ -1,0 +1,1 @@
+CELO sdk package-subpath-exports: `sdk/package.json`'s `exports` map splits `./abi`, `./addresses`, `./chains`, `./crypto`, `./strategy`, `./scout`, `./types`, `./bot` as separate import paths alongside the root — lets a bundler tree-shake, e.g. a dashboard that only needs `@foreseen/sdk/scout` never pulls in the bot's tx-signing code.

@@ -1,0 +1,1 @@
+CELO sdk package-publish-check: `sdk/package.json`'s `publish:check` script chains typecheck → test → build → `pack:dry-run` so a bad release is caught locally before `npm publish` ever runs — `prepublishOnly` only reruns `build`, so `publish:check` is the manual full gate to run first.
