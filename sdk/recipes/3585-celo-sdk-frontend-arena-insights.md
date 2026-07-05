@@ -1,0 +1,1 @@
+CELO sdk frontend arena-insights: `ARENA_INSIGHTS` in `landingContent.ts` (Scout/Seal/Reveal) mirrors the actual match state machine — scouting reads opponent history before commit, sealing is the commit-hash step, revealing opens the salt — so the marketing copy stays truthful to the on-chain flow instead of drifting from it.

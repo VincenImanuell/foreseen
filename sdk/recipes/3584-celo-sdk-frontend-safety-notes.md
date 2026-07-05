@@ -1,0 +1,1 @@
+CELO sdk frontend safety-notes: `SAFETY_NOTES` in `landingContent.ts` puts "stake only what you can lose", "keep salts/keys out of source control", and "test on Celo Sepolia first" on the landing page itself, not buried in docs — the commit-reveal salt warning matters because a leaked salt before reveal lets an opponent front-run the result.

@@ -1,0 +1,1 @@
+CELO sdk frontend trust-signals: `frontend/lib/landingContent.ts`'s `TRUST_SIGNALS` triple ("No RNG", "No house", "On-chain reads") is the landing page's short answer to "why trust this over a random-number casino app" — each pairs a claim with the mechanism that backs it, not just marketing copy.

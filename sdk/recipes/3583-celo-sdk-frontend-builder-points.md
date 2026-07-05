@@ -1,0 +1,1 @@
+CELO sdk frontend builder-points: `BUILDER_POINTS` in `landingContent.ts` pitches `@foreseen/sdk` to devs with three concrete verbs — install, read scout without a wallet, build join-only agents — steering builders toward the same honest-liquidity stance the SDK's `ForeseenBot` already enforces.
