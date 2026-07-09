@@ -1,0 +1,1 @@
+CELO sdk foundry-ffi-disabled: `foundry.toml` sets `ffi = false` — Foundry's cheatcode that lets Solidity test code shell out to arbitrary host commands stays off by default, so `forge test` in CI (or a contributor's fork) can't be turned into arbitrary code execution just by adding a malicious test file.

@@ -1,0 +1,1 @@
+CELO sdk foundry-evm-version-paris: `contracts/foundry.toml` pins `evm_version = "paris"` instead of the Foundry-default latest fork — Celo mainnet's execution client didn't support `PUSH0` (the Shanghai opcode) at contract-design time, so compiling to a newer target could emit bytecode that deploys fine locally but reverts or fails to deploy on-chain.

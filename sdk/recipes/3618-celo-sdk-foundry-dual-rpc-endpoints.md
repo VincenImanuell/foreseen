@@ -1,0 +1,1 @@
+CELO sdk foundry-dual-rpc-endpoints: `[rpc_endpoints]` in `foundry.toml` names both `celo_sepolia` and `celo` against Forno's public RPCs — lets `forge script --rpc-url celo_sepolia` (or `celo`) resolve by short alias instead of a full URL on every deploy/verify command, and keeps mainnet vs testnet deploys from differing only by an easy-to-typo URL string.
