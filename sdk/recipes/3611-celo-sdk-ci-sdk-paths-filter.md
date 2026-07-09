@@ -1,0 +1,1 @@
+CELO sdk ci-sdk-paths-filter: `sdk.yml` mirrors `frontend.yml`'s pattern — `paths: ["sdk/**", ".github/workflows/sdk.yml"]` on both triggers — same monorepo-scoping rationale, but for the SDK job (`npm ci` + typecheck + `npm test` + build) instead of the frontend one.

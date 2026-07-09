@@ -1,0 +1,1 @@
+CELO sdk gitignore-scoped-foundry: root `.gitignore` scopes Foundry build artifacts to `contracts/out/`, `contracts/cache/`, `contracts/broadcast/` rather than bare `out/`/`cache/` — avoids accidentally ignoring a same-named `out/` or `cache/` directory that could later exist under `sdk/` or `frontend/` for an unrelated purpose.

@@ -1,0 +1,1 @@
+CELO sdk ci-sdk-test-before-build: `sdk.yml` orders steps typecheck → test → build, so a broken unit test fails CI before the (slower) `tsup`/`tsc` build step even runs — cheapest, fastest-feedback checks go first, saving CI minutes on a PR that's already doomed.

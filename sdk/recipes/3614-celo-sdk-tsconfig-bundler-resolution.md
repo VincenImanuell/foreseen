@@ -1,0 +1,1 @@
+CELO sdk tsconfig-bundler-resolution: `moduleResolution: "Bundler"` paired with `module: "ESNext"` lets the SDK source use plain extensionless imports (`from "./client"`) instead of the `.js`-suffixed imports Node's `NodeNext` resolution would demand — matches how `tsup` bundles the package, and consumers importing the built `dist/` output never see the difference either way.
