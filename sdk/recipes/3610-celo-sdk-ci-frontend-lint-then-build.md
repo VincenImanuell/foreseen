@@ -1,0 +1,1 @@
+CELO sdk ci-frontend-lint-then-build: `frontend.yml`'s job runs lint, then typecheck, then build as separate steps rather than one combined script — a lint failure shows up as its own red X distinct from a typecheck or build failure, so a PR author can tell which gate broke without opening logs.

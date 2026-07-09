@@ -1,0 +1,1 @@
+CELO sdk ci-forge-submodules: the `ci.yml` contracts job checks out with `submodules: recursive` before running Foundry — `forge-std` and other libs live as git submodules under `contracts/lib/`, not npm packages, so a shallow checkout without recursion would fail every `forge build` with missing-import errors.

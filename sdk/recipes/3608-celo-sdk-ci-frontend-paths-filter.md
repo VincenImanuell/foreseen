@@ -1,0 +1,1 @@
+CELO sdk ci-frontend-paths-filter: `frontend.yml` scopes both `push` and `pull_request` triggers to `paths: ["frontend/**", ".github/workflows/frontend.yml"]` — a contracts-only or SDK-only commit never spins up the pnpm/Next.js job, keeping CI minutes and PR check noise proportional to what actually changed in the monorepo.

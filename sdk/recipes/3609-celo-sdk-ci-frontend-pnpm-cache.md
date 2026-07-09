@@ -1,0 +1,1 @@
+CELO sdk ci-frontend-pnpm-cache: `frontend.yml` runs `pnpm/action-setup@v4` before `actions/setup-node@v6` with `cache: pnpm` and an explicit `cache-dependency-path: frontend/pnpm-lock.yaml` — the path is required because the lockfile lives in the `frontend/` subdir, not repo root, and setup-node can't auto-discover it in a monorepo.
