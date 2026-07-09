@@ -1,0 +1,1 @@
+CELO sdk dependabot-pr-cap: the `npm` update blocks set `open-pull-requests-limit: 5` — caps how many simultaneous dependency-bump PRs Dependabot can have open per subtree, preventing a weekly scan from flooding the PR list with 20+ minor-bump PRs that would bury real feature/recipe PRs in the queue.

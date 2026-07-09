@@ -1,0 +1,1 @@
+CELO sdk frontend-tsconfig-path-alias: `frontend/tsconfig.json`'s `paths: { "@/*": ["./*"] }` maps the `@/` import prefix to the frontend root — lets components/hooks import `@/lib/contracts` or `@/components/Header` regardless of how deeply nested the importing file is, avoiding long `../../../lib/contracts` chains as the app tree grows.
