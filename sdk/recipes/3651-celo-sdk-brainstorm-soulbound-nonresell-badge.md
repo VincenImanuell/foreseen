@@ -1,0 +1,1 @@
+CELO sdk brainstorm-soulbound-nonresell-badge: `Foreseen_Brainstorm.md` specs the rank badge as an ERC-5192 soulbound (non-transferable) NFT rather than a regular tradable NFT — a rank badge that could be bought on a marketplace would stop being a verifiable skill signal, which defeats its entire purpose as opponent-scouting information before a match.
