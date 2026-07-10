@@ -187,6 +187,28 @@ export function matchIsFinal(m: Pick<MatchView, "state">): boolean {
 }
 
 /**
+ * Aggregate snapshot of the CELO deployment from `Foreseen.getGlobalStats`.
+ * `totalMatchesCreated` is exact (read straight from `nextMatchId`); the rest
+ * describe only the scanned window since there's no on-chain running total
+ * for match state or volume.
+ * @since 0.3.0
+ */
+export interface GlobalStats {
+  /** Exact total CELO matches ever created, from `RPSCore.nextMatchId`. */
+  totalMatchesCreated: bigint;
+  /** How many of the most recent matches this snapshot actually scanned. */
+  scanned: number;
+  /** Settled matches within the scanned window. */
+  settled: number;
+  /** Cancelled matches within the scanned window. */
+  cancelled: number;
+  /** Still-active matches (open, committing, or revealing) within the scanned window. */
+  active: number;
+  /** Sum of each match's bet (wei, one side's stake) across the scanned window. */
+  scannedVolumeWei: bigint;
+}
+
+/**
  * The scouting read: what you study before committing on CELO.
  * Derived from on-chain `RPSStats` data — tamper-proof and public.
  * @since 0.1.0

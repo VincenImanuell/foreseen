@@ -18,16 +18,31 @@ import { CHAINS, DEFAULT_RPC, type NetworkName } from "./chains.js";
 import { DEPLOYMENTS } from "./addresses.js";
 import { computeCommit, randomSalt } from "./crypto.js";
 import { analyze } from "./scout.js";
+import { withRetry } from "./errors.js";
 import {
   MatchState,
   Mode,
   Move,
   modeToEnum,
+  type GlobalStats,
   type MatchView,
   type ModeName,
   type OpponentRead,
   type PlayerStats,
 } from "./types.js";
+
+const ZERO_STATS: PlayerStats = {
+  totalMatches: 0n,
+  wins: 0n,
+  losses: 0n,
+  draws: 0n,
+  moveCount: [0n, 0n, 0n],
+  afterWinMove: [0n, 0n, 0n],
+  afterLossMove: [0n, 0n, 0n],
+  afterDrawMove: [0n, 0n, 0n],
+  lastResult: 0,
+  hasHistory: false,
+};
 
 /**
  * Constructor options for the {@link Foreseen} CELO client.
@@ -111,7 +126,13 @@ export class Foreseen {
     return this.pub.readContract({ address: this.core, abi: rpsCoreAbi, functionName: fn as never, args: args as never }) as Promise<T>;
   }
 
-  /** Write call to CELO RPSCore — requires a funded private key and CELO gas. */
+  /**
+   * Write call to CELO RPSCore — requires a funded private key and CELO gas.
+   * The broadcast itself is never retried (resending a tx that already landed
+   * risks a double-send); only the post-broadcast receipt poll retries on a
+   * transient CELO RPC hiccup, since re-polling for the same hash is a plain
+   * read and can't cause a duplicate on-chain effect.
+   */
   private async writeCore(fn: string, args: unknown[], value?: bigint): Promise<Hex> {
     const account = this.requireAccount();
     const hash = await this.wallet!.writeContract({
@@ -123,7 +144,7 @@ export class Foreseen {
       account,
       chain: this.chain,
     });
-    await this.pub.waitForTransactionReceipt({ hash });
+    await withRetry(() => this.pub.waitForTransactionReceipt({ hash }));
     return hash;
   }
 
@@ -146,7 +167,7 @@ export class Foreseen {
       account,
       chain: this.chain,
     });
-    const receipt = await this.pub.waitForTransactionReceipt({ hash });
+    const receipt = await withRetry(() => this.pub.waitForTransactionReceipt({ hash }));
     const logs = parseEventLogs({ abi: rpsCoreAbi, eventName: "MatchCreated", logs: receipt.logs });
     const matchId = logs[0]?.args.matchId;
     if (matchId === undefined) throw new Error("createMatch: MatchCreated event not found in receipt");
@@ -488,5 +509,80 @@ export class Foreseen {
       functionName: "winRateBps",
       args: [address],
     }) as Promise<bigint>;
+  }
+
+  /**
+   * Fetch `RPSStats.getStats` for many CELO addresses in a single multicall
+   * round-trip, instead of one RPC call per address — the batched counterpart
+   * to {@link getPlayerStats}, built for leaderboard-shaped call sites with
+   * dozens of players. No private key required.
+   * A slot that fails independently (rare — `getStats` doesn't revert for an
+   * unseen address) comes back as zero stats (`hasHistory: false`) rather than
+   * being dropped, so the result always lines up 1:1 with `addresses` by index.
+   * @param addresses - The CELO addresses to fetch stats for, in order.
+   * @since 0.3.0
+   */
+  async getPlayerStatsBatch(addresses: Address[]): Promise<PlayerStats[]> {
+    if (addresses.length === 0) return [];
+    type RawStats = {
+      totalMatches: bigint; wins: bigint; losses: bigint; draws: bigint;
+      moveCount: readonly bigint[]; afterWinMove: readonly bigint[];
+      afterLossMove: readonly bigint[]; afterDrawMove: readonly bigint[];
+      lastResult: number; hasHistory: boolean;
+    };
+    const trip = (a: readonly bigint[]): [bigint, bigint, bigint] => [a[0] ?? 0n, a[1] ?? 0n, a[2] ?? 0n];
+    const results = await this.pub.multicall({
+      contracts: addresses.map((a) => ({
+        address: this.stats,
+        abi: rpsStatsAbi,
+        functionName: "getStats" as const,
+        args: [a] as const,
+      })),
+    });
+    return results.map((res) => {
+      if (res.status !== "success") return ZERO_STATS;
+      const s = res.result as RawStats;
+      return {
+        totalMatches: s.totalMatches,
+        wins: s.wins,
+        losses: s.losses,
+        draws: s.draws,
+        moveCount: trip(s.moveCount),
+        afterWinMove: trip(s.afterWinMove),
+        afterLossMove: trip(s.afterLossMove),
+        afterDrawMove: trip(s.afterDrawMove),
+        lastResult: Number(s.lastResult),
+        hasHistory: s.hasHistory,
+      };
+    });
+  }
+
+  /**
+   * Aggregate snapshot across the CELO deployment: an exact total match count
+   * from `RPSCore.nextMatchId`, plus a state/volume breakdown over a bounded
+   * recent-match scan (there is no on-chain running total for state or
+   * volume, so those figures only cover `scanWindow` matches, not full
+   * history). No private key required.
+   * @param opts.scanWindow - How many recent matches to scan for the state/volume breakdown (default: 200).
+   * @param opts.batchSize - Multicall batch size per round-trip (default: 20).
+   * @since 0.3.0
+   */
+  async getGlobalStats(opts: { scanWindow?: number; batchSize?: number } = {}): Promise<GlobalStats> {
+    const totalMatchesCreated = await this.nextMatchId();
+    const scanWindow = opts.scanWindow ?? 200;
+    const matches = await this.getRecentMatches({ scanWindow, batchSize: opts.batchSize, limit: scanWindow });
+
+    let settled = 0;
+    let cancelled = 0;
+    let active = 0;
+    let scannedVolumeWei = 0n;
+    for (const m of matches) {
+      scannedVolumeWei += m.bet;
+      if (m.state === MatchState.Settled) settled += 1;
+      else if (m.state === MatchState.Cancelled) cancelled += 1;
+      else active += 1;
+    }
+
+    return { totalMatchesCreated, scanned: matches.length, settled, cancelled, active, scannedVolumeWei };
   }
 }

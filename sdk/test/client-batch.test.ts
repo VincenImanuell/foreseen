@@ -4,7 +4,7 @@
  * live RPC calls to CELO mainnet (chainId 42220) or Celo Sepolia.
  */
 import { describe, it, expect } from "vitest";
-import { Move, Mode, MatchState, type MatchView } from "../src/types.js";
+import { Move, Mode, MatchState, type MatchView, type PlayerStats } from "../src/types.js";
 
 const PLAYER_A = "0x000000000000000000000000000000000000bEEF" as const;
 const PLAYER_B = "0x000000000000000000000000000000000000dEaD" as const;
@@ -52,6 +52,46 @@ function filterByPlayer(matches: MatchView[], address: string): MatchView[] {
   return matches.filter(
     (m) => m.playerA.toLowerCase() === p || m.playerB.toLowerCase() === p,
   );
+}
+
+// ---------------------------------------------------------------------------
+// Pure aggregation logic mirroring what getGlobalStats does after
+// getRecentMatches — see client.ts getGlobalStats().
+// ---------------------------------------------------------------------------
+
+function aggregate(matches: MatchView[]) {
+  let settled = 0;
+  let cancelled = 0;
+  let active = 0;
+  let scannedVolumeWei = 0n;
+  for (const m of matches) {
+    scannedVolumeWei += m.bet;
+    if (m.state === MatchState.Settled) settled += 1;
+    else if (m.state === MatchState.Cancelled) cancelled += 1;
+    else active += 1;
+  }
+  return { scanned: matches.length, settled, cancelled, active, scannedVolumeWei };
+}
+
+const ZERO_STATS: PlayerStats = {
+  totalMatches: 0n,
+  wins: 0n,
+  losses: 0n,
+  draws: 0n,
+  moveCount: [0n, 0n, 0n],
+  afterWinMove: [0n, 0n, 0n],
+  afterLossMove: [0n, 0n, 0n],
+  afterDrawMove: [0n, 0n, 0n],
+  lastResult: 0,
+  hasHistory: false,
+};
+
+/** Mirrors getPlayerStatsBatch's per-slot fallback: failed multicall results become ZERO_STATS, keeping the array aligned 1:1 with the input addresses. */
+function decodeStatsBatch(
+  addresses: string[],
+  results: Array<{ status: "success" | "failure"; result?: PlayerStats }>,
+): PlayerStats[] {
+  return results.map((res) => (res.status === "success" && res.result ? res.result : ZERO_STATS));
 }
 
 // ---------------------------------------------------------------------------
@@ -151,5 +191,63 @@ describe("MatchView shape for CELO matches", () => {
     expect(m.commitB).toBe(EMPTY_COMMIT);
     expect(m.revealA).toBe(Move.None);
     expect(m.revealB).toBe(Move.None);
+  });
+});
+
+describe("CELO global-stats aggregation logic (getGlobalStats post-scan)", () => {
+  it("buckets matches into settled/cancelled/active", () => {
+    const matches = [
+      makeMatch(0n, { state: MatchState.Settled }),
+      makeMatch(1n, { state: MatchState.Cancelled }),
+      makeMatch(2n, { state: MatchState.WaitingForOpponent }),
+      makeMatch(3n, { state: MatchState.Scouting }),
+      makeMatch(4n, { state: MatchState.Revealing }),
+      makeMatch(5n, { state: MatchState.Settled }),
+    ];
+    const agg = aggregate(matches);
+    expect(agg.scanned).toBe(6);
+    expect(agg.settled).toBe(2);
+    expect(agg.cancelled).toBe(1);
+    expect(agg.active).toBe(3);
+  });
+
+  it("sums bet across the scanned window regardless of state", () => {
+    const matches = [
+      makeMatch(0n, { bet: 10n, state: MatchState.Settled }),
+      makeMatch(1n, { bet: 20n, state: MatchState.Cancelled }),
+      makeMatch(2n, { bet: 30n, state: MatchState.WaitingForOpponent }),
+    ];
+    expect(aggregate(matches).scannedVolumeWei).toBe(60n);
+  });
+
+  it("returns all zeros for an empty scan window", () => {
+    const agg = aggregate([]);
+    expect(agg).toEqual({ scanned: 0, settled: 0, cancelled: 0, active: 0, scannedVolumeWei: 0n });
+  });
+});
+
+describe("CELO player-stats batch decode logic (getPlayerStatsBatch post-multicall)", () => {
+  it("keeps the result array aligned 1:1 with the input addresses", () => {
+    const addresses = [PLAYER_A, PLAYER_B, "0x0000000000000000000000000000000000000099"];
+    const results: Array<{ status: "success" | "failure"; result?: PlayerStats }> = [
+      { status: "success", result: { ...ZERO_STATS, totalMatches: 5n, hasHistory: true } },
+      { status: "failure" },
+      { status: "success", result: { ...ZERO_STATS, totalMatches: 2n, hasHistory: true } },
+    ];
+    const decoded = decodeStatsBatch(addresses, results);
+    expect(decoded).toHaveLength(3);
+    expect(decoded[0]!.totalMatches).toBe(5n);
+    expect(decoded[2]!.totalMatches).toBe(2n);
+  });
+
+  it("falls back to zero stats (not a dropped slot) on a failed multicall entry", () => {
+    const decoded = decodeStatsBatch([PLAYER_A], [{ status: "failure" }]);
+    expect(decoded).toHaveLength(1);
+    expect(decoded[0]).toEqual(ZERO_STATS);
+    expect(decoded[0]!.hasHistory).toBe(false);
+  });
+
+  it("returns an empty array for an empty address list", () => {
+    expect(decodeStatsBatch([], [])).toEqual([]);
   });
 });
