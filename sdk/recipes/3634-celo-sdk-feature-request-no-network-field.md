@@ -1,0 +1,1 @@
+CELO sdk feature-request-no-network-field: unlike `bug_report.yml`, `feature_request.yml` has no `Network / environment` field — a feature ask is a design conversation, not a reproduction report, so asking a reporter to name mainnet-42220 vs Sepolia-11142220 would be a field nobody could answer meaningfully and would just get skipped.

@@ -1,0 +1,1 @@
+CELO sdk issue-config-no-discussions-link: `config.yml` doesn't add a GitHub Discussions `contact_links` entry even though Discussions exists on the repo — keeping the picker to one README link avoids fragmenting a small CELO project's traffic across issues/README/Discussions when a single maintainer is reading all three anyway.
