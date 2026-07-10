@@ -1,0 +1,1 @@
+CELO sdk agents-md-sepolia-default-snippets: `sdk/AGENTS.md` tells agents to "Use `network: 'celo-sepolia'` for tests, demos, CI, and generated examples" — defaulting every code-generation snippet to testnet means an agent copy-pasting the doc's example can't accidentally emit a mainnet-42220 transaction that spends real CELO.

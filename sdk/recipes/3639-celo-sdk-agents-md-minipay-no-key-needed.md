@@ -1,0 +1,1 @@
+CELO sdk agents-md-minipay-no-key-needed: `sdk/AGENTS.md`'s MiniPay section shows a read-only `analyzeOpponent` call with no `privateKey`, noting the wallet is auto-injected via `window.ethereum.isMiniPay` — this steers an agent generating MiniPay-context code away from asking the user for a private key when the wallet is already available client-side.

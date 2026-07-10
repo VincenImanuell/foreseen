@@ -1,0 +1,1 @@
+CELO sdk agents-md-short-by-design: `sdk/AGENTS.md` opens by stating it's "intentionally short so coding agents can pick the correct package quickly" — an agent-facing doc optimized for a model's limited attention budget trades completeness for scan speed, unlike a human README that can afford a longer read.

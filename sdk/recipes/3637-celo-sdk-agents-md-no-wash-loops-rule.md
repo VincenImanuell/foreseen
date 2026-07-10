@@ -1,0 +1,1 @@
+CELO sdk agents-md-no-wash-loops-rule: `sdk/AGENTS.md`'s "Safe usage rules" explicitly forbids "fake usage, fake users, bot-vs-bot wash loops, or download automation" — stating the anti-sybil boundary directly in the agent-facing doc means any coding agent that installs `@foreseen/sdk` sees the constraint before it ever writes bot code, not after a maintainer has to reject a PR.
