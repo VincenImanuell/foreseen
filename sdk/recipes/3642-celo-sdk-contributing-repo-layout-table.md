@@ -1,0 +1,1 @@
+CELO sdk contributing-repo-layout-table: `CONTRIBUTING.md` opens with a 3-row table mapping `contracts/`/`sdk/`/`frontend/` to their toolchain (Foundry, Node+npm, pnpm) before any setup instructions — naming the toolchain per subtree upfront stops a contributor from running `npm install` inside `frontend/` (which expects pnpm) or `forge build` inside `sdk/`.
