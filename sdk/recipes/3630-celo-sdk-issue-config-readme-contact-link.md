@@ -1,0 +1,1 @@
+CELO sdk issue-config-readme-contact-link: `config.yml`'s single `contact_links` entry points at the README (`#readme`) instead of a support email or Discord — for a solo-maintained CELO Proof-of-Ship project, the README already documents architecture and local setup, so redirecting "how do I run this" questions there avoids answering the same setup question twice.

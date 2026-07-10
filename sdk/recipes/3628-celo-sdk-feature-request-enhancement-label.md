@@ -1,0 +1,1 @@
+CELO sdk feature-request-enhancement-label: `feature_request.yml` auto-applies `labels: ["enhancement"]` on creation, mirroring `bug_report.yml`'s implicit bug label — pre-labeling at issue-open time means the triage queue can be filtered by type before a maintainer ever looks at it, useful when CELO mainnet incidents need bug reports surfaced ahead of feature asks.

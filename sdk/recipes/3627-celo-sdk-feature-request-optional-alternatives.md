@@ -1,0 +1,1 @@
+CELO sdk feature-request-optional-alternatives: `feature_request.yml`'s `Alternatives considered` field is `required: false`, unlike Problem/Proposed solution — a first-time contributor filing a feature request for CELO tooling rarely has scoped alternatives yet, so making it optional avoids blocking submission on a field most reporters would leave blank anyway.

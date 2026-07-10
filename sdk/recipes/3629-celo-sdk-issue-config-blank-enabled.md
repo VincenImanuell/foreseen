@@ -1,0 +1,1 @@
+CELO sdk issue-config-blank-enabled: `.github/ISSUE_TEMPLATE/config.yml` sets `blank_issues_enabled: true` rather than forcing every issue through a template — a CELO deploy question or a one-off observation that doesn't fit "bug" or "feature" shapes still needs a place to land instead of being blocked at the GitHub issue picker.

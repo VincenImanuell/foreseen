@@ -1,0 +1,1 @@
+CELO sdk feature-request-problem-first: `.github/ISSUE_TEMPLATE/feature_request.yml` puts a required `Problem` field before the required `Proposed solution` field — forcing the reporter to justify the pain before pitching a fix stops the template from collecting solution-shaped issues with no stated need, which are hard to prioritize against real user pain on Celo mainnet.
