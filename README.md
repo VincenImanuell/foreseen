@@ -1,5 +1,7 @@
 # Foreseen 👁️
 
+🏆 **Top 26 of 314 projects — Celo Proof of Ship (Games & Interactive)**
+
 [![npm version](https://img.shields.io/npm/v/@foreseen/sdk.svg)](https://www.npmjs.com/package/@foreseen/sdk)
 [![Contracts CI](https://github.com/VincenImanuell/foreseen/actions/workflows/ci.yml/badge.svg)](https://github.com/VincenImanuell/foreseen/actions/workflows/ci.yml)
 [![SDK CI](https://github.com/VincenImanuell/foreseen/actions/workflows/sdk.yml/badge.svg)](https://github.com/VincenImanuell/foreseen/actions/workflows/sdk.yml)
