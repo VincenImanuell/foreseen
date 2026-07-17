@@ -5,7 +5,12 @@ const nextConfig = {
   // wagmi/viem pull in optional deps used only for fancy logging; silence the
   // bundler warning so `next build` stays clean.
   webpack: (config) => {
-    config.externals.push("pino-pretty", "lokijs", "encoding");
+    config.externals.push(
+      "pino-pretty",
+      "lokijs",
+      "encoding",
+      "@react-native-async-storage/async-storage"
+    );
     return config;
   },
 };
