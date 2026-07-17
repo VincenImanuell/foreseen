@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { formatEther, type Hex } from "viem";
 import {
-  useAccount,
+  useConnection,
   useChainId,
   usePublicClient,
   useWriteContract,
@@ -94,10 +94,10 @@ export function MatchCard({
   onChanged?: () => void;
 }) {
   const { id, match } = entry;
-  const { address } = useAccount();
+  const { address } = useConnection();
   const chainId = useChainId();
   const publicClient = usePublicClient();
-  const { writeContractAsync } = useWriteContract();
+  const { mutateAsync: writeContractAsync } = useWriteContract();
   const now = useNow();
 
   const [status, setStatus] = useState<TxStatus>({ kind: "idle" });
