@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { formatEther } from "viem";
 import {
-  useAccount,
+  useConnection,
   usePublicClient,
   useReadContract,
   useWriteContract,
@@ -13,9 +13,9 @@ import { waitForReceipt } from "@/lib/txRetry";
 import { shortError, StatusBanner, type TxStatus } from "./Status";
 
 export function Withdraw({ onChanged }: { onChanged?: () => void }) {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useConnection();
   const publicClient = usePublicClient();
-  const { writeContractAsync } = useWriteContract();
+  const { mutateAsync: writeContractAsync } = useWriteContract();
   const [status, setStatus] = useState<TxStatus>({ kind: "idle" });
 
   const { data: pending, refetch } = useReadContract({

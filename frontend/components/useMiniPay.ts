@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useAccount, useConnect } from "wagmi";
+import { useConnection, useConnect, useConnectors } from "wagmi";
 import { isMiniPayProvider } from "@/lib/minipay";
 
 export function useMiniPay() {
   const attemptedAutoConnect = useRef(false);
   const [isMiniPay, setIsMiniPay] = useState(false);
-  const { isConnected } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
+  const { isConnected } = useConnection();
+  const { mutate: connect, isPending } = useConnect();
+  const connectors = useConnectors();
 
   useEffect(() => {
     const detected = isMiniPayProvider();

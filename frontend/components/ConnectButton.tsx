@@ -1,6 +1,12 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import {
+  useConnection,
+  useConnect,
+  useConnectors,
+  useDisconnect,
+  useSwitchChain,
+} from "wagmi";
 import { celo, CELO_NETWORK_SHORT_LABEL } from "@/lib/chain";
 import { shortAddress } from "@/lib/rps";
 import { useMiniPay } from "./useMiniPay";
@@ -8,10 +14,11 @@ import { useMounted } from "./useMounted";
 
 export function ConnectButton() {
   const mounted = useMounted();
-  const { address, isConnected, chainId } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
-  const { disconnect } = useDisconnect();
-  const { switchChain } = useSwitchChain();
+  const { address, isConnected, chainId } = useConnection();
+  const { mutate: connect, isPending } = useConnect();
+  const connectors = useConnectors();
+  const { mutate: disconnect } = useDisconnect();
+  const { mutate: switchChain } = useSwitchChain();
   const { isMiniPay, isConnectingMiniPay } = useMiniPay();
 
   if (!mounted) {

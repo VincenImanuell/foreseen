@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 import { MatchState } from "@/lib/rps";
 import { ArenaFilters, matchesFilter, type ArenaFilter } from "./ArenaFilters";
 import { MatchCard } from "./MatchCard";
@@ -16,7 +16,7 @@ export function MatchList({
   onChanged?: () => void;
   isLoading: boolean;
 }) {
-  const { address } = useAccount();
+  const { address } = useConnection();
   const [filter, setFilter] = useState<ArenaFilter>("all");
   const me = address?.toLowerCase();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 import { CreateMatch } from "@/components/CreateMatch";
 import { ArenaSummary } from "@/components/ArenaSummary";
 import { Header } from "@/components/Header";
@@ -33,7 +33,7 @@ const TABLE_RULES = [
 
 export default function Play() {
   const mounted = useMounted();
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const { entries, refetch, isLoading } = useMatches();
 
   return (

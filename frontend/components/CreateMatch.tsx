@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { parseEther } from "viem";
-import { useAccount, usePublicClient, useWriteContract } from "wagmi";
+import { useConnection, usePublicClient, useWriteContract } from "wagmi";
 import { rpsCore } from "@/lib/contracts";
 import { Mode } from "@/lib/rps";
 import { waitForReceipt } from "@/lib/txRetry";
@@ -16,9 +16,9 @@ const MODE_HELP: Record<Mode, string> = {
 };
 
 export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useConnection();
   const publicClient = usePublicClient();
-  const { writeContractAsync } = useWriteContract();
+  const { mutateAsync: writeContractAsync } = useWriteContract();
 
   const [bet, setBet] = useState("0.01");
   const [mode, setMode] = useState<Mode>(Mode.Casual);
