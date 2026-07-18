@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { MatchState } from "@/lib/rps";
 import { ArenaFilters, matchesFilter, type ArenaFilter } from "./ArenaFilters";
 import { MatchCard } from "./MatchCard";
+import { MatchCardSkeleton } from "./MatchCardSkeleton";
 import type { MatchEntry } from "./useMatches";
 
 export function MatchList({
@@ -46,18 +47,20 @@ export function MatchList({
       <Section
         title="Open lobbies"
         hint="Anyone can challenge these — match the bet to play."
-        empty={isLoading ? "Loading matches…" : "No open lobbies match this filter."}
+        empty="No open lobbies match this filter."
         entries={openLobbies}
         onChanged={onChanged}
+        isLoading={isLoading}
       />
 
       {me && (
         <Section
           title="Your matches"
           hint="Reveal in time or risk forfeiting your bet."
-          empty={isLoading ? "Loading matches…" : "You have no matches in this view."}
+          empty="You have no matches in this view."
           entries={mine}
           onChanged={onChanged}
+          isLoading={isLoading}
         />
       )}
     </div>
@@ -70,14 +73,17 @@ function Section({
   empty,
   entries,
   onChanged,
+  isLoading,
 }: {
   title: string;
   hint: string;
   empty: string;
   entries: MatchEntry[];
   onChanged?: () => void;
+  isLoading?: boolean;
 }) {
   const count = entries.length;
+  const showSkeleton = isLoading && count === 0;
 
   return (
     <section>
@@ -88,7 +94,12 @@ function Section({
         </div>
         <p className="text-sm text-slate-400">{hint}</p>
       </div>
-      {count === 0 ? (
+      {showSkeleton ? (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <MatchCardSkeleton />
+          <MatchCardSkeleton />
+        </div>
+      ) : count === 0 ? (
         <div className="surface-soft p-5 text-sm text-slate-500">{empty}</div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
