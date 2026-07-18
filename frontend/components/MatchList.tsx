@@ -55,7 +55,7 @@ export function MatchList({
         <Section
           title="Your matches"
           hint="Reveal in time or risk forfeiting your bet."
-          empty="You have no matches in this view."
+          empty={isLoading ? "Loading matches…" : "You have no matches in this view."}
           entries={mine}
           onChanged={onChanged}
         />
