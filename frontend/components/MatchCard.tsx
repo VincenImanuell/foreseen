@@ -9,6 +9,7 @@ import {
   useWriteContract,
 } from "wagmi";
 import { rpsCore } from "@/lib/contracts";
+import { CopyableAddress } from "./CopyableAddress";
 import {
   computeCommit,
   hasCommitted,
@@ -22,7 +23,6 @@ import {
   randomSalt,
   resultOf,
   saveSecret,
-  shortAddress,
   ZERO_ADDRESS,
 } from "@/lib/rps";
 import { waitForReceipt } from "@/lib/txRetry";
@@ -227,14 +227,14 @@ export function MatchCard({
       </div>
 
       <div className="mt-3 rounded-xl border border-white/10 bg-void/35 px-3 py-2 text-xs text-slate-400">
-        <span className="font-mono">{shortAddress(match.playerA)}</span>
+        <CopyableAddress address={match.playerA} />
         {isA && <span className="text-oracle-cyan"> (you)</span>}
         <span className="mx-1">vs</span>
         {match.playerB === ZERO_ADDRESS ? (
           <span className="italic text-slate-600">waiting…</span>
         ) : (
           <>
-            <span className="font-mono">{shortAddress(match.playerB)}</span>
+            <CopyableAddress address={match.playerB} />
             {isB && <span className="text-oracle-cyan"> (you)</span>}
           </>
         )}

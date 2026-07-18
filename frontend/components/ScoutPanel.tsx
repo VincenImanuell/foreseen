@@ -9,9 +9,9 @@ import {
   MOVES,
   moveEmoji,
   moveLabel,
-  shortAddress,
   toRpsStats,
 } from "@/lib/rps";
+import { CopyableAddress } from "./CopyableAddress";
 
 function Bar({ pct, emoji, label }: { pct: number; emoji: string; label: string }) {
   return (
@@ -68,9 +68,7 @@ export function ScoutPanel({ opponent }: { opponent: Address }) {
         <div className="text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
           🔍 Scouting report
         </div>
-        <div className="font-mono text-[11px] text-slate-500">
-          {shortAddress(opponent)}
-        </div>
+        <CopyableAddress address={opponent} className="text-[11px] text-slate-500" />
       </div>
 
       {isLoading && (
