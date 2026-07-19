@@ -32,11 +32,30 @@ function Bar({ pct, emoji, label }: { pct: number; emoji: string; label: string 
   );
 }
 
-function Tell({ when, move }: { when: string; move: number }) {
+// Below this many samples in a bucket, "tends to throw X" is a coin-flip
+// dressed up as a pattern — say so instead of asserting a false tell.
+const MIN_TELL_SAMPLES = 3;
+
+function Tell({
+  when,
+  move,
+  samples,
+}: {
+  when: string;
+  move: number;
+  samples: bigint;
+}) {
   if (move < 0) {
     return (
       <div className="rounded-lg border border-white/10 bg-void/40 px-3 py-2 text-xs text-slate-500">
         After a {when}: <span className="italic">no pattern yet</span>
+      </div>
+    );
+  }
+  if (samples < BigInt(MIN_TELL_SAMPLES)) {
+    return (
+      <div className="rounded-lg border border-white/10 bg-void/40 px-3 py-2 text-xs text-slate-500">
+        After a {when}: <span className="italic">too few reads to call it ({samples.toString()})</span>
       </div>
     );
   }
@@ -107,16 +126,26 @@ export function ScoutPanel({ opponent }: { opponent: Address }) {
           </div>
 
           <div className="space-y-1.5">
-            <Tell when="win" move={dominantMove(s.afterWinMove)} />
-            <Tell when="loss" move={dominantMove(s.afterLossMove)} />
+            <Tell
+              when="win"
+              move={dominantMove(s.afterWinMove)}
+              samples={s.afterWinMove[0] + s.afterWinMove[1] + s.afterWinMove[2]}
+            />
+            <Tell
+              when="loss"
+              move={dominantMove(s.afterLossMove)}
+              samples={s.afterLossMove[0] + s.afterLossMove[1] + s.afterLossMove[2]}
+            />
           </div>
 
           <p className="text-[11px] leading-snug text-slate-500">
             Read the pattern, then pick the move that beats their habit — or bluff
-            against it. {moveLabel(MOVES[dominantMove(s.moveCount)]?.value ?? 0)}
-            {dominantMove(s.moveCount) >= 0
-              ? ` ${moveEmoji(MOVES[dominantMove(s.moveCount)].value)} is their favorite throw overall.`
-              : ""}
+            against it.{" "}
+            {s.totalMatches < BigInt(MIN_TELL_SAMPLES)
+              ? "Not enough revealed matches yet to call a favorite throw."
+              : dominantMove(s.moveCount) >= 0
+                ? `${moveLabel(MOVES[dominantMove(s.moveCount)].value)} ${moveEmoji(MOVES[dominantMove(s.moveCount)].value)} is their favorite throw overall.`
+                : ""}
           </p>
         </div>
       )}
