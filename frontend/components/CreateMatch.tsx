@@ -25,7 +25,9 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
   const [status, setStatus] = useState<TxStatus>({ kind: "idle" });
 
   const busy = status.kind === "pending";
-  const canSubmit = isConnected && Number(bet) > 0 && !busy && !!publicClient;
+  const betValue = Number(bet);
+  const betInvalid = bet.trim() === "" || !Number.isFinite(betValue) || betValue <= 0;
+  const canSubmit = isConnected && !betInvalid && !busy && !!publicClient;
 
   async function handleCreate() {
     if (!address || !publicClient) return;
@@ -67,9 +69,13 @@ export function CreateMatch({ onChanged }: { onChanged?: () => void }) {
             inputMode="decimal"
             min="0"
             step="0.001"
+            aria-invalid={betInvalid}
             value={bet}
             onChange={(e) => setBet(e.target.value)}
           />
+          {betInvalid && (
+            <p className="mt-1 text-[11px] text-rose-300">Enter a bet above 0 CELO.</p>
+          )}
           <div className="mt-2 flex gap-1.5">
             {BET_PRESETS.map((preset) => (
               <button
