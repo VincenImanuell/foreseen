@@ -135,6 +135,9 @@ export function MatchCard({
 
   const haveSecret = !!address && !!loadSecret(chainId, id, address);
   const pot = match.bet * 2n;
+  const manualSaltTrimmed = manualSalt.trim();
+  const manualSaltInvalid =
+    manualSaltTrimmed !== "" && !/^0x[0-9a-fA-F]{64}$/.test(manualSaltTrimmed);
 
   async function run(label: string, fn: () => Promise<Hex>) {
     if (!publicClient) return;
@@ -181,7 +184,7 @@ export function MatchCard({
     if (!address) return;
     const secret = loadSecret(chainId, id, address);
     const move = secret?.move ?? manualMove;
-    const salt = (secret?.salt ?? manualSalt) as Hex;
+    const salt = (secret?.salt ?? manualSaltTrimmed) as Hex;
     if (move === null || move === undefined || !salt) return;
     run("Reveal", () =>
       writeContractAsync({
@@ -342,15 +345,26 @@ export function MatchCard({
                   <input
                     className="input mt-2 font-mono text-xs"
                     placeholder="0x… salt"
+                    aria-invalid={manualSaltInvalid}
                     autoCapitalize="off"
                     autoCorrect="off"
                     spellCheck={false}
                     value={manualSalt}
                     onChange={(e) => setManualSalt(e.target.value)}
                   />
+                  {manualSaltInvalid && (
+                    <p className="mt-1 text-[11px] text-rose-300">
+                      Salt should be a 32-byte hex value (0x + 64 hex chars).
+                    </p>
+                  )}
                   <button
                     className="btn-primary mt-2 w-full"
-                    disabled={busy || manualMove === null || !manualSalt}
+                    disabled={
+                      busy ||
+                      manualMove === null ||
+                      !manualSaltTrimmed ||
+                      manualSaltInvalid
+                    }
                     onClick={doReveal}
                   >
                     Reveal
