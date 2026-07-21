@@ -55,7 +55,13 @@ const FEATURES = [
 
 export default function Landing() {
   return (
-    <main className="overflow-x-hidden">
+    <main id="main-content" className="overflow-x-hidden">
+      <a
+        href="#hero"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-30 focus:rounded-lg focus:bg-oracle-cyan focus:px-3 focus:py-1.5 focus:text-sm focus:text-void"
+      >
+        Skip to content
+      </a>
       {/* ---- Nav ---- */}
       <nav
         aria-label="Primary"
@@ -86,7 +92,7 @@ export default function Landing() {
       </nav>
 
       {/* ---- Hero ---- */}
-      <section className="relative px-4 pb-24 pt-20 sm:pt-28">
+      <section id="hero" className="relative px-4 pb-24 pt-20 sm:pt-28">
         {/* decorative rotating rings behind the eye */}
         <div
           aria-hidden
