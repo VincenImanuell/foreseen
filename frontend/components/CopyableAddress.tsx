@@ -13,30 +13,35 @@ export function CopyableAddress({
   address?: Address;
   className?: string;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
 
   async function copy() {
     if (!address) return;
     try {
       await navigator.clipboard.writeText(address);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setState("copied");
     } catch {
-      // Clipboard API unavailable (insecure context / permissions) — no-op.
+      // Clipboard API unavailable (insecure context / permissions) — tell
+      // the user instead of silently doing nothing.
+      setState("failed");
     }
+    setTimeout(() => setState("idle"), 1500);
   }
 
   if (!address) return <span className={className}>{shortAddress(address)}</span>;
+
+  const label =
+    state === "copied" ? "Copied ✓" : state === "failed" ? "Couldn't copy" : shortAddress(address);
 
   return (
     <button
       type="button"
       onClick={copy}
-      title={copied ? "Copied!" : `Copy ${address}`}
-      aria-label={copied ? "Address copied" : `Copy address ${address}`}
-      className={`font-mono transition hover:text-oracle-cyan ${className ?? ""}`}
+      title={state === "idle" ? `Copy ${address}` : label}
+      aria-label={state === "idle" ? `Copy address ${address}` : label}
+      className={`font-mono transition hover:text-oracle-cyan ${state === "failed" ? "text-rose-300" : ""} ${className ?? ""}`}
     >
-      {copied ? "Copied ✓" : shortAddress(address)}
+      {label}
     </button>
   );
 }
