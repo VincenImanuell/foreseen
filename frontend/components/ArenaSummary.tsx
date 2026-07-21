@@ -10,7 +10,15 @@ export function ArenaSummary({ entries }: { entries: MatchEntry[] }) {
     (e) =>
       e.match.state === MatchState.Scouting || e.match.state === MatchState.Revealing,
   );
-  const pot = entries.reduce((sum, e) => sum + e.match.bet * 2n, 0n);
+  // Settled/cancelled matches already paid out to claimable balances — only
+  // count matches whose bets are still actually locked in the contract.
+  const pot = entries
+    .filter(
+      (e) =>
+        e.match.state !== MatchState.Settled &&
+        e.match.state !== MatchState.Cancelled,
+    )
+    .reduce((sum, e) => sum + e.match.bet * 2n, 0n);
 
   return (
     <div role="group" aria-label="CELO arena summary" className="grid gap-3 sm:grid-cols-3">
