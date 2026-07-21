@@ -40,8 +40,14 @@ const SECTIONS = [
 
 export default function GuidePage() {
   return (
-    <main className="min-h-screen px-4 py-10">
-      <div className="mx-auto max-w-5xl">
+    <main id="main-content" className="min-h-screen px-4 py-10">
+      <a
+        href="#guide-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-30 focus:rounded-lg focus:bg-oracle-cyan focus:px-3 focus:py-1.5 focus:text-sm focus:text-void"
+      >
+        Skip to content
+      </a>
+      <div id="guide-content" className="mx-auto max-w-5xl">
         <Link href="/" className="inline-flex items-center gap-3 rounded-xl focus-ring">
           <Logo size={36} />
           <span className="font-display text-lg font-bold">Foreseen</span>
