@@ -3,6 +3,17 @@ import { LandingNav } from "@/components/LandingNav";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { SovAdsBanner } from "@/components/SovAdsBanner";
+import {
+  ChainIcon,
+  CommitIcon,
+  FairnessIcon,
+  MatchmakeIcon,
+  ProfileIcon,
+  RankIcon,
+  RevealIcon,
+  ScaleIcon,
+  ScoutIcon,
+} from "@/components/icons";
 import { CELO_EXPLORER_URL, CELO_NETWORK_LABEL } from "@/lib/chain";
 import { RPS_CORE_ADDRESS, CELO_CONTRACTS } from "@/lib/contracts";
 import { BUILDER_POINTS, SAFETY_NOTES, TRUST_SIGNALS } from "@/lib/landingContent";
@@ -10,22 +21,22 @@ import { shortAddress } from "@/lib/rps";
 
 const STEPS = [
   {
-    icon: "🤝",
+    icon: MatchmakeIcon,
     title: "Matchmake",
     body: "Open a match or join one and escrow your bet. No move yet — you're just sitting down across the table.",
   },
   {
-    icon: "🔍",
+    icon: ScoutIcon,
     title: "Scout",
     body: "Now you see your opponent. Read their on-chain history: move distribution, what they throw after a win or a loss. 90 seconds.",
   },
   {
-    icon: "🔒",
+    icon: CommitIcon,
     title: "Commit",
     body: "Seal your move as a hash. Neither side can see the other's throw — no peeking, no front-running.",
   },
   {
-    icon: "👁",
+    icon: RevealIcon,
     title: "Reveal",
     body: "Both reveal within 90 seconds. The contract settles instantly and pays the winner. Provably fair.",
   },
@@ -33,22 +44,22 @@ const STEPS = [
 
 const FEATURES = [
   {
-    icon: "🧠",
+    icon: ProfileIcon,
     title: "Behavioral profiling",
     body: "Every revealed match writes a tamper-proof profile: move distribution and the win-stay / lose-shift signal. Scout anyone before you face them.",
   },
   {
-    icon: "🏅",
+    icon: RankIcon,
     title: "Soulbound ranks",
     body: "Climb Bronze → Legend on win streaks. Rank badges (ERC-5192) can't be bought, sold or transferred — they prove skill, not money.",
   },
   {
-    icon: "🔐",
+    icon: FairnessIcon,
     title: "Commit–reveal",
     body: "Moves are sealed as hashes and opened on-chain. Refereeless and fair — neither player can react to the other's choice.",
   },
   {
-    icon: "⚖️",
+    icon: ScaleIcon,
     title: "Not gambling",
     body: "No RNG, no house, no dealer. The contract is a neutral referee that escrows a peer-to-peer stake and pays the winner. You win by skill.",
   },
@@ -112,7 +123,7 @@ export default function Landing() {
           <Reveal delay={180}>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link href="/play" className="btn-primary !px-6 !py-3 text-base">
-                👁 Launch App
+                <RevealIcon className="h-5 w-5" /> Launch App
               </Link>
               <a href="#how" className="btn-ghost !px-6 !py-3 text-base">
                 How to play
@@ -122,9 +133,15 @@ export default function Landing() {
 
           <Reveal delay={240}>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500">
-              <span>⚖️ Not gambling — pure skill</span>
-              <span>🔐 Provably fair commit–reveal</span>
-              <span>🏅 Soulbound ranks</span>
+              <span className="flex items-center gap-1.5">
+                <ScaleIcon className="h-3.5 w-3.5" /> Not gambling — pure skill
+              </span>
+              <span className="flex items-center gap-1.5">
+                <FairnessIcon className="h-3.5 w-3.5" /> Provably fair commit–reveal
+              </span>
+              <span className="flex items-center gap-1.5">
+                <RankIcon className="h-3.5 w-3.5" /> Soulbound ranks
+              </span>
             </div>
           </Reveal>
 
@@ -162,8 +179,8 @@ export default function Landing() {
             {STEPS.map((s, i) => (
               <Reveal key={s.title} delay={i * 90}>
                 <div className="card h-full">
-                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-oracle-purple/15 text-2xl shadow-glow">
-                    {s.icon}
+                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-oracle-purple/15 text-oracle-purple shadow-glow">
+                    <s.icon className="h-6 w-6" />
                   </div>
                   <div className="mt-4 font-display text-lg font-bold">
                     {s.title}
@@ -202,10 +219,19 @@ export default function Landing() {
                 they react after a win or a loss. Pick the move that beats their
                 habit — or bluff against it.
               </p>
-              <ul className="mt-5 space-y-2 text-sm text-slate-300">
-                <li>🔍 Move distribution &amp; contextual tells, on-chain</li>
-                <li>🤝 Symmetric scouting — both sides read before they throw</li>
-                <li>⛓️ History can&apos;t be hidden or faked</li>
+              <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
+                <li className="flex items-center gap-2.5">
+                  <ScoutIcon className="h-4 w-4 shrink-0 text-oracle-cyan" />
+                  Move distribution &amp; contextual tells, on-chain
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <MatchmakeIcon className="h-4 w-4 shrink-0 text-oracle-cyan" />
+                  Symmetric scouting — both sides read before they throw
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <ChainIcon className="h-4 w-4 shrink-0 text-oracle-cyan" />
+                  History can&apos;t be hidden or faked
+                </li>
               </ul>
             </div>
           </Reveal>
@@ -214,8 +240,9 @@ export default function Landing() {
             {/* mock scouting card */}
             <div className="rounded-2xl border border-oracle-cyan/20 bg-oracle-cyan/[0.04] p-5">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
-                  🔍 Scouting report
+                <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
+                  <ScoutIcon className="h-3.5 w-3.5" />
+                  Scouting report
                 </span>
                 <span className="font-mono text-[11px] text-slate-500">
                   0x9f…3c2a
@@ -267,8 +294,8 @@ export default function Landing() {
             {FEATURES.map((f, i) => (
               <Reveal key={f.title} delay={(i % 2) * 90}>
                 <div className="card flex h-full gap-4">
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/5 text-2xl">
-                    {f.icon}
+                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/5 text-oracle-cyan">
+                    <f.icon className="h-6 w-6" />
                   </div>
                   <div>
                     <div className="font-display text-lg font-bold">{f.title}</div>
@@ -340,7 +367,7 @@ export default function Landing() {
             </h2>
             <div className="mt-8">
               <Link href="/play" className="btn-primary !px-8 !py-3.5 text-base">
-                👁 Launch App
+                <RevealIcon className="h-5 w-5" /> Launch App
               </Link>
             </div>
             <p className="mt-6 text-xs text-slate-500">
