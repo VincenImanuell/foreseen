@@ -264,11 +264,8 @@ export default function Landing() {
                     <span>{label}</span>
                     <span className="font-mono text-slate-400">{pct}%</span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-oracle-purple to-oracle-cyan"
-                      style={{ width: `${pct}%` }}
-                    />
+                  <div className="meter-track">
+                    <div className="meter-fill h-full" style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               ))}
