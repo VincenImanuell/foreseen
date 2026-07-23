@@ -12,6 +12,7 @@ import {
   toRpsStats,
 } from "@/lib/rps";
 import { CopyableAddress } from "./CopyableAddress";
+import { ScoutIcon } from "./icons";
 
 function Bar({ pct, emoji, label }: { pct: number; emoji: string; label: string }) {
   return (
@@ -84,8 +85,9 @@ export function ScoutPanel({ opponent }: { opponent: Address }) {
   return (
     <div className="rounded-xl border border-oracle-cyan/20 bg-oracle-cyan/[0.04] p-3">
       <div className="mb-2 flex items-center justify-between">
-        <div className="text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
-          🔍 Scouting report
+        <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-oracle-cyan">
+          <ScoutIcon className="h-3.5 w-3.5" />
+          Scouting report
         </div>
         <CopyableAddress address={opponent} className="text-[11px] text-slate-500" />
       </div>

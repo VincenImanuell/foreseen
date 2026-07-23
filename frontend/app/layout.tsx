@@ -1,6 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+
+// Display typeface for headlines — tailwind.config.ts's fontFamily.display
+// reads this CSS var. Self-hosted by next/font (no runtime CDN request).
+const displayFont = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#05030a",
@@ -35,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={displayFont.variable}>
       <body>
         <Providers>{children}</Providers>
       </body>
