@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LandingNav } from "@/components/LandingNav";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { SovAdsBanner } from "@/components/SovAdsBanner";
@@ -63,33 +64,7 @@ export default function Landing() {
         Skip to content
       </a>
       {/* ---- Nav ---- */}
-      <nav
-        aria-label="Primary"
-        className="sticky top-0 z-30 border-b border-white/5 bg-void/60 backdrop-blur"
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2.5">
-            <Logo size={32} glow={false} />
-            <span className="font-display text-lg font-bold tracking-tight">
-              Foreseen
-            </span>
-          </div>
-          <div className="flex items-center gap-5 text-sm text-slate-300">
-            <a href="#how" className="hidden hover:text-white sm:inline">
-              How to play
-            </a>
-            <a href="#mindsport" className="hidden hover:text-white sm:inline">
-              The read
-            </a>
-            <Link href="/guide" className="hidden hover:text-white sm:inline">
-              Guide
-            </Link>
-            <Link href="/play" className="btn-primary !py-2">
-              Launch App
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <LandingNav />
 
       {/* ---- Hero ---- */}
       <section id="hero" className="relative px-4 pb-24 pt-20 sm:pt-28">
